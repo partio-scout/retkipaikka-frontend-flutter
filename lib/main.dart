@@ -30,16 +30,15 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         title: 'Partion retkipaikat',
         debugShowCheckedModeBanner: false,
-        supportedLocales:const [
+        supportedLocales: const [
           Locale("fi"),
           Locale("en"),
           Locale("se"),
           Locale("smn")
         ],
         localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-           
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
         ],
         theme: ThemeData(
           // This is the theme of your application.

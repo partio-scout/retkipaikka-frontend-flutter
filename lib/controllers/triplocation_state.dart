@@ -16,11 +16,11 @@ import 'package:collection/collection.dart';
 class TripLocationState extends ChangeNotifier {
   List<TripLocation> allTripLocations = [];
   List<TripLocation> filteredTriplocations = [];
-  //List<TripLocation> favouriteLocations = [];
   TripLocation? selectedLocation;
   MapController mapController = MapController();
   PopupController popupController = PopupController();
   List<CustomMarker> mapMarkers = [];
+  CustomMarker? selectedMarker;
   bool drawerOpen = false;
 
   List<String> parseLocationImages(List<dynamic> images, String locationId) {
@@ -36,6 +36,11 @@ class TripLocationState extends ChangeNotifier {
 
   void setMapMarkers(List<CustomMarker> markers) {
     mapMarkers = markers;
+  }
+
+  void onMarkerClick(CustomMarker marker) {
+    selectedMarker = marker;
+    notifyListeners();
   }
 
   void openDrawer() {
@@ -135,18 +140,14 @@ class TripLocationState extends ChangeNotifier {
         return retVal;
       }).toList();
     }
-   // tripLocs = tripLocs.toList();
-   // if (tripLocs.length != allTripLocations.length ) {
-      setFilteredLocations(tripLocs.toList());
+    // tripLocs = tripLocs.toList();
+    // if (tripLocs.length != allTripLocations.length ) {
+    setFilteredLocations(tripLocs.toList());
     //}
   }
-
-
 
   void toggleFavourite(TripLocation location) {
     location.toggleFavourite();
     notifyListeners();
   }
-
-
 }

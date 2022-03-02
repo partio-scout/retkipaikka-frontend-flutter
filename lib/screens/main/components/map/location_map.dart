@@ -35,12 +35,12 @@ class LocationMap extends HookWidget {
         ));
       }
 
-      if (markerState.value != null) {
-        dataList.add(markerState.value!);
+      if (tState.selectedMarker != null) {
+        dataList.add(tState.selectedMarker!);
       }
       tState.setMapMarkers(dataList);
-    }, [tState.filteredTriplocations, markerState.value]);
-    
+    }, [tState.filteredTriplocations, tState.selectedMarker]);
+
     return FlutterMap(
       mapController: tState.mapController,
       options: MapOptions(
@@ -48,12 +48,12 @@ class LocationMap extends HookWidget {
           if (tState.popupController.selectedMarkers.isNotEmpty) {
             tState.popupController.hideAllPopups();
           } else {
-            markerState.value = CustomMarker(
+            tState.onMarkerClick(CustomMarker(
                 locationId: "-1",
                 width: 50.0,
                 height: 80.0,
                 point: point,
-                builder: (ctx) => const Icon(Icons.outlined_flag_outlined));
+                builder: (ctx) => const Icon(Icons.outlined_flag_outlined)));
           }
         }),
         interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
@@ -106,7 +106,7 @@ class LocationMap extends HookWidget {
                           color: Colors.white,
                           child: Row(children: [
                             IconButton(
-                              icon:loc.isFavourite
+                              icon: loc.isFavourite
                                   ? const Icon(Icons.star)
                                   : const Icon(Icons.star_border),
                               onPressed: () {

@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:retkipaikka_flutter/contants.dart';
+import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
+import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_autocomplete.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_dropdown_button.dart';
+import 'package:retkipaikka_flutter/helpers/components/dynamic_layout_wrapper.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:provider/provider.dart';
 import 'package:retkipaikka_flutter/models/filter_model.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
+import 'package:retkipaikka_flutter/models/triplocation_model.dart';
+import 'package:retkipaikka_flutter/screens/main/components/map/location_map.dart';
 
 class LocationForm extends HookWidget {
   LocationForm({Key? key}) : super(key: key);
@@ -38,6 +43,15 @@ class LocationForm extends HookWidget {
     FilteringState filteringState = context.watch<FilteringState>();
     var formKey =
         useState<GlobalKey<FormBuilderState>>(GlobalKey<FormBuilderState>());
+    CustomMarker? marker = context.watch<TripLocationState>().selectedMarker;
+    useEffect(() {
+      if (formKey.value.currentState != null && marker != null) {
+        formKey.value.currentState?.fields['location_coordinates']?.didChange(
+            marker.point.latitude.toString() +
+                ", " +
+                marker.point.longitude.toString());
+      }
+    }, [marker]);
     return Column(
       children: <Widget>[
         FormBuilder(
@@ -165,7 +179,10 @@ class LocationForm extends HookWidget {
                           name: 'location_coordinates',
                           readOnly: true,
                           onTap: () {
-                            print("TAPPED");
+                            context.read<AppState>().scrollController.animateTo(
+                                150,
+                                duration: const Duration(milliseconds: 50),
+                                curve: Curves.linear);
                           },
                           decoration: InputDecoration(
                               floatingLabelBehavior:
@@ -346,25 +363,24 @@ class LocationForm extends HookWidget {
                   ),
                 ],
               ),
-              FormBuilderImagePicker(
-                name: 'location_images',
-                cameraLabel: Text("Kamera"),
-                galleryLabel: Text("Laitteen muisti"),
-
-                displayCustomType: (obj) =>
-                    obj is ApiImage ? obj.imageUrl : obj,
-                decoration: const InputDecoration(labelText: 'Valitse kuvat'),
-                maxImages: 5,
-                initialValue: [
-                  // 'https://images.pexels.com/photos/7078045/pexels-photo-7078045.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-                  // const Text('this is an image\nas a widget !'),
-                  // ApiImage(
-                  //   id: 'whatever',
-                  //   imageUrl:
-                  //       'https://images.pexels.com/photos/8311418/pexels-photo-8311418.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
-                  // ),
-                ],
-              ),
+              // FormBuilderImagePicker(
+              //   name: 'location_images',
+              //   cameraLabel: Text("Kamera"),
+              //   galleryLabel: Text("Laitteen muisti"),
+              //   displayCustomType: (obj) =>
+              //       obj is ApiImage ? obj.imageUrl : obj,
+              //   decoration: const InputDecoration(labelText: 'Valitse kuvat'),
+              //   maxImages: 5,
+              //   initialValue: [
+              //     // 'https://images.pexels.com/photos/7078045/pexels-photo-7078045.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+              //     // const Text('this is an image\nas a widget !'),
+              //     // ApiImage(
+              //     //   id: 'whatever',
+              //     //   imageUrl:
+              //     //       'https://images.pexels.com/photos/8311418/pexels-photo-8311418.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
+              //     // ),
+              //   ],
+              // ),
             ],
           ),
         ),
@@ -405,17 +421,6 @@ class LocationForm extends HookWidget {
         )
       ],
     );
-  }
-}
-
-class DynamicLayoutWrapper extends StatelessWidget {
-  const DynamicLayoutWrapper({Key? key, required this.child}) : super(key: key);
-  final Widget child;
-  @override
-  Widget build(BuildContext context) {
-    bool isDesktop = Responsive.isDesktop(context);
-
-    return isDesktop ? Expanded(child: child) : SizedBox(child: child);
   }
 }
 

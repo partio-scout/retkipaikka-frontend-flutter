@@ -24,21 +24,41 @@ class FrontPageScreen extends HookWidget {
     EdgeInsets padding = isDesktop
         ? const EdgeInsets.symmetric(horizontal: 200, vertical: 20)
         : const EdgeInsets.symmetric(horizontal: 10, vertical: 20);
+
+    AppState state = context.watch<AppState>();
     return ListView(
-        physics: context.watch<AppState>().scrollEnabled
-            ? null
-            : const NeverScrollableScrollPhysics(),
-        children: [
-          const TitleImage(),
-          FilteringComponent(),
-          Padding(
-            padding: padding,
-            child: MapContainer(),
+      controller: state.scrollController,
+      physics:
+          state.scrollEnabled ? null : const NeverScrollableScrollPhysics(),
+      children: [
+        const TitleImage(),
+        FilteringComponent(),
+        Padding(
+          padding: padding,
+          child: MapContainer(),
+        ),
+        Padding(
+          padding: padding,
+          child: ListTileTheme(
+            dense: true, // Reduces height
+            child: ExpansionTile(
+                //collapsedIconColor: Colors.black,
+                iconColor: Theme.of(context).textTheme.bodyText1?.color,
+                title: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("Ilmoita Retkipaikka!",
+                      style: TextStyle(fontSize: 25)),
+                ),
+                collapsedBackgroundColor: Colors.white,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: LocationForm(),
+                  )
+                ]),
           ),
-          // Padding(
-          //   padding: padding,
-          //   child: LocationForm(),
-          // )
-        ]);
+        )
+      ],
+    );
   }
 }

@@ -7,6 +7,8 @@ import 'package:retkipaikka_flutter/helpers/api/filtering_api.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_autocomplete.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_dropdown_button.dart';
 import "package:provider/provider.dart";
+import 'package:retkipaikka_flutter/helpers/components/dynamic_layout_wrapper.dart';
+import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:retkipaikka_flutter/models/filter_model.dart';
 import 'package:retkipaikka_flutter/models/geo_area_model.dart';
@@ -29,7 +31,6 @@ class FilteringComponent extends HookWidget {
             filteringState.allRegions.isEmpty ||
             filteringState.allCategoryFilters.isEmpty ||
             filteringState.allCategoryFilters.isEmpty) {
-              
           await filteringApi.getMunicipalities().then((value) {
             filteringState.setMunicipalities(value);
             return filteringApi.getRegions();
@@ -44,7 +45,7 @@ class FilteringComponent extends HookWidget {
           }).catchError((error) {
             print(error);
           }).whenComplete(() => loading.value = false);
-        }else{
+        } else {
           loading.value = false;
         }
       });
@@ -54,34 +55,42 @@ class FilteringComponent extends HookWidget {
       width: double.infinity,
       // height: 90,
       color: Color(0xFFe4dfdf),
-      child: Column(
-        children: [
-          Wrap(
+      child: Wrap(children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Flex(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            direction:
+                Responsive.isDesktop(context) ? Axis.horizontal : Axis.vertical,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CustomAutocomplete(
-                  data: [
-                    ...filteringState.allMunicipalities,
-                    ...filteringState.allRegions
-                  ],
-                  disabled:loading.value,
-                  title: "Sijainti",
-                  onValueSelect: (AbstractFilter value) {
-                    filteringState.handleFilterAdd(value);
-                  },
+              DynamicLayoutWrapper(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomAutocomplete(
+                    data: [
+                      ...filteringState.allMunicipalities,
+                      ...filteringState.allRegions
+                    ],
+                    disabled: loading.value,
+                    title: "Sijainti",
+                    onValueSelect: (AbstractFilter value) {
+                      filteringState.handleFilterAdd(value);
+                    },
+                  ),
                 ),
               ),
               SizedBox(
                 width: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CustomDropdownButton(
+              DynamicLayoutWrapper(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomDropdownButton(
                       bgColor: Colors.white,
                       focusColor: Colors.white,
                       title: "Tyyppi",
-                      disabled:loading.value,
+                      disabled: loading.value,
                       onDropdownChange: (AbstractFilter value) {
                         filteringState.handleFilterAdd(value);
                       },
@@ -90,52 +99,54 @@ class FilteringComponent extends HookWidget {
                           type: kfilterType.noCategory,
                           name: "Ei kategorioita"),
                       dropdownData: filteringState.allCategoryFilters),
+                ),
               ),
-              
               SizedBox(
                 width: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CustomDropdownButton(
+              DynamicLayoutWrapper(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomDropdownButton(
                       bgColor: Colors.white,
                       focusColor: Colors.white,
                       title: "Suodattimet",
-                      disabled:loading.value,
+                      disabled: loading.value,
                       onDropdownChange: (AbstractFilter value) {
                         filteringState.handleFilterAdd(value);
                       },
                       initialValue: Filter(
-                          id: -1, type: kfilterType.noFilter, name: "Ei suodattimia"),
+                          id: -1,
+                          type: kfilterType.noFilter,
+                          name: "Ei suodattimia"),
                       dropdownData: filteringState.allCommonFilters),
+                ),
               ),
-              
-
-             Padding(
-                  padding: const EdgeInsets.only(top: 20,left:10,bottom: 5),
-                  child: MaterialButton(
-                    padding: EdgeInsets.zero,
-                    height: 50,
-                    
-                    onPressed: () {
-                      context.read<TripLocationState>().handleFiltering(filteringState);
-                    },
-                    color: Theme.of(context).primaryColor,
-                    child: Text(
-                      "Suodata",
-                      style: TextStyle(color: Colors.white),
-                    ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, left: 10, right: 10),
+                child: MaterialButton(
+                  padding: EdgeInsets.zero,
+                  height: 50,
+                  onPressed: () {
+                    context
+                        .read<TripLocationState>()
+                        .handleFiltering(filteringState);
+                  },
+                  color: Theme.of(context).primaryColor,
+                  child: Text(
+                    "Suodata",
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
-              
+              ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top:5,left:10,bottom:5),
-            child: TagBar(),
-          )
-        ],
-      ),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(top: 5, left: 10, bottom: 5),
+          child: TagBar(),
+        )
+      ]),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 class AppState extends ChangeNotifier {
   bool isLoading = false;
   bool scrollEnabled = true;
+  ScrollController scrollController = ScrollController();
   String? error;
 
   void _setLoading(bool state) {

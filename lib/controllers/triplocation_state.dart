@@ -17,7 +17,7 @@ class TripLocationState extends ChangeNotifier {
   List<TripLocation> allTripLocations = [];
   List<TripLocation> filteredTriplocations = [];
   TripLocation? selectedLocation;
-  MapController mapController = MapController();
+  MapController? mapController;
   PopupController popupController = PopupController();
   List<CustomMarker> mapMarkers = [];
   CustomMarker? selectedMarker;
@@ -71,7 +71,7 @@ class TripLocationState extends ChangeNotifier {
   }
 
   void centerMapToLocation(TripLocation location) {
-    mapController.move(location.getCoordinates(), 12);
+    mapController?.move(location.getCoordinates(), 12);
     CustomMarker? marker = mapMarkers
         .firstWhereOrNull((element) => element.locationId == location.id);
     if (marker != null) {

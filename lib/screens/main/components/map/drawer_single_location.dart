@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
 import 'package:provider/provider.dart';
+import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/triplocation_api.dart';
 import 'package:retkipaikka_flutter/helpers/components/app_spinner.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
@@ -23,7 +24,7 @@ class DrawerSingleLocation extends HookWidget {
       locationApi.getSingleLocation(location.id).then((res) {
         currentLocation.value = res;
       }).catchError((error) {
-        print(error);
+        AlertHelper.displayErrorAlert("Network error!", context);
       });
     }, [location.id]);
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -52,6 +53,7 @@ class DrawerSingleLocation extends HookWidget {
         child: currentLocation.value == null
             ? const AppSpinner()
             : ListView(
+                controller: ScrollController(),
                 children: [TriplocationInfo(location: currentLocation.value!)],
               ),
       )

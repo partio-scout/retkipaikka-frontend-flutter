@@ -5,8 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
+import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
+import 'package:retkipaikka_flutter/helpers/components/custom_image_picker.dart';
 
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
+import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:retkipaikka_flutter/screens/main/components/filtering/filtering_component.dart';
 import 'package:retkipaikka_flutter/screens/main/components/form/location_form.dart';
 import 'package:retkipaikka_flutter/screens/main/components/map/map_container.dart';
@@ -26,39 +29,42 @@ class FrontPageScreen extends HookWidget {
         : const EdgeInsets.symmetric(horizontal: 10, vertical: 20);
 
     AppState state = context.watch<AppState>();
-    return ListView(
-      controller: state.scrollController,
-      physics:
-          state.scrollEnabled ? null : const NeverScrollableScrollPhysics(),
-      children: [
-        const TitleImage(),
-        FilteringComponent(),
-        Padding(
-          padding: padding,
-          child: MapContainer(),
-        ),
-        Padding(
-          padding: padding,
-          child: ListTileTheme(
-            dense: true, // Reduces height
-            child: ExpansionTile(
-                //collapsedIconColor: Colors.black,
-                iconColor: Theme.of(context).textTheme.bodyText1?.color,
-                title: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("Ilmoita Retkipaikka!",
-                      style: TextStyle(fontSize: 25)),
-                ),
-                collapsedBackgroundColor: Colors.white,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15.0),
-                    child: LocationForm(),
-                  )
-                ]),
-          ),
-        )
-      ],
-    );
+    return SingleChildScrollView(
+        controller: state.scrollController,
+        physics:
+            state.scrollEnabled ? null : const NeverScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const TitleImage(),
+            FilteringComponent(),
+            Padding(
+              padding: padding,
+              child: MapContainer(),
+            ),
+            //CustomImagePicker(),
+            Padding(
+              padding: padding,
+              child: ListTileTheme(
+                dense: true, // Reduces height
+                child: ExpansionTile(
+                    //collapsedIconColor: Colors.black,
+                    iconColor: Theme.of(context).textTheme.bodyText1?.color,
+                    title: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text("Ilmoita Retkipaikka!",
+                          style: TextStyle(fontSize: 25)),
+                    ),
+                    collapsedBackgroundColor: Colors.white,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: LocationForm(),
+                      )
+                    ]),
+              ),
+            )
+          ],
+        ));
   }
 }

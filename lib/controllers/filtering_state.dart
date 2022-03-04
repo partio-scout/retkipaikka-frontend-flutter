@@ -21,6 +21,23 @@ class FilteringState extends ChangeNotifier {
     notifyListeners();
   }
 
+  AbstractFilter getInitialCategoryFilter() {
+    return Filter(
+        id: -1, type: kfilterType.noCategory, name: "Ei kategorioita");
+  }
+
+  List<AbstractFilter> getCategoryFiltersForDropdown() {
+    return [getInitialCategoryFilter(), ...allCategoryFilters];
+  }
+
+  AbstractFilter getInitialCommonFilter() {
+    return Filter(id: -1, type: kfilterType.noFilter, name: "Ei suodattimia");
+  }
+
+  List<AbstractFilter> getCommonFiltersForDropdown() {
+    return [getInitialCommonFilter(), ...allCommonFilters];
+  }
+
   void setCategoryFilters(List<AbstractFilter> categories) {
     allCategoryFilters = categories;
     notifyListeners();
@@ -36,15 +53,17 @@ class FilteringState extends ChangeNotifier {
     notifyListeners();
   }
 
-  AbstractFilter? findAreaFilterByName(dynamic value){
-    return [...allMunicipalities,...allRegions].firstWhereOrNull((element) => element.name == value);
+  AbstractFilter? findAreaFilterByName(dynamic value) {
+    return [...allMunicipalities, ...allRegions]
+        .firstWhereOrNull((element) => element.name == value);
   }
+
   void addCommonFilter(AbstractFilter filter) {
     print(filter);
-    
+
     if (!filterExistsInArray(commonFiltering, filter))
       commonFiltering.add(filter);
-      notifyListeners();
+    notifyListeners();
   }
 
   void addCategoryFilter(AbstractFilter filter) {
@@ -57,7 +76,7 @@ class FilteringState extends ChangeNotifier {
   void addLocationFilter(AbstractFilter area) {
     if (!filterExistsInArray(locationFiltering, area))
       locationFiltering.add(area);
-      notifyListeners();
+    notifyListeners();
   }
 
   bool filterExistsInArray(
@@ -65,16 +84,24 @@ class FilteringState extends ChangeNotifier {
     return filterList.indexWhere((element) => element.id == filter.id) != -1;
   }
 
-  String? getCategoryForLocation(TripLocation location){
-   AbstractFilter? category =  allCategoryFilters.firstWhereOrNull((element) => element.id == location.category);
+  String? getCategoryForLocation(TripLocation location) {
+    AbstractFilter? category = allCategoryFilters
+        .firstWhereOrNull((element) => element.id == location.category);
     return category?.name;
   }
 
-  String? getFilterNameById(int id){
-    AbstractFilter? filter = allCommonFilters.firstWhereOrNull((element) => element.id == id);
-    return filter?.name;
+  AbstractFilter? getCategoryById(int? id) {
+    if (id == null) return null;
+    AbstractFilter? category =
+        allCategoryFilters.firstWhereOrNull((element) => element.id == id);
+    return category;
   }
 
+  String? getFilterNameById(int id) {
+    AbstractFilter? filter =
+        allCommonFilters.firstWhereOrNull((element) => element.id == id);
+    return filter?.name;
+  }
 
   void handleFilterAdd(AbstractFilter filter) {
     switch (filter.type) {
@@ -97,12 +124,12 @@ class FilteringState extends ChangeNotifier {
         notifyListeners();
         break;
       default:
-      break;
+        break;
     }
   }
 
-  void handleFilterRemove(AbstractFilter filter){
-        switch (filter.type) {
+  void handleFilterRemove(AbstractFilter filter) {
+    switch (filter.type) {
       case kfilterType.filter:
         removeCommonFilter(filter);
         break;
@@ -114,7 +141,7 @@ class FilteringState extends ChangeNotifier {
         removeLocationFilter(filter);
         break;
       default:
-      break;
+        break;
     }
   }
 

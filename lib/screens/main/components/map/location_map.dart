@@ -12,7 +12,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class LocationMap extends HookWidget {
-  const LocationMap({Key? key}) : super(key: key);
+   LocationMap({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +42,10 @@ class LocationMap extends HookWidget {
     }, [tState.filteredTriplocations, tState.selectedMarker]);
 
     return FlutterMap(
-      mapController: tState.mapController,
       options: MapOptions(
+        onMapCreated: (c){
+          tState.mapController = c;
+        },
         onTap: ((tapPosition, point) {
           if (tState.popupController.selectedMarkers.isNotEmpty) {
             tState.popupController.hideAllPopups();

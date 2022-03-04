@@ -12,7 +12,7 @@ class MapHeader extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     TripLocationState tState = context.watch<TripLocationState>();
     return AppBar(
-      leading: IconButton(icon: Icon(Icons.menu),onPressed:(){
+      leading: IconButton(icon: const Icon(Icons.menu),onPressed:(){
         
         tState.drawerButtonClick();
       } ),

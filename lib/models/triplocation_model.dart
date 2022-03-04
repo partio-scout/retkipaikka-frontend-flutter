@@ -18,8 +18,8 @@ class TripLocation {
   String? editorName;
   String? createdAt;
   String? updatedAt;
-  List<dynamic> filters;
-  List<dynamic> images;
+  List<int> filters;
+  List<String> images;
   bool isFavourite;
 
   TripLocation(
@@ -62,12 +62,17 @@ class TripLocation {
         editorName: json["location_editor"],
         createdAt: json["createdAt"],
         updatedAt: json["updatedAt"],
-        filters: json["filters"] ?? [],
-        images: json["images"] ?? []);
+        filters: json["filters"] != null? json["filters"].cast<int>() : [],
+        images: json["images"] != null?json["images"].cast<String>() : []);
   }
 
   LatLng getCoordinates() {
     return LatLng(geo["lat"], geo["lng"]);
+  }
+
+
+  String getCoordinatesStringified(){
+    return geo["lat"].toString()+", "+geo["lng"].toString();
   }
 
   String? createdAtParsed() {

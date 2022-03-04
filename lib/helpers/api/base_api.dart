@@ -8,7 +8,8 @@ class BaseApi {
   //192.168.0.3 // use computer if if debugging with real device
   //10.0.2.2 // android emulator
 
-  static const baseUrl = "https://retkipaikka-backend.herokuapp.com/api";
+  static const baseUrl =
+      "https://retkipaikka-backend.herokuapp.com/api"; //"http://192.168.0.4:3000/api";
   final int timeoutSeconds;
   static const Map<String, String> defaultHeaders = {
     HttpHeaders.contentTypeHeader: "application/json"
@@ -29,6 +30,16 @@ class BaseApi {
     return newParams;
   }
 
+  Future<Uri> buildUri(String path, Map<String, dynamic>? queryParams) async {
+    var apiUrl = Uri.parse(BaseApi.baseUrl + route + path);
+    Map<String, dynamic>? newParams = await setAuthParam(queryParams);
+    if (newParams != null) {
+      apiUrl = apiUrl.replace(queryParameters: newParams);
+    }
+
+    return apiUrl;
+  }
+
   ///
   ///final queryParams = {
   //  'name': 'Pekka',
@@ -43,7 +54,7 @@ class BaseApi {
       parsedUri = parsedUri.replace(queryParameters: newParams);
     }
 
-    print(newParams);
+    //print(newParams);
 
     print("GET: " + parsedUri.toString());
     return http.get(parsedUri, headers: headers);
@@ -117,6 +128,8 @@ class BaseApi {
   dynamic parseResponse(http.Response res) {
     if (res.statusCode == 200) {
       return jsonDecode(res.body.toString());
+    } else if (res.statusCode == 204) {
+      return true;
     } else {
       switch (res.statusCode) {
         case 422:
@@ -125,7 +138,9 @@ class BaseApi {
         case 500:
           throw ("Error: Failed to process request");
         case 401:
-          throw ("Error: Token was not valid!");
+          throw ("Error: Login credentials are not valid!");
+        case 403:
+          throw ("Error: Token was not valid or user has no admin rights yet");
         default:
           throw ("Error: Network error");
       }

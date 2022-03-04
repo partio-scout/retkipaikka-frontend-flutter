@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:retkipaikka_flutter/contants.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
+import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/filtering_api.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_autocomplete.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_dropdown_button.dart';
@@ -43,7 +44,8 @@ class FilteringComponent extends HookWidget {
           }).then((data) {
             filteringState.setCommonFilters(data);
           }).catchError((error) {
-            print(error);
+            print("FETCHING FILTERS ERROR");
+            AlertHelper.displayErrorAlert("Network error!", context);
           }).whenComplete(() => loading.value = false);
         } else {
           loading.value = false;
@@ -94,11 +96,9 @@ class FilteringComponent extends HookWidget {
                       onDropdownChange: (AbstractFilter value) {
                         filteringState.handleFilterAdd(value);
                       },
-                      initialValue: Filter(
-                          id: -1,
-                          type: kfilterType.noCategory,
-                          name: "Ei kategorioita"),
-                      dropdownData: filteringState.allCategoryFilters),
+                      initialValue: filteringState.getInitialCategoryFilter(),
+                      dropdownData:
+                          filteringState.getCategoryFiltersForDropdown()),
                 ),
               ),
               SizedBox(
@@ -115,11 +115,9 @@ class FilteringComponent extends HookWidget {
                       onDropdownChange: (AbstractFilter value) {
                         filteringState.handleFilterAdd(value);
                       },
-                      initialValue: Filter(
-                          id: -1,
-                          type: kfilterType.noFilter,
-                          name: "Ei suodattimia"),
-                      dropdownData: filteringState.allCommonFilters),
+                      initialValue: filteringState.getInitialCommonFilter(),
+                      dropdownData:
+                          filteringState.getCommonFiltersForDropdown()),
                 ),
               ),
               Padding(

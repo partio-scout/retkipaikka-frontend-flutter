@@ -31,9 +31,9 @@ class CustomAutocomplete extends HookWidget {
     var dropdownData = useState<List<AbstractFilter>>(data);
     var controller = useTextEditingController();
 
-    useEffect((){
+    useEffect(() {
       controller.text = value ?? "";
-    },[value]);
+    }, [value]);
     // Needs to use state here because wont update the dropdown data after initial load otherwise
     useEffect(() {
       dropdownData.value = data;
@@ -47,7 +47,7 @@ class CustomAutocomplete extends HookWidget {
             height: height,
             child: TypeAheadField<AbstractFilter>(
               //initialValue: initialValue,
-              
+
               noItemsFoundBuilder: ((context) =>
                   const ListTile(title: Text("No results"))),
               textFieldConfiguration: TextFieldConfiguration(
@@ -60,6 +60,8 @@ class CustomAutocomplete extends HookWidget {
                     labelText: title,
                     errorText: errorText,
                     isDense: true,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                     floatingLabelStyle: floatingLabelStyle,
                     labelStyle: floatingLabelStyle,
                     floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -80,13 +82,11 @@ class CustomAutocomplete extends HookWidget {
                 );
               },
               onSuggestionSelected: (suggestion) {
-                
-                  if (clearAfterSelect) {
-                    controller.text = "";
-                  } else {
-                    controller.text = suggestion.name;
-                  }
-                
+                if (clearAfterSelect) {
+                  controller.text = "";
+                } else {
+                  controller.text = suggestion.name;
+                }
 
                 onValueSelect(suggestion);
               },

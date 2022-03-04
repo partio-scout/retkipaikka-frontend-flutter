@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
@@ -6,11 +7,22 @@ import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/controllers/notification_state.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
+import 'package:retkipaikka_flutter/helpers/api/user_api.dart';
+import 'package:retkipaikka_flutter/helpers/components/app_spinner.dart';
+import 'package:retkipaikka_flutter/helpers/shared_preferences_helper.dart';
+import 'package:retkipaikka_flutter/models/admin_model.dart';
 import 'package:retkipaikka_flutter/routes.dart';
-import 'package:retkipaikka_flutter/screens/main_container.dart';
-import 'package:routemaster/routemaster.dart';
 
-void main() {
+import 'package:routemaster/routemaster.dart';
+//import 'package:flutter_displaymode/flutter_displaymode.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+/*   if (defaultTargetPlatform == TargetPlatform.android && !kIsWeb) {
+    // Add support for 120hz displays
+    //await FlutterDisplayMode.setHighRefreshRate();
+  } */
   runApp(const MyApp());
 }
 
@@ -41,28 +53,58 @@ class MyApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
         ],
         theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
           primarySwatch: createMaterialColor(const Color(0xFF253764)),
         ),
+        builder: (context, child) {
+          return AppWrapper(child: child);
+        },
         routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
-          bool isAuthenticated = true;
-          if (!isAuthenticated) {
-            return AppPages.userRoutes();
-          } else {
-            return AppPages.adminRoutes();
-          }
+          return AppPages.appRoutes(context);
         }),
         routeInformationParser: const RoutemasterParser(),
       ),
     );
+  }
+}
+
+class AppWrapper extends HookWidget {
+  const AppWrapper({Key? key, required this.child}) : super(key: key);
+  final Widget? child;
+  @override
+  Widget build(BuildContext context) {
+    var isLoading = useState<bool>(true);
+    useEffect(() {
+      Future.microtask(() async {
+        String? tokenFromPrefs = await SharedPreferencesHelper.getSavedToken();
+
+        if (tokenFromPrefs != null) {
+          //isLoading.value = true;
+          UserApi().checkTokenValidity(tokenFromPrefs).then((value) async {
+            if (value) {
+              AdminUser? user = await SharedPreferencesHelper.getSavedUser();
+              if (user != null) {
+                context.read<AppState>().setLogin(user);
+              }
+            } else {
+              await context.read<AppState>().handleAfterLogout();
+            }
+          }).catchError((err) {
+            print(err);
+          }).whenComplete(() {
+            isLoading.value = false;
+          });
+        } else {
+          isLoading.value = false;
+        }
+      });
+      return null;
+    }, []);
+    return isLoading.value
+        ? const SizedBox(
+            height: double.infinity,
+            width: double.infinity,
+            child: AppSpinner())
+        : child ?? const SizedBox();
   }
 }
 

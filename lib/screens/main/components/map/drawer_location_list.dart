@@ -33,7 +33,9 @@ class DrawerLocationList extends StatelessWidget {
         context.read<FilteringState>().allCategoryFilters;
 
     List<TripLocation> favourites = tState.filteredTriplocations.where((element) => element.isFavourite).toList();
-    return ListView(children: [
+    return ListView(
+      controller: ScrollController(),
+      children: [
       SizedBox(
         height: 10,
       ),

@@ -1,36 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:retkipaikka_flutter/contants.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
+import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
+import 'package:retkipaikka_flutter/helpers/api/triplocation_api.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_autocomplete.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_dropdown_button.dart';
+import 'package:retkipaikka_flutter/helpers/components/custom_image_picker.dart';
 import 'package:retkipaikka_flutter/helpers/components/dynamic_layout_wrapper.dart';
+import 'package:retkipaikka_flutter/helpers/components/form_info_text.dart';
+import 'package:retkipaikka_flutter/helpers/form_parser.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:provider/provider.dart';
 import 'package:retkipaikka_flutter/models/filter_model.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:retkipaikka_flutter/screens/main/components/map/location_map.dart';
 
 class LocationForm extends HookWidget {
-  LocationForm({Key? key}) : super(key: key);
+  LocationForm({Key? key, this.initialLocation}) : super(key: key);
+  TripLocationApi tripLocationApi = TripLocationApi();
+  final TripLocation? initialLocation;
 
-  Widget formInfoText(String text) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: Colors.black.withOpacity(0.5),
-        ),
-      ),
-    );
-  }
 
   Widget dynamicLayoutWrapper(BuildContext context, Widget child) {
     bool isDesktop = Responsive.isDesktop(context);
@@ -46,15 +42,36 @@ class LocationForm extends HookWidget {
     CustomMarker? marker = context.watch<TripLocationState>().selectedMarker;
     useEffect(() {
       if (formKey.value.currentState != null && marker != null) {
-        formKey.value.currentState?.fields['location_coordinates']?.didChange(
+        formKey.value.currentState?.fields['location_geo']?.didChange(
             marker.point.latitude.toString() +
                 ", " +
                 marker.point.longitude.toString());
       }
+      return null;
     }, [marker]);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         FormBuilder(
+          initialValue: initialLocation != null
+              ? {
+                  "location_name": initialLocation!.name,
+                  "location_category": initialLocation!.category,
+                  "location_area":
+                      initialLocation!.municipality ?? initialLocation!.region,
+                  "location_geo": initialLocation!.getCoordinatesStringified(),
+                  "location_description": initialLocation!.description,
+                  "location_pricing": initialLocation!.pricing,
+                  "filters": initialLocation!.filters,
+                  "location_owner": initialLocation!.owner,
+                  "location_website": initialLocation!.website,
+                  "location_mail": initialLocation!.mail,
+                  "location_phone": initialLocation!.phone,
+                  "location_images": FormParser.imageStringsToXFile(
+                      initialLocation!.images, initialLocation!.id),
+                  "location_accepted": initialLocation!.accepted
+                }
+              : {},
           //autovalidateMode: AutovalidateMode,
           key: formKey.value,
           child: Column(
@@ -75,7 +92,7 @@ class LocationForm extends HookWidget {
                   ],
                 ),
               ),
-              formInfoText("Kirjoita retkipaikan nimi"),
+              const  FormInfoText(text:"Kirjoita retkipaikan nimi"),
               const SizedBox(
                 height: 25,
               ),
@@ -84,8 +101,8 @@ class LocationForm extends HookWidget {
                 validator: FormBuilderValidators.compose(
                   [
                     (val) {
-                      AbstractFilter? filter = val as AbstractFilter?;
-                      if (filter == null || filter.id == -1) {
+                      //AbstractFilter? filter = val as AbstractFilter?;
+                      if (val == null || val == -1) {
                         return "Category is required";
                       }
                       return null;
@@ -95,6 +112,9 @@ class LocationForm extends HookWidget {
                 builder: (FormFieldState<dynamic> field) {
                   List<AbstractFilter> categories =
                       filteringState.allCategoryFilters;
+                  print(field.value);
+                  Filter initialFilter = Filter(
+                      id: -1, type: kfilterType.noCategory, name: "Ei tyyppiä");
                   return CustomDropdownButton(
                       height: 50,
                       bgColor: Colors.white,
@@ -103,17 +123,19 @@ class LocationForm extends HookWidget {
                       title: "Tyyppi*",
                       disabled: categories.isEmpty,
                       onDropdownChange: (AbstractFilter value) {
-                        field.didChange(value);
+                        field.didChange(value.id);
                       },
                       errorText: field.errorText,
-                      initialValue: Filter(
-                          id: -1,
-                          type: kfilterType.noCategory,
-                          name: "Ei tyyppiä"),
-                      dropdownData: categories);
+                      initialValue:
+                          filteringState.getCategoryById(field.value) ??
+                              initialFilter,
+                      dropdownData: [
+                        initialFilter,
+                        ...filteringState.allCategoryFilters
+                      ]);
                 },
               ),
-              formInfoText("Valitse retkipaikan tyyppi"),
+              const FormInfoText(text:"Valitse retkipaikan tyyppi"),
               const SizedBox(
                 height: 25,
               ),
@@ -143,7 +165,7 @@ class LocationForm extends HookWidget {
                           ),
                           builder: (FormFieldState<dynamic> field) {
                             //field.valu
-                            print(field.value);
+                            //print(field.value);
                             return CustomAutocomplete(
                               data: [
                                 ...filteringState.allMunicipalities,
@@ -163,7 +185,7 @@ class LocationForm extends HookWidget {
                             );
                           },
                         ),
-                        formInfoText("Valitse sijainti"),
+                        const FormInfoText(text:"Valitse sijainti"),
                       ],
                     ),
                   ),
@@ -176,7 +198,7 @@ class LocationForm extends HookWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FormBuilderTextField(
-                          name: 'location_coordinates',
+                          name: 'location_geo',
                           readOnly: true,
                           onTap: () {
                             context.read<AppState>().scrollController.animateTo(
@@ -202,7 +224,7 @@ class LocationForm extends HookWidget {
                             ],
                           ), */
                         ),
-                        formInfoText("Valitse koordinaatit kartalta"),
+                        const FormInfoText(text:"Valitse koordinaatit kartalta"),
                       ],
                     ),
                   ),
@@ -218,7 +240,7 @@ class LocationForm extends HookWidget {
                     hintText: "Kuvaus",
                     border: OutlineInputBorder()),
               ),
-              formInfoText("Kirjoita kuvaus retkipaikasta"),
+              const FormInfoText(text:"Kirjoita kuvaus retkipaikasta"),
               const SizedBox(height: 25),
               FormBuilderTextField(
                 maxLines: 5,
@@ -229,10 +251,10 @@ class LocationForm extends HookWidget {
                     hintText: "Tiedot",
                     border: OutlineInputBorder()),
               ),
-              formInfoText("Kirjoita hintatietoja, jos niitä on"),
+              const FormInfoText(text:"Kirjoita hintatietoja, jos niitä on"),
               const SizedBox(height: 25),
               FormBuilderCheckboxGroup(
-                  name: "location_features",
+                  name: "filters",
                   validator: FormBuilderValidators.compose(
                     [
                       (val) {
@@ -244,10 +266,12 @@ class LocationForm extends HookWidget {
                     ],
                   ),
                   options: filteringState.allCommonFilters.map((filter) {
-                    return FormBuilderFieldOption(
-                        key: ValueKey(filter.id), value: filter.name);
+                    return CustomCheckbox(
+                        key: ValueKey(filter.id),
+                        text: filter.name,
+                        value: filter.id);
                   }).toList()),
-              formInfoText("Valitse retkipaikkaa kuvaavat asiat"),
+              const FormInfoText(text:"Valitse retkipaikkaa kuvaavat asiat"),
               const SizedBox(height: 25),
               Flex(
                 direction: Responsive.isDesktop(context)
@@ -275,7 +299,7 @@ class LocationForm extends HookWidget {
                             ],
                           ),
                         ),
-                        formInfoText(
+                        const FormInfoText(text:
                             "Kirjoita kohteen omistaja (lippukunta, kaupunki, srk tms)"),
                       ],
                     ),
@@ -305,7 +329,7 @@ class LocationForm extends HookWidget {
                             ],
                           ),
                         ),
-                        formInfoText("Kirjoita kohteen nettisivu"),
+                        const FormInfoText(text:"Kirjoita kohteen nettisivu"),
                       ],
                     ),
                   ),
@@ -318,7 +342,7 @@ class LocationForm extends HookWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FormBuilderTextField(
-                          name: 'location_email',
+                          name: 'location_mail',
                           decoration: const InputDecoration(
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
@@ -334,7 +358,7 @@ class LocationForm extends HookWidget {
                             ],
                           ),
                         ),
-                        formInfoText("Kirjoita sähköposti"),
+                        const FormInfoText(text:"Kirjoita sähköposti"),
                       ],
                     ),
                   ),
@@ -357,78 +381,86 @@ class LocationForm extends HookWidget {
                                   EdgeInsets.symmetric(horizontal: 10),
                               border: OutlineInputBorder()),
                         ),
-                        formInfoText("Kirjoita puhelinnumero"),
+                        const FormInfoText(text:"Kirjoita puhelinnumero"),
                       ],
                     ),
                   ),
                 ],
               ),
-              // FormBuilderImagePicker(
-              //   name: 'location_images',
-              //   cameraLabel: Text("Kamera"),
-              //   galleryLabel: Text("Laitteen muisti"),
-              //   displayCustomType: (obj) =>
-              //       obj is ApiImage ? obj.imageUrl : obj,
-              //   decoration: const InputDecoration(labelText: 'Valitse kuvat'),
-              //   maxImages: 5,
-              //   initialValue: [
-              //     // 'https://images.pexels.com/photos/7078045/pexels-photo-7078045.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-              //     // const Text('this is an image\nas a widget !'),
-              //     // ApiImage(
-              //     //   id: 'whatever',
-              //     //   imageUrl:
-              //     //       'https://images.pexels.com/photos/8311418/pexels-photo-8311418.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
-              //     // ),
-              //   ],
-              // ),
+              const SizedBox(
+                height: 25,
+              ),
+              FormBuilderField(
+                name: 'location_images',
+                builder: (FormFieldState<dynamic> field) {
+                  return CustomImagePicker(
+                      value: field.value ?? [],
+                      onDataChanged: (currentData, initialData) {
+                        field.didChange(currentData);
+                      });
+                },
+              ),
             ],
           ),
         ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: MaterialButton(
-                color: Theme.of(context).colorScheme.secondary,
-                child: Text(
-                  "Submit",
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () {
-                  formKey.value.currentState?.save();
-                  if (formKey.value.currentState != null &&
-                      formKey.value.currentState!.validate()) {
-                    print(formKey.value.currentState?.value);
-                  } else {
-                    print("validation failed");
-                  }
-                },
-              ),
-            ),
-            SizedBox(width: 20),
-            Expanded(
-              child: MaterialButton(
-                color: Theme.of(context).colorScheme.secondary,
-                child: Text(
-                  "Reset",
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () {
-                  formKey.value.currentState?.reset();
-                },
-              ),
-            ),
-          ],
-        )
+        const SizedBox(
+          height: 25,
+        ),
+        MaterialButton(
+          color: Theme.of(context).colorScheme.secondary,
+          child: Text(
+            "Lähetä",
+            style: TextStyle(color: Colors.white),
+          ),
+          onPressed: () async {
+            formKey.value.currentState?.save();
+            if (formKey.value.currentState != null &&
+                formKey.value.currentState!.validate()) {
+              Map<String, dynamic>? formData =
+                  formKey.value.currentState?.value;
+              if (formData != null) {
+                formData = Map.from(formData);
+                List<XFile> images = [];
+                if (formData["location_images"] != null) {
+                  images = formData["location_images"];
+                  formData.remove("location_images");
+                }
+
+                Map<String, dynamic>? parsedFormData =
+                    FormParser.afterFormSubmit(formData, context);
+                if (parsedFormData != null) {
+                  print(parsedFormData);
+                  tripLocationApi
+                      .handleTripLocationPost(parsedFormData, images)
+                      .then((value) {
+                    formKey.value.currentState?.reset();
+
+                    AlertHelper.displaySuccessAlert(
+                        "Retkipaikka ilmoitettu onnistuneesti!", context);
+                  }).catchError((error) {
+                    AlertHelper.displayErrorAlert(
+                        "Virhe retkipaikan ilmoittamisessa!", context);
+                  });
+                }
+              }
+            } else {
+              AlertHelper.displayErrorAlert(
+                  "Lomake ei ole täytetty oikein!", context);
+            }
+          },
+        ),
       ],
     );
   }
 }
 
-class ApiImage {
-  final String imageUrl;
-  final String id;
-  ApiImage({
-    required this.imageUrl,
-    required this.id,
-  });
+class CustomCheckbox extends FormBuilderFieldOption {
+  final String text;
+  const CustomCheckbox({Key? key, required value, required this.text, child})
+      : super(key: key, value: value, child: child);
+
+  @override
+  Widget build(BuildContext context) {
+    return child ?? Text(text.toString());
+  }
 }

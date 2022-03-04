@@ -37,7 +37,10 @@ class Filter implements AbstractFilter {
   // TODO: implement parentId
   get parentId => null;
 
+  @override
+  bool operator ==(other) =>
+      other is Filter && (other.id == id && other.name == name);
 
-
-
+  @override
+  int get hashCode => super.hashCode;
 }

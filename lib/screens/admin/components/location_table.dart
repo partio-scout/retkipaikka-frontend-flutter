@@ -67,7 +67,7 @@ class LocationTableDialog extends HookWidget {
 
   Future<void> refreshAll(BuildContext context) async {
     List<TripLocation> acceptedLocs =
-        await tripLocationApi.getAcceptedLocations();
+        await tripLocationApi.getAcceptedLocations(limitedFields: false);
     List<TripLocation> newLocs = await tripLocationApi.getNewLocations();
 
     context.read<TripLocationState>().setNewAndAccepted(acceptedLocs, newLocs);
@@ -88,68 +88,79 @@ class LocationTableDialog extends HookWidget {
             color: Colors.white,
             child: Stack(alignment: Alignment.topRight, children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
-                child: displayEditState.value
-                    ? LocationForm(initialLocation: location)
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                            TriplocationInfo(
-                              location: location,
-                              displayMapButton: false,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Row(
-                                children: [
-                                  MaterialButton(
-                                    color: Theme.of(context).primaryColor,
-                                    onPressed: () {
-                                      displayEditState.value = true;
-                                    },
-                                    child: const Text(
-                                      "Muokkaa",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  MaterialButton(
-                                    color: Colors.red,
-                                    onPressed: () {
-                                      AlertHelper.displayConfirmAlert(
-                                          "Haluatko poistaa retkipaikan?",
-                                          context, onConfirm: () {
-                                        Navigator.of(context).pop();
-                                        tripLocationApi
-                                            .deleteLocationById(location.id)
-                                            .then((res) {
-                                          return refreshAll(context);
-                                        }).then((res) {
-                                          AlertHelper.displaySuccessAlert(
-                                              "Retkipaikan poisto onnistui!",
-                                              context, cb: () {
-                                            Navigator.of(context).pop();
-                                          });
-                                        }).catchError((err) {
-                                          //Navigator.of(context).pop();
-                                          AlertHelper.displayErrorAlert(
-                                              err, context);
-                                        });
-                                      }, onCancel: () {
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TriplocationInfo(
+                          location: location,
+                          displayEditorName: true,
+                          displayMapButton: false,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Row(
+                            children: [
+                              MaterialButton(
+                                color: Theme.of(context).primaryColor,
+                                onPressed: () {
+                                  displayEditState.value =
+                                      !displayEditState.value;
+                                },
+                                child: const Text(
+                                  "Muokkaa",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              MaterialButton(
+                                color: Colors.red,
+                                onPressed: () {
+                                  AlertHelper.displayConfirmAlert(
+                                      "Haluatko poistaa retkipaikan?", context,
+                                      onConfirm: () {
+                                    Navigator.of(context).pop();
+                                    tripLocationApi
+                                        .deleteLocationById(location.id)
+                                        .then((res) {
+                                      return refreshAll(context);
+                                    }).then((res) {
+                                      AlertHelper.displaySuccessAlert(
+                                          "Retkipaikan poisto onnistui!",
+                                          context, cb: () {
                                         Navigator.of(context).pop();
                                       });
-                                    },
-                                    child: const Text("Poista",
-                                        style: TextStyle(color: Colors.white)),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ]),
-              ),
+                                    }).catchError((err) {
+                                      //Navigator.of(context).pop();
+                                      AlertHelper.displayErrorAlert(
+                                          err, context);
+                                    });
+                                  }, onCancel: () {
+                                    Navigator.of(context).pop();
+                                  });
+                                },
+                                child: const Text("Poista",
+                                    style: TextStyle(color: Colors.white)),
+                              )
+                            ],
+                          ),
+                        ),
+                        displayEditState.value
+                            ? Padding(
+                                padding: const EdgeInsets.only(top: 20.0),
+                                child: LocationForm(
+                                  initialLocation: location,
+                                  afterFormSave: () {
+                                    refreshAll(context).then(
+                                        (value) => Navigator.of(context).pop());
+                                  },
+                                ),
+                              )
+                            : const SizedBox()
+                      ])),
               InkWell(
                 onTap: () {
                   Navigator.of(context).pop();

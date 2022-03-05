@@ -100,7 +100,8 @@ class AppWrapper extends HookWidget {
       return null;
     }, []);
     return isLoading.value
-        ? const SizedBox(
+        ? Container(
+            color: Theme.of(context).scaffoldBackgroundColor,
             height: double.infinity,
             width: double.infinity,
             child: AppSpinner())

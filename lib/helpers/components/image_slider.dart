@@ -16,10 +16,9 @@ class ImageSlider extends HookWidget {
         .map((item) => Container(
               margin: const EdgeInsets.all(5.0),
               child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                  child: Image.network(item, fit: BoxFit.cover, width: 1000.0),
-                    
-                ),
+                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                child: Image.network(item, fit: BoxFit.cover),
+              ),
             ))
         .toList();
 
@@ -33,13 +32,12 @@ class ImageSlider extends HookWidget {
       Expanded(
         child: ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(
-            dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse}
-          ),
+              dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse}),
           child: CarouselSlider(
             items: getImageSliders(images),
             carouselController: controller,
             options: CarouselOptions(
-              enableInfiniteScroll: false,
+                enableInfiniteScroll: false,
                 autoPlay: false,
                 enlargeCenterPage: true,
                 aspectRatio: 2.0,
@@ -55,7 +53,7 @@ class ImageSlider extends HookWidget {
           return MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
-              onTap: () {             
+              onTap: () {
                 controller.animateToPage(entry.key);
               },
               child: Container(

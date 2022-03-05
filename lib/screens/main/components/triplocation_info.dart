@@ -8,10 +8,14 @@ import 'package:retkipaikka_flutter/helpers/components/image_slider.dart';
 
 class TriplocationInfo extends StatelessWidget {
   const TriplocationInfo(
-      {Key? key, required this.location, this.displayMapButton = true})
+      {Key? key,
+      required this.location,
+      this.displayMapButton = true,
+      this.displayEditorName = false})
       : super(key: key);
   final TripLocation location;
   final bool displayMapButton;
+  final bool displayEditorName;
 
   List<Widget> textInfoCombo(String title, String? info) {
     return [
@@ -60,6 +64,8 @@ class TriplocationInfo extends StatelessWidget {
           ...textInfoCombo("Sähköposti:", location.mail),
           ...textInfoCombo("Lisätty:", location.createdAtParsed()),
           ...textInfoCombo("Muokattu:", location.updatedAtParsed()),
+          if (displayEditorName)
+            ...textInfoCombo("Viimeksi muokannut:", location.editorName),
           displayMapButton
               ? Center(
                   child: TextButton(
@@ -80,12 +86,13 @@ class TriplocationInfo extends StatelessWidget {
                     TripLocationState state = context.read<TripLocationState>();
                     List<String> images =
                         state.parseLocationImages(location.images, location.id);
-                    Navigator.of(context).push(
-                      CustomPopUp(
-                        builder: (context) =>
-                            Center(child: ImageSlider(images: images)),
-                      ),
-                    );
+
+                    showDialog(
+                        context: context,
+                        builder: (context) => Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 200),
+                            child: Center(child: ImageSlider(images: images))));
                   },
                 ))
               : const SizedBox()

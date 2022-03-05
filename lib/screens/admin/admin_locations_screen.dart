@@ -25,7 +25,9 @@ class AdminLocationsScreen extends HookWidget {
   }
 
   Future<void> refreshAcceptedLocations(BuildContext context) {
-    return tripLocationApi.getAcceptedLocations().then((res) {
+    return tripLocationApi
+        .getAcceptedLocations(limitedFields: false)
+        .then((res) {
       context.read<TripLocationState>().setLocations(res);
     }).catchError((err) {
       AlertHelper.displayErrorAlert(err, context);
@@ -43,6 +45,16 @@ class AdminLocationsScreen extends HookWidget {
           refreshNewLocations(context)
               .whenComplete(() => isLoading.value = false);
         });
+      } else {
+        if (!tState.adminLocationsInitialLoad) {
+          Future.microtask(() {
+            isLoading.value = true;
+            refreshAcceptedLocations(context).whenComplete(() {
+              tState.adminLocationsInitialLoad = true;
+              isLoading.value = false;
+            });
+          });
+        }
       }
       return null;
     }, []);

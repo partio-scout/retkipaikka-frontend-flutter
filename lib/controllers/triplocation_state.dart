@@ -23,6 +23,7 @@ class TripLocationState extends ChangeNotifier {
   List<CustomMarker> mapMarkers = [];
   CustomMarker? selectedMarker;
   bool drawerOpen = false;
+  bool adminLocationsInitialLoad = false;
 
   List<String> parseLocationImages(List<dynamic> images, String locationId) {
     List<String> imgs = [];
@@ -70,6 +71,7 @@ class TripLocationState extends ChangeNotifier {
     List<TripLocation> newLocs,
   ) {
     allTripLocations = acceptedLocs;
+    filteredTriplocations = acceptedLocs;
     newLocations = newLocs;
     notifyListeners();
   }

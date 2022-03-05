@@ -15,10 +15,7 @@ class AppSpinner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        child: SpinKitDualRing(
-          color: Theme.of(context).primaryColor,
-          duration: Duration(milliseconds: 1000),
-        ),
+        child: CircularProgressIndicator(),
         width: width,
         height: height,
       ),

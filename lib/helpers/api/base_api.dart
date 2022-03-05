@@ -72,7 +72,7 @@ class BaseApi {
       parsedUri = parsedUri.replace(queryParameters: newParams);
     }
     String stringifiedBody = jsonEncode(body);
-    setAuthParam(null);
+    //setAuthParam(null);
     print("POST: " + parsedUri.toString());
     return http.post(parsedUri, headers: headers, body: stringifiedBody);
   }
@@ -86,7 +86,7 @@ class BaseApi {
       parsedUri = parsedUri.replace(queryParameters: newParams);
     }
     String stringifiedBody = jsonEncode(body);
-    setAuthParam(null);
+    //setAuthParam(null);
     print("POST: " + parsedUri.toString());
     return http.patch(parsedUri, headers: headers, body: stringifiedBody);
   }
@@ -100,7 +100,7 @@ class BaseApi {
       parsedUri = parsedUri.replace(queryParameters: newParams);
     }
     String stringifiedBody = jsonEncode(body);
-    setAuthParam(null);
+    //setAuthParam(null);
     print("POST: " + parsedUri.toString());
     return http.put(parsedUri, headers: headers, body: stringifiedBody);
   }

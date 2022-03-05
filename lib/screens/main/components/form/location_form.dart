@@ -24,14 +24,11 @@ import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:retkipaikka_flutter/screens/main/components/map/location_map.dart';
 
 class LocationForm extends HookWidget {
-  LocationForm({Key? key, this.initialLocation}) : super(key: key);
+  LocationForm({Key? key, this.initialLocation, this.afterFormSave})
+      : super(key: key);
   TripLocationApi tripLocationApi = TripLocationApi();
   final TripLocation? initialLocation;
-  Widget dynamicLayoutWrapper(BuildContext context, Widget child) {
-    bool isDesktop = Responsive.isDesktop(context);
-
-    return isDesktop ? Expanded(child: child) : SizedBox(child: child);
-  }
+  final Function()? afterFormSave;
 
   @override
   Widget build(BuildContext context) {
@@ -438,19 +435,65 @@ class LocationForm extends HookWidget {
 
                 Map<String, dynamic>? parsedFormData =
                     FormParser.afterFormSubmit(formData, context);
-                if (parsedFormData != null) {
-                  print(parsedFormData);
-                  tripLocationApi
-                      .handleTripLocationPost(parsedFormData, images)
-                      .then((value) {
-                    formKey.value.currentState?.reset();
 
-                    AlertHelper.displaySuccessAlert(
-                        "Retkipaikka ilmoitettu onnistuneesti!", context);
-                  }).catchError((error) {
-                    AlertHelper.displayErrorAlert(
-                        "Virhe retkipaikan ilmoittamisessa!", context);
-                  });
+                if (parsedFormData != null) {
+                  if (initialLocation != null) {
+                    if (parsedFormData["filters"].length ==
+                        initialLocation!.filters.length) {
+                      parsedFormData.remove("filters");
+                    }
+
+                    parsedFormData["location_id"] = initialLocation!.id;
+                    parsedFormData["location_editor"] =
+                        context.read<AppState>().currentUser?.username;
+
+                    List<XFile> newImages = images
+                        .where(
+                            (element) => !element.path.contains("/api/Images/"))
+                        .toList();
+                    List<XFile> oldImages = images
+                        .where(
+                            (element) => element.path.contains("/api/Images/"))
+                        .toList();
+                    List<String> imagesToDelete = [];
+                    if (initialLocation?.images.length != oldImages.length) {
+                      imagesToDelete = initialLocation!.images
+                          .where((initialImg) =>
+                              oldImages.indexWhere((oldImg) =>
+                                  oldImg.path.contains(initialImg)) ==
+                              -1)
+                          .toList();
+                    }
+
+                    tripLocationApi
+                        .deleteLocationImages(
+                            initialLocation!.id, imagesToDelete)
+                        .then((res) {
+                      return tripLocationApi.handleTripLocationEdit(
+                          parsedFormData, newImages);
+                    }).then((value) {
+                      AlertHelper.displaySuccessAlert(
+                          "Retkipaikkaa muokattu onnistuneesti!", context,
+                          cb: afterFormSave);
+                    }).catchError((error) {
+                      AlertHelper.displayErrorAlert(
+                          "Virhe retkipaikan muokkaamisessa!", context);
+                    });
+                  } else {
+                    print(parsedFormData);
+                    tripLocationApi
+                        .handleTripLocationPost(parsedFormData, images)
+                        .then((value) {
+                      formKey.value.currentState?.reset();
+
+                      AlertHelper.displaySuccessAlert(
+                          "Retkipaikka ilmoitettu onnistuneesti!", context,
+                          cb: afterFormSave);
+                    }).catchError((error) {
+                      AlertHelper.displayErrorAlert(
+                          "Virhe retkipaikan ilmoittamisessa!", context);
+                    });
+                  }
                 }
               }
             } else {

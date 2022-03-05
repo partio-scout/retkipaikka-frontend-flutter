@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:retkipaikka_flutter/helpers/api/base_api.dart';
 import 'package:retkipaikka_flutter/helpers/api/image_api.dart';
+import 'package:retkipaikka_flutter/models/admin_model.dart';
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,11 +19,12 @@ class TripLocationApi extends BaseApi {
     return returnList;
   }
 
-  Future<List<TripLocation>> getAcceptedLocations() async {
+  Future<List<TripLocation>> getAcceptedLocations(
+      {bool limitedFields = true}) async {
     Map<String, dynamic> params = {
       "filter": jsonEncode({
         "where": {"location_accepted": true},
-        "limitedFields": true
+        "limitedFields": limitedFields
       })
     };
     return await getLocations(params);
@@ -80,6 +82,25 @@ class TripLocationApi extends BaseApi {
       Map<String, dynamic> data, List<XFile> images) async {
     dynamic response = await _postTripLocation(data, images);
     return await parseResponse(response);
+  }
+
+  Future<void> deleteLocationImages(
+      String locationId, List<String> images) async {
+    for (var img in images) {
+      await imageApi.deleteImageByLocationId(locationId, img);
+    }
+    return;
+  }
+
+  Future<void> handleTripLocationEdit(
+      Map<String, dynamic> data, List<XFile> images) async {
+    dynamic response = await patch("/editLocation", data);
+    parseResponse(response);
+
+    if (images.isNotEmpty) {
+      await imageApi.postImagesForLocation(data["location_id"], images);
+    }
+    return;
   }
 
   Future<http.Response> _postTripLocation(

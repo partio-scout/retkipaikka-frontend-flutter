@@ -12,7 +12,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class LocationMap extends HookWidget {
-   LocationMap({Key? key}) : super(key: key);
+  LocationMap({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class LocationMap extends HookWidget {
 
     return FlutterMap(
       options: MapOptions(
-        onMapCreated: (c){
+        onMapCreated: (c) {
           tState.mapController = c;
         },
         onTap: ((tapPosition, point) {
@@ -58,7 +58,10 @@ class LocationMap extends HookWidget {
                 builder: (ctx) => const Icon(Icons.outlined_flag_outlined)));
           }
         }),
-        interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+        interactiveFlags: InteractiveFlag.all &
+            ~InteractiveFlag.rotate &
+            ~InteractiveFlag.drag &
+            ~InteractiveFlag.flingAnimation,
         plugins: [MarkerClusterPlugin()],
         center: LatLng(61.29, 23.45),
         zoom: 8,

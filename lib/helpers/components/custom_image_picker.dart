@@ -91,7 +91,7 @@ class CustomImagePicker extends HookWidget {
             width: 130,
             height: 130,
             child: Stack(alignment: Alignment.topRight, children: [
-              kIsWeb
+              (kIsWeb || item.path.contains("/api/Images"))
                   ? Image.network(item.path, fit: BoxFit.cover)
                   : Image.file(File(item.path), fit: BoxFit.cover),
               InkWell(

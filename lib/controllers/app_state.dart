@@ -23,8 +23,8 @@ class AppState extends ChangeNotifier {
   }
 
   void setScroll(bool state) {
-    scrollEnabled = state;
-    notifyListeners();
+    /*  scrollEnabled = state;
+    notifyListeners(); */
   }
 
   static void setLoading(BuildContext context, bool state) {
@@ -35,17 +35,17 @@ class AppState extends ChangeNotifier {
     context.read<AppState>()._setError(error);
   }
 
-
-  void openDrawer(BuildContext context){
+  void openDrawer(BuildContext context) {
     Scaffold.of(context).openEndDrawer();
-   // mainScaffoldKey.currentState?.openEndDrawer();
+    // mainScaffoldKey.currentState?.openEndDrawer();
   }
 
-  void closeDrawer(BuildContext context){
-     Scaffold.of(context).openDrawer();
+  void closeDrawer(BuildContext context) {
+    Scaffold.of(context).openDrawer();
     //mainScaffoldKey.currentState?.openDrawer();
   }
-  Future<bool> handleAfterLogin(AdminUser user)async{
+
+  Future<bool> handleAfterLogin(AdminUser user) async {
     currentUser = user;
     isLoggedIn = true;
     bool res = await SharedPreferencesHelper.saveLogin(user);
@@ -53,13 +53,13 @@ class AppState extends ChangeNotifier {
     return res;
   }
 
-  void setLogin(AdminUser user){
+  void setLogin(AdminUser user) {
     currentUser = user;
     isLoggedIn = true;
     notifyListeners();
   }
 
-  Future<bool> handleAfterLogout() async{
+  Future<bool> handleAfterLogout() async {
     currentUser = null;
     isLoggedIn = false;
     bool res = await SharedPreferencesHelper.deleteLogin();

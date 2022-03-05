@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_popup.dart';
+import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:provider/provider.dart';
 import 'package:retkipaikka_flutter/helpers/components/image_slider.dart';
@@ -88,11 +89,14 @@ class TriplocationInfo extends StatelessWidget {
                         state.parseLocationImages(location.images, location.id);
 
                     showDialog(
-                        context: context,
-                        builder: (context) => Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 200),
-                            child: Center(child: ImageSlider(images: images))));
+                      context: context,
+                      builder: (context) => GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: ImageSlider(images: images),
+                      ),
+                    );
                   },
                 ))
               : const SizedBox()

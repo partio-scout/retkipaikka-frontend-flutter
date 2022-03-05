@@ -2,30 +2,33 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:retkipaikka_flutter/helpers/shared_preferences_helper.dart';
 
 class BaseApi {
   String route;
   //192.168.0.3 // use computer if if debugging with real device
   //10.0.2.2 // android emulator
 
-  static const baseUrl =
-      "https://retkipaikka-backend.herokuapp.com/api"; //"http://192.168.0.4:3000/api";
+  static const baseUrl = "http://localhost:3000/api";
   final int timeoutSeconds;
   static const Map<String, String> defaultHeaders = {
     HttpHeaders.contentTypeHeader: "application/json"
   };
-  String? token;
+
   BaseApi(this.route, {this.timeoutSeconds = 10});
 
   Future<Map<String, dynamic>?> setAuthParam(
       Map<String, dynamic>? queryParams) async {
     // Only set token param if token is not present in query already
-    if (queryParams != null && queryParams["token"] != null) return queryParams;
+    if (queryParams != null && queryParams["access_token"] != null) {
+      return queryParams;
+    }
     Map<String, dynamic>? newParams = queryParams;
+    String? token = await SharedPreferencesHelper.getSavedToken();
     if (token != null) {
       newParams = queryParams ?? <String, dynamic>{};
 
-      newParams["token"] = token;
+      newParams["access_token"] = token;
     }
     return newParams;
   }
@@ -120,10 +123,6 @@ class BaseApi {
   //   final prefs = await SharedPreferences.getInstance();
   //   return prefs.getString(kTokenKey);
   // }
-
-  void setToken(String? token) {
-    this.token = token;
-  }
 
   dynamic parseResponse(http.Response res) {
     if (res.statusCode == 200) {

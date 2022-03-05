@@ -20,7 +20,9 @@ class CustomImagePicker extends HookWidget {
       onDataChanged;
   final int maxImages;
   final List<XFile>? value;
-
+  final bool allowFileUpload = [TargetPlatform.android, TargetPlatform.iOS]
+          .contains(defaultTargetPlatform) ||
+      kIsWeb;
   void onChanged(List<XFile> data) {
     if (onDataChanged != null) {
       onDataChanged!(data, initialData);
@@ -32,21 +34,22 @@ class CustomImagePicker extends HookWidget {
     var imageState =
         useState<List<XFile>>(initialData.map((e) => XFile(e)).toList());
 
-    useEffect((){
-      if(value != null && value!.length != imageState.value.length){
+    useEffect(() {
+      if (value != null && value!.length != imageState.value.length) {
         imageState.value = value!;
       }
       return null;
-    },[value]);  
+    }, [value]);
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       FittedBox(
         child: MaterialButton(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             height: 50,
-            onPressed: imageState.value.length >= maxImages
+            onPressed: imageState.value.length >= maxImages || !allowFileUpload
                 ? null
                 : () async {
-                    List<XFile>? pickedFileList = await _picker.pickMultiImage();
+                    List<XFile>? pickedFileList =
+                        await _picker.pickMultiImage();
                     if (pickedFileList != null) {
                       // Filter out files with same name
                       if (imageState.value.isNotEmpty) {
@@ -67,13 +70,16 @@ class CustomImagePicker extends HookWidget {
                   },
             color: Theme.of(context).primaryColor,
             child: Row(children: const [
-               Icon(Icons.upload,color: Colors.white,),
-               SizedBox(width: 5),
-               Text(
+              Icon(
+                Icons.upload,
+                color: Colors.white,
+              ),
+              SizedBox(width: 5),
+              Text(
                 "Lataa kuvia",
                 style: TextStyle(color: Colors.white),
               ),
-               SizedBox(width:5)
+              SizedBox(width: 5)
             ])),
       ),
       const SizedBox(height: 10),
@@ -86,10 +92,8 @@ class CustomImagePicker extends HookWidget {
             height: 130,
             child: Stack(alignment: Alignment.topRight, children: [
               kIsWeb
-                    ? Image.network(item.path, fit: BoxFit.cover)
-                    : Image.file(File(item.path),fit:BoxFit.cover),
-               
-                 
+                  ? Image.network(item.path, fit: BoxFit.cover)
+                  : Image.file(File(item.path), fit: BoxFit.cover),
               InkWell(
                 onTap: () {
                   List<XFile> list = List.from(imageState.value);

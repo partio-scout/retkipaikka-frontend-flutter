@@ -16,8 +16,10 @@ import 'package:retkipaikka_flutter/models/geo_area_model.dart';
 import 'package:retkipaikka_flutter/screens/main/components/filtering/tag_bar.dart';
 
 class FilteringComponent extends HookWidget {
-  FilteringComponent({Key? key}) : super(key: key);
+  FilteringComponent({Key? key, this.backgroundColor = const Color(0xFFe4dfdf)})
+      : super(key: key);
   final FilteringApi filteringApi = FilteringApi();
+  final Color backgroundColor;
   @override
   Widget build(BuildContext context) {
     FilteringState filteringState = context.watch<FilteringState>();
@@ -56,7 +58,7 @@ class FilteringComponent extends HookWidget {
     return Container(
       width: double.infinity,
       // height: 90,
-      color: Color(0xFFe4dfdf),
+      color: backgroundColor,
       child: Wrap(children: [
         Padding(
           padding: const EdgeInsets.only(top: 10),

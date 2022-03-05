@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -26,8 +27,6 @@ class LocationForm extends HookWidget {
   LocationForm({Key? key, this.initialLocation}) : super(key: key);
   TripLocationApi tripLocationApi = TripLocationApi();
   final TripLocation? initialLocation;
-
-
   Widget dynamicLayoutWrapper(BuildContext context, Widget child) {
     bool isDesktop = Responsive.isDesktop(context);
 
@@ -92,7 +91,7 @@ class LocationForm extends HookWidget {
                   ],
                 ),
               ),
-              const  FormInfoText(text:"Kirjoita retkipaikan nimi"),
+              const FormInfoText(text: "Kirjoita retkipaikan nimi"),
               const SizedBox(
                 height: 25,
               ),
@@ -135,7 +134,7 @@ class LocationForm extends HookWidget {
                       ]);
                 },
               ),
-              const FormInfoText(text:"Valitse retkipaikan tyyppi"),
+              const FormInfoText(text: "Valitse retkipaikan tyyppi"),
               const SizedBox(
                 height: 25,
               ),
@@ -185,7 +184,7 @@ class LocationForm extends HookWidget {
                             );
                           },
                         ),
-                        const FormInfoText(text:"Valitse sijainti"),
+                        const FormInfoText(text: "Valitse sijainti"),
                       ],
                     ),
                   ),
@@ -224,7 +223,8 @@ class LocationForm extends HookWidget {
                             ],
                           ), */
                         ),
-                        const FormInfoText(text:"Valitse koordinaatit kartalta"),
+                        const FormInfoText(
+                            text: "Valitse koordinaatit kartalta"),
                       ],
                     ),
                   ),
@@ -240,7 +240,7 @@ class LocationForm extends HookWidget {
                     hintText: "Kuvaus",
                     border: OutlineInputBorder()),
               ),
-              const FormInfoText(text:"Kirjoita kuvaus retkipaikasta"),
+              const FormInfoText(text: "Kirjoita kuvaus retkipaikasta"),
               const SizedBox(height: 25),
               FormBuilderTextField(
                 maxLines: 5,
@@ -251,7 +251,7 @@ class LocationForm extends HookWidget {
                     hintText: "Tiedot",
                     border: OutlineInputBorder()),
               ),
-              const FormInfoText(text:"Kirjoita hintatietoja, jos niitä on"),
+              const FormInfoText(text: "Kirjoita hintatietoja, jos niitä on"),
               const SizedBox(height: 25),
               FormBuilderCheckboxGroup(
                   name: "filters",
@@ -271,7 +271,7 @@ class LocationForm extends HookWidget {
                         text: filter.name,
                         value: filter.id);
                   }).toList()),
-              const FormInfoText(text:"Valitse retkipaikkaa kuvaavat asiat"),
+              const FormInfoText(text: "Valitse retkipaikkaa kuvaavat asiat"),
               const SizedBox(height: 25),
               Flex(
                 direction: Responsive.isDesktop(context)
@@ -299,8 +299,9 @@ class LocationForm extends HookWidget {
                             ],
                           ),
                         ),
-                        const FormInfoText(text:
-                            "Kirjoita kohteen omistaja (lippukunta, kaupunki, srk tms)"),
+                        const FormInfoText(
+                            text:
+                                "Kirjoita kohteen omistaja (lippukunta, kaupunki, srk tms)"),
                       ],
                     ),
                   ),
@@ -329,7 +330,7 @@ class LocationForm extends HookWidget {
                             ],
                           ),
                         ),
-                        const FormInfoText(text:"Kirjoita kohteen nettisivu"),
+                        const FormInfoText(text: "Kirjoita kohteen nettisivu"),
                       ],
                     ),
                   ),
@@ -358,7 +359,7 @@ class LocationForm extends HookWidget {
                             ],
                           ),
                         ),
-                        const FormInfoText(text:"Kirjoita sähköposti"),
+                        const FormInfoText(text: "Kirjoita sähköposti"),
                       ],
                     ),
                   ),
@@ -381,7 +382,7 @@ class LocationForm extends HookWidget {
                                   EdgeInsets.symmetric(horizontal: 10),
                               border: OutlineInputBorder()),
                         ),
-                        const FormInfoText(text:"Kirjoita puhelinnumero"),
+                        const FormInfoText(text: "Kirjoita puhelinnumero"),
                       ],
                     ),
                   ),
@@ -390,6 +391,15 @@ class LocationForm extends HookWidget {
               const SizedBox(
                 height: 25,
               ),
+              initialLocation != null
+                  ? FormBuilderCheckbox(
+                      contentPadding: EdgeInsets.zero,
+                      name: "location_accepted",
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Padding(
+                          padding: EdgeInsets.zero,
+                          child: Text("Retkipaikka näkyvissä käyttäjälle")))
+                  : const SizedBox(),
               FormBuilderField(
                 name: 'location_images',
                 builder: (FormFieldState<dynamic> field) {
@@ -399,7 +409,7 @@ class LocationForm extends HookWidget {
                         field.didChange(currentData);
                       });
                 },
-              ),
+              )
             ],
           ),
         ),

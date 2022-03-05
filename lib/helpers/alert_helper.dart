@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 
 class AlertHelper {
   static bool isDialogOpen = false;
-  static void displaySuccessAlert(String text, BuildContext context,{Function()? cb}) {
+  static void displaySuccessAlert(String text, BuildContext context,
+      {Function()? cb}) {
     if (isDialogOpen) return;
     isDialogOpen = true;
+
     CoolAlert.show(
             context: context,
             type: CoolAlertType.success,
@@ -16,13 +18,12 @@ class AlertHelper {
             backgroundColor: Theme.of(context).primaryColor
             //autoCloseDuration: Duration(seconds: 2),
             )
-        .then((value){
-          isDialogOpen = false;
-          if(cb != null){
-            cb();
-          }
-        } 
-        );
+        .then((value) {
+      isDialogOpen = false;
+      if (cb != null) {
+        cb();
+      }
+    });
   }
 
   static void displayErrorAlert(dynamic text, BuildContext context) {
@@ -60,7 +61,6 @@ class AlertHelper {
   static void displayConfirmAlert(String text, BuildContext context,
       {required void Function() onConfirm, required void Function() onCancel}) {
     if (isDialogOpen) return;
-    isDialogOpen = true;
     CoolAlert.show(
             context: context,
             type: CoolAlertType.confirm,

@@ -16,6 +16,7 @@ import 'package:collection/collection.dart';
 class TripLocationState extends ChangeNotifier {
   List<TripLocation> allTripLocations = [];
   List<TripLocation> filteredTriplocations = [];
+  List<TripLocation> newLocations = [];
   TripLocation? selectedLocation;
   MapController? mapController;
   PopupController popupController = PopupController();
@@ -61,6 +62,20 @@ class TripLocationState extends ChangeNotifier {
   void setLocations(List<TripLocation> locList) {
     allTripLocations = locList;
     filteredTriplocations = locList;
+    notifyListeners();
+  }
+
+  void setNewAndAccepted(
+    List<TripLocation> acceptedLocs,
+    List<TripLocation> newLocs,
+  ) {
+    allTripLocations = acceptedLocs;
+    newLocations = newLocs;
+    notifyListeners();
+  }
+
+  void setNewLocations(List<TripLocation> locList) {
+    newLocations = locList;
     notifyListeners();
   }
 

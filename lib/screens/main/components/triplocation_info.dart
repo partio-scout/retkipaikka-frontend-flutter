@@ -7,8 +7,11 @@ import 'package:provider/provider.dart';
 import 'package:retkipaikka_flutter/helpers/components/image_slider.dart';
 
 class TriplocationInfo extends StatelessWidget {
-  const TriplocationInfo({Key? key, required this.location}) : super(key: key);
+  const TriplocationInfo(
+      {Key? key, required this.location, this.displayMapButton = true})
+      : super(key: key);
   final TripLocation location;
+  final bool displayMapButton;
 
   List<Widget> textInfoCombo(String title, String? info) {
     return [
@@ -57,15 +60,17 @@ class TriplocationInfo extends StatelessWidget {
           ...textInfoCombo("Sähköposti:", location.mail),
           ...textInfoCombo("Lisätty:", location.createdAtParsed()),
           ...textInfoCombo("Muokattu:", location.updatedAtParsed()),
-          Center(
-              child: TextButton(
-            child: const Text("Näytä kartalla"),
-            onPressed: () {
-              TripLocationState state = context.read<TripLocationState>();
-              //state.closeDrawer();
-              state.centerMapToLocation(location);
-            },
-          )),
+          displayMapButton
+              ? Center(
+                  child: TextButton(
+                  child: const Text("Näytä kartalla"),
+                  onPressed: () {
+                    TripLocationState state = context.read<TripLocationState>();
+                    //state.closeDrawer();
+                    state.centerMapToLocation(location);
+                  },
+                ))
+              : const SizedBox(),
           const SizedBox(height: 15),
           location.images.isNotEmpty
               ? Center(
@@ -73,7 +78,8 @@ class TriplocationInfo extends StatelessWidget {
                   child: const Text("Näytä kuvat"),
                   onPressed: () {
                     TripLocationState state = context.read<TripLocationState>();
-                    List<String> images = state.parseLocationImages(location.images,location.id);
+                    List<String> images =
+                        state.parseLocationImages(location.images, location.id);
                     Navigator.of(context).push(
                       CustomPopUp(
                         builder: (context) =>

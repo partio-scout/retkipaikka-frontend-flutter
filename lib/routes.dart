@@ -38,75 +38,70 @@ class AppPages {
   }
 
   static RouteMap appRoutes(BuildContext context) {
-    return RouteMap(
-      routes: {
-        UserRoutes.locations: (routeData) {
-          return const CustomMaterialPage(
-              child: MainContainerSinglePage(child: FrontPageScreen()));
-        },
-        UserRoutes.notifications: (routeData) {
-          return const CustomMaterialPage(
-              child: MainContainerSinglePage(child: NotificationScreen()));
-        },
-        UserRoutes.login: (routeData) {
-          return const CustomMaterialPage(
-              child: MainContainerSinglePage(child: LoginScreen(isLoginPage: true,)));
-        },
-        UserRoutes.signUp:(routeData){
-          return const CustomMaterialPage(
-              child: MainContainerSinglePage(child: LoginScreen(isLoginPage: false,)));
-        },
-        AdminRoutes.adminRoot: (routeData) {
-          return privateRoute(
-              TabPage(
-                  pageBuilder: (child) => CustomMaterialPage(child: child),
-                  paths: const [
-                    AdminRoutes.adminNew,
-                    AdminRoutes.adminBrowse,
-                    AdminRoutes.adminFilter,            
-                    AdminRoutes.adminNotifications,
-                    AdminRoutes.adminSettings,
-                  ],
-                  backBehavior: TabBackBehavior.history,
-                  child: const AdminMainContainer()),
-              context);
-        },
-
-         AdminRoutes.adminNew: (routeData) {
-          return privateRoute(
-              const CustomMaterialPage(
-                  child: AdminLocationsScreen(displayOnlyNew:true)),
-              context);
-        },
-        AdminRoutes.adminBrowse: (routeData) {
-          return privateRoute(
-              const CustomMaterialPage(
-                  child: AdminLocationsScreen(displayOnlyNew:false)),
-              context);
-        },
-
-        AdminRoutes.adminFilter: (routeData) {
-          return privateRoute(
-              const CustomMaterialPage(
-                  child: AdminFiltersScreen()),
-              context);
-        },
-
-        AdminRoutes.adminNotifications: (routeData) {
-          return privateRoute(
-              const CustomMaterialPage(
-                  child: AdminNotificationsScreen()),
-              context);
-        },
-      
-       AdminRoutes.adminSettings: (routeData) {
-          return privateRoute(
-              const CustomMaterialPage(
-                  child: AdminSettingsScreen()),
-              context);
-        },
-      }
-    );
+    return RouteMap(routes: {
+      UserRoutes.locations: (routeData) {
+        return const CustomMaterialPage(
+            child: MainContainerSinglePage(child: FrontPageScreen()));
+      },
+      UserRoutes.notifications: (routeData) {
+        return const CustomMaterialPage(
+            child: MainContainerSinglePage(child: NotificationScreen()));
+      },
+      UserRoutes.login: (routeData) {
+        return const CustomMaterialPage(
+            child: MainContainerSinglePage(
+                child: LoginScreen(
+          isLoginPage: true,
+        )));
+      },
+      UserRoutes.signUp: (routeData) {
+        return const CustomMaterialPage(
+            child: MainContainerSinglePage(
+                child: LoginScreen(
+          isLoginPage: false,
+        )));
+      },
+      AdminRoutes.adminRoot: (routeData) {
+        return privateRoute(
+            TabPage(
+                pageBuilder: (child) => CustomMaterialPage(child: child),
+                paths: const [
+                  AdminRoutes.adminNew,
+                  AdminRoutes.adminBrowse,
+                  AdminRoutes.adminFilter,
+                  AdminRoutes.adminNotifications,
+                  AdminRoutes.adminSettings,
+                ],
+                backBehavior: TabBackBehavior.history,
+                child: const AdminMainContainer()),
+            context);
+      },
+      AdminRoutes.adminNew: (routeData) {
+        return privateRoute(
+            CustomMaterialPage(
+                child: AdminLocationsScreen(displayOnlyNew: true)),
+            context);
+      },
+      AdminRoutes.adminBrowse: (routeData) {
+        return privateRoute(
+            CustomMaterialPage(
+                child: AdminLocationsScreen(displayOnlyNew: false)),
+            context);
+      },
+      AdminRoutes.adminFilter: (routeData) {
+        return privateRoute(
+            const CustomMaterialPage(child: AdminFiltersScreen()), context);
+      },
+      AdminRoutes.adminNotifications: (routeData) {
+        return privateRoute(
+            const CustomMaterialPage(child: AdminNotificationsScreen()),
+            context);
+      },
+      AdminRoutes.adminSettings: (routeData) {
+        return privateRoute(
+            const CustomMaterialPage(child: AdminSettingsScreen()), context);
+      },
+    });
   }
 }
 
@@ -116,7 +111,10 @@ class CustomMaterialPage extends TransitionBuilderPage<void> {
 
   @override
   PageTransition buildPushTransition(BuildContext context) {
-    if (kIsWeb) {
+    TargetPlatform platform = defaultTargetPlatform;
+    if (kIsWeb ||
+        [TargetPlatform.windows, TargetPlatform.macOS, TargetPlatform.linux]
+            .contains(platform)) {
       // No push transition on web
       return PageTransition.none;
     }
@@ -127,7 +125,10 @@ class CustomMaterialPage extends TransitionBuilderPage<void> {
 
   @override
   PageTransition buildPopTransition(BuildContext context) {
-    if (kIsWeb) {
+    TargetPlatform platform = defaultTargetPlatform;
+    if (kIsWeb ||
+        [TargetPlatform.windows, TargetPlatform.macOS, TargetPlatform.linux]
+            .contains(platform)) {
       // No pop transition on web
       return PageTransition.none;
     }

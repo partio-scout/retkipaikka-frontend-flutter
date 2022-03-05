@@ -40,13 +40,13 @@ class CustomDropdownButton extends HookWidget {
       newDropdownDataState.value = dropdownData;
       return null;
     }, [dropdownData]);
-    
-     useEffect((){
-       if(dropDownState.value != initialValue){
-         dropDownState.value = initialValue;
-       }
+
+    useEffect(() {
+      if (dropDownState.value != initialValue) {
+        dropDownState.value = initialValue;
+      }
       return null;
-     },[initialValue]);
+    }, [initialValue]);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

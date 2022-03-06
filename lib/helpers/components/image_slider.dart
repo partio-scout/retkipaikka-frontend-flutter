@@ -67,7 +67,7 @@ class ImageSlider extends HookWidget {
               items: getImageSliders(images, context),
               carouselController: controller,
               options: CarouselOptions(
-                  height: double.infinity,
+                  height: 600,
                   enableInfiniteScroll: false,
                   autoPlay: false,
                   enlargeCenterPage: true,

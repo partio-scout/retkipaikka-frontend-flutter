@@ -90,7 +90,7 @@ class AppPages {
       },
       AdminRoutes.adminFilter: (routeData) {
         return privateRoute(
-            const CustomMaterialPage(child: AdminFiltersScreen()), context);
+            CustomMaterialPage(child: AdminFiltersScreen()), context);
       },
       AdminRoutes.adminNotifications: (routeData) {
         return privateRoute(

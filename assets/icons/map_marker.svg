@@ -1,11 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="64" viewBox="0 0 48 64">
   <defs>
     <path id="map-marker-b" d="M20,0 C8.97194044,0 0,9.09804234 0,20.2809935 C0,34.1593854 17.8980407,54.5336758 18.6600657,55.3942394 C19.3758191,56.202631 20.6254753,56.2012091 21.3399343,55.3942394 C22.1019593,54.5336758 40,34.1593854 40,20.2809935 C39.9997843,9.09804234 31.0279517,0 20,0 Z"/>
-    <filter id="map-marker-a" width="135%" height="125%" x="-17.5%" y="-8.9%" filterUnits="objectBoundingBox">
-      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
-      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"/>
-      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0"/>
-    </filter>
+    
   </defs>
   <g fill="none" fill-rule="evenodd" transform="translate(4 2)">
     <g fill-rule="nonzero">

@@ -74,6 +74,7 @@ class LocationForm extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               FormBuilderTextField(
+                textCapitalization: TextCapitalization.sentences,
                 name: 'location_name',
                 decoration: const InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -229,6 +230,7 @@ class LocationForm extends HookWidget {
               ),
               const SizedBox(height: 25),
               FormBuilderTextField(
+                textCapitalization: TextCapitalization.sentences,
                 maxLines: 5,
                 name: 'location_description',
                 decoration: const InputDecoration(
@@ -240,6 +242,7 @@ class LocationForm extends HookWidget {
               const FormInfoText(text: "Kirjoita kuvaus retkipaikasta"),
               const SizedBox(height: 25),
               FormBuilderTextField(
+                textCapitalization: TextCapitalization.sentences,
                 maxLines: 5,
                 name: 'location_pricing',
                 decoration: const InputDecoration(
@@ -280,6 +283,7 @@ class LocationForm extends HookWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FormBuilderTextField(
+                          textCapitalization: TextCapitalization.sentences,
                           name: 'location_owner',
                           decoration: const InputDecoration(
                               floatingLabelBehavior:
@@ -311,6 +315,7 @@ class LocationForm extends HookWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FormBuilderTextField(
+                          textCapitalization: TextCapitalization.sentences,
                           name: 'location_website',
                           decoration: const InputDecoration(
                               floatingLabelBehavior:
@@ -340,6 +345,7 @@ class LocationForm extends HookWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FormBuilderTextField(
+                          textCapitalization: TextCapitalization.sentences,
                           name: 'location_mail',
                           decoration: const InputDecoration(
                               floatingLabelBehavior:
@@ -369,6 +375,7 @@ class LocationForm extends HookWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FormBuilderTextField(
+                          textCapitalization: TextCapitalization.sentences,
                           name: 'location_phone',
                           decoration: const InputDecoration(
                               floatingLabelBehavior:
@@ -434,7 +441,7 @@ class LocationForm extends HookWidget {
                 }
 
                 Map<String, dynamic>? parsedFormData =
-                    FormParser.afterFormSubmit(formData, context);
+                    FormParser.afterLocationFormSubmit(formData, context);
 
                 if (parsedFormData != null) {
                   if (initialLocation != null) {

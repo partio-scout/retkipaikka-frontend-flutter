@@ -18,6 +18,7 @@ class FilteringState extends ChangeNotifier {
   List<AbstractFilter> commonFiltering = [];
   void setCommonFilters(List<Filter> filters) {
     allCommonFilters = filters;
+    commonFiltering = [];
     notifyListeners();
   }
 
@@ -40,6 +41,7 @@ class FilteringState extends ChangeNotifier {
 
   void setCategoryFilters(List<AbstractFilter> categories) {
     allCategoryFilters = categories;
+    categoryFiltering = [];
     notifyListeners();
   }
 

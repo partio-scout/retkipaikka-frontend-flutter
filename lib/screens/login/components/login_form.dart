@@ -9,10 +9,11 @@ import 'package:retkipaikka_flutter/helpers/components/form_info_text.dart';
 import 'package:provider/provider.dart';
 import 'package:retkipaikka_flutter/routes.dart';
 import 'package:routemaster/routemaster.dart';
+
 class LoginForm extends HookWidget {
   LoginForm({Key? key}) : super(key: key);
   final UserApi userApi = UserApi();
-  @override 
+  @override
   Widget build(BuildContext context) {
     var formKey =
         useState<GlobalKey<FormBuilderState>>(GlobalKey<FormBuilderState>());
@@ -21,14 +22,17 @@ class LoginForm extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       //mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const Text("Kirjautuminen",style:TextStyle(fontSize: 20)),
-        const SizedBox(height: 30,),
+        const Text("Kirjautuminen", style: TextStyle(fontSize: 20)),
+        const SizedBox(
+          height: 30,
+        ),
         FormBuilder(
             key: formKey.value,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FormBuilderTextField(
+                  textCapitalization: TextCapitalization.sentences,
                   name: "email",
                   decoration: const InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -68,7 +72,6 @@ class LoginForm extends HookWidget {
                 const FormInfoText(text: "Kirjoita salasanasi"),
               ],
             )),
-          
         const SizedBox(
           height: 25,
         ),
@@ -82,21 +85,21 @@ class LoginForm extends HookWidget {
             formKey.value.currentState?.save();
             if (formKey.value.currentState != null &&
                 formKey.value.currentState!.validate()) {
-                  Map<String,dynamic>? formData = formKey.value.currentState?.value;
-                  if(formData !=null){
-                    userApi.login(formData).then((res){
-                      return context.read<AppState>().handleAfterLogin(res);
-                    }).then((value){
-                      AlertHelper.displaySuccessAlert("Kirjautuminen onnistui!", context,cb:(){
-                        Routemaster.of(context).push(AdminRoutes.adminNew);
-                      });
-                      formKey.value.currentState?.reset();
-                    }).catchError((err){                 
-                      AlertHelper.displayErrorAlert(err,context);
-                     
-                    });
-                  }
-                  
+              Map<String, dynamic>? formData =
+                  formKey.value.currentState?.value;
+              if (formData != null) {
+                userApi.login(formData).then((res) {
+                  return context.read<AppState>().handleAfterLogin(res);
+                }).then((value) {
+                  AlertHelper.displaySuccessAlert(
+                      "Kirjautuminen onnistui!", context, cb: () {
+                    Routemaster.of(context).push(AdminRoutes.adminNew);
+                  });
+                  formKey.value.currentState?.reset();
+                }).catchError((err) {
+                  AlertHelper.displayErrorAlert(err, context);
+                });
+              }
             } else {
               AlertHelper.displayErrorAlert(
                   "Lomake ei ole täytetty oikein!", context);

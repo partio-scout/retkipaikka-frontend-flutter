@@ -9,7 +9,7 @@ class BaseApi {
   //192.168.0.3 // use computer if if debugging with real device
   //10.0.2.2 // android emulator
 
-  static const baseUrl = "https://retkipaikka-backend.herokuapp.com/api";
+  static const baseUrl = "http://192.168.0.3:3000/api";
   final int timeoutSeconds;
   static const Map<String, String> defaultHeaders = {
     HttpHeaders.contentTypeHeader: "application/json"
@@ -87,7 +87,7 @@ class BaseApi {
     }
     String stringifiedBody = jsonEncode(body);
     //setAuthParam(null);
-    print("POST: " + parsedUri.toString());
+    print("PATCH: " + parsedUri.toString());
     return http.patch(parsedUri, headers: headers, body: stringifiedBody);
   }
 

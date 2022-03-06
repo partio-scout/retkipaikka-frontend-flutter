@@ -12,7 +12,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:retkipaikka_flutter/screens/main/components/triplocation_info.dart';
 import 'package:provider/provider.dart';
 
-class LocationTable extends StatelessWidget {
+class LocationTable extends HookWidget {
   const LocationTable(
       {Key? key,
       required this.tableData,
@@ -24,38 +24,45 @@ class LocationTable extends StatelessWidget {
   final Function() onRefreshClick;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView(
-        children: [
-          PaginatedDataTable(
-              header: title,
-              actions: [
-                IconButton(
-                    onPressed: () {
-                      onRefreshClick();
-                    },
-                    icon: Icon(Icons.refresh))
-              ],
-              showCheckboxColumn: false,
-              columns: const [
-                DataColumn(label: Text("Nimi")),
-                DataColumn(label: Text("Kunta")),
-                DataColumn(label: Text("Maakunta")),
-                DataColumn(label: Text("Tyyppi")),
-                DataColumn(label: Text("Omistaja")),
-              ],
-              source: LocationDatasource(
-                  locations: tableData,
-                  onTap: (location) {
-                    showDialog(
-                      context: context,
-                      builder: (context) => LocationTableDialog(
-                        location: location,
-                      ),
-                    );
-                  })),
-        ],
-      ),
+    var rowsPerPage = useState<int>(10);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        PaginatedDataTable(
+            header: title,
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    onRefreshClick();
+                  },
+                  icon: const Icon(Icons.refresh))
+            ],
+            availableRowsPerPage: const [10, 15, 50, 100, 1000],
+            rowsPerPage: rowsPerPage.value,
+            onRowsPerPageChanged: (rows) {
+              if (rows != null) {
+                rowsPerPage.value = rows;
+              }
+            },
+            showCheckboxColumn: false,
+            columns: const [
+              DataColumn(label: Text("Nimi")),
+              DataColumn(label: Text("Kunta")),
+              DataColumn(label: Text("Maakunta")),
+              DataColumn(label: Text("Tyyppi")),
+              DataColumn(label: Text("Omistaja")),
+            ],
+            source: LocationDatasource(
+                locations: tableData,
+                onTap: (location) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => LocationTableDialog(
+                      location: location,
+                    ),
+                  );
+                })),
+      ],
     );
   }
 }

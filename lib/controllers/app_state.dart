@@ -23,8 +23,8 @@ class AppState extends ChangeNotifier {
   }
 
   void setScroll(bool state) {
-    /*  scrollEnabled = state;
-    notifyListeners(); */
+    scrollEnabled = state;
+    notifyListeners();
   }
 
   static void setLoading(BuildContext context, bool state) {

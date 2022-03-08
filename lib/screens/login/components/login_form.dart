@@ -76,7 +76,7 @@ class LoginForm extends HookWidget {
           height: 25,
         ),
         MaterialButton(
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).primaryColor,
           child: const Text(
             "Kirjaudu",
             style: TextStyle(color: Colors.white),

@@ -5,7 +5,7 @@ class CategoryApi extends BaseApi {
 
 
     Future<List<dynamic>> getAllCategories() async {
-    dynamic categories = await get("/", null);
+    dynamic categories = await get("", null);
 
     return parseResponse(categories);
   }

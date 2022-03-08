@@ -1,10 +1,11 @@
 
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 enum kfilterType {region,municipality,filter,category,noFilter,noCategory}
 
-
+const kSuperAdminRoles = ["superadmin"];
 
 kfilterType typeToFilterType(String type){
   switch(type){
@@ -50,6 +51,11 @@ Color getTagColor(kfilterType type){
       return const Color(0xFF253764);
   } 
 }
+
+  bool isMobile() {
+    return defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS;
+  }
 
 
 

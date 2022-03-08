@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
-import 'package:retkipaikka_flutter/helpers/components/custom_popup.dart';
-import 'package:retkipaikka_flutter/helpers/responsive.dart';
+
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:provider/provider.dart';
 import 'package:retkipaikka_flutter/helpers/components/image_slider.dart';

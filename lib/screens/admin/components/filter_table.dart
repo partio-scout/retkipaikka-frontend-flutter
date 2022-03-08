@@ -12,12 +12,14 @@ class FilterTable extends HookWidget {
   const FilterTable(
       {Key? key,
       required this.tableData,
+      required this.isSuperAdmin,
       required this.title,
       required this.onRefreshClick})
       : super(key: key);
   final List<AbstractFilter> tableData;
   final Widget title;
   final Function() onRefreshClick;
+  final bool isSuperAdmin;
   @override
   Widget build(BuildContext context) {
     var rowsPerPage = useState<int>(10);
@@ -38,7 +40,7 @@ class FilterTable extends HookWidget {
                   onPressed: () {
                     onRefreshClick();
                   },
-                  icon: Icon(Icons.refresh))
+                  icon: const Icon(Icons.refresh))
             ],
             showCheckboxColumn: false,
             columns: const [
@@ -51,11 +53,13 @@ class FilterTable extends HookWidget {
             source: AbstractFilterDatasource(
                 filters: tableData,
                 onTap: (filter) {
-                  showDialog(
-                    context: context,
-                    builder: (context) => FilterTableDialog(
-                        filter: filter, onRefresh: onRefreshClick),
-                  );
+                  if (isSuperAdmin) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => FilterTableDialog(
+                          filter: filter, onRefresh: onRefreshClick),
+                    );
+                  }
                 })),
       ],
     );
@@ -78,104 +82,99 @@ class FilterTableDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Material(
-            type: MaterialType.transparency,
+            //type: MaterialType.transparency,
             child: SingleChildScrollView(
-              child: Container(
-                color: Colors.white,
-                child: Stack(alignment: Alignment.topRight, children: [
-                  Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 50, horizontal: 20),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FilterForm(
-                              resetAfterSubmit: false,
-                              title: "Muokkaaminen",
-                              initialFilter: filter,
-                              onSubmit: (data) {
-                                Map<String, dynamic> formData = Map.from(data);
-                                if (filter.type == kfilterType.filter) {
-                                  formData["filter_id"] = filter.id;
-                                  filteringApi
-                                      .updateFilter(formData, filter.id)
-                                      .then((value) {
-                                    AlertHelper.displaySuccessAlert(
-                                        "Suodattimen muokkaus onnistui!",
-                                        context, cb: () {
-                                      onRefresh();
-                                      Navigator.of(context).pop();
-                                    });
-                                  }).catchError((err) {
-                                    AlertHelper.displayErrorAlert(err, context);
+              child: Stack(alignment: Alignment.topRight, children: [
+                Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 50, horizontal: 20),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FilterForm(
+                            resetAfterSubmit: false,
+                            title: "Muokkaaminen",
+                            initialFilter: filter,
+                            onSubmit: (data) {
+                              Map<String, dynamic> formData = Map.from(data);
+                              if (filter.type == kfilterType.filter) {
+                                formData["filter_id"] = filter.id;
+                                filteringApi
+                                    .updateFilter(formData, filter.id)
+                                    .then((value) {
+                                  AlertHelper.displaySuccessAlert(
+                                      "Suodattimen muokkaus onnistui!", context,
+                                      cb: () {
+                                    onRefresh();
+                                    Navigator.of(context).pop();
                                   });
-                                } else if (filter.type ==
-                                    kfilterType.category) {
-                                  formData["category_id"] = filter.id;
-                                  filteringApi
-                                      .updateCategory(formData, filter.id)
-                                      .then((value) {
-                                    AlertHelper.displaySuccessAlert(
-                                        "Kategorian muokkaus onnistui!",
-                                        context, cb: () {
-                                      onRefresh();
-                                      Navigator.of(context).pop();
-                                    });
-                                  }).catchError((err) {
-                                    AlertHelper.displayErrorAlert(err, context);
+                                }).catchError((err) {
+                                  AlertHelper.displayErrorAlert(err, context);
+                                });
+                              } else if (filter.type == kfilterType.category) {
+                                formData["category_id"] = filter.id;
+                                filteringApi
+                                    .updateCategory(formData, filter.id)
+                                    .then((value) {
+                                  AlertHelper.displaySuccessAlert(
+                                      "Kategorian muokkaus onnistui!", context,
+                                      cb: () {
+                                    onRefresh();
+                                    Navigator.of(context).pop();
                                   });
-                                }
-                              },
-                              onDelete: (id) {
-                                if (filter.type == kfilterType.filter) {
-                                  filteringApi.deleteFilter(id).then((value) {
-                                    AlertHelper.displaySuccessAlert(
-                                        "Suodattimen poisto onnistui!", context,
-                                        cb: () {
-                                      onRefresh();
-                                      Navigator.of(context).pop();
-                                    });
-                                  }).catchError((err) {
-                                    AlertHelper.displayErrorAlert(err, context);
+                                }).catchError((err) {
+                                  AlertHelper.displayErrorAlert(err, context);
+                                });
+                              }
+                            },
+                            onDelete: (id) {
+                              if (filter.type == kfilterType.filter) {
+                                filteringApi.deleteFilter(id).then((value) {
+                                  AlertHelper.displaySuccessAlert(
+                                      "Suodattimen poisto onnistui!", context,
+                                      cb: () {
+                                    onRefresh();
+                                    Navigator.of(context).pop();
                                   });
-                                } else if (filter.type ==
-                                    kfilterType.category) {
-                                  filteringApi.deleteCategory(id).then((value) {
-                                    AlertHelper.displaySuccessAlert(
-                                        "Kategorian poisto onnistui!", context,
-                                        cb: () {
-                                      onRefresh();
-                                      Navigator.of(context).pop();
-                                    });
-                                  }).catchError((err) {
-                                    AlertHelper.displayErrorAlert(err, context);
+                                }).catchError((err) {
+                                  AlertHelper.displayErrorAlert(err, context);
+                                });
+                              } else if (filter.type == kfilterType.category) {
+                                filteringApi.deleteCategory(id).then((value) {
+                                  AlertHelper.displaySuccessAlert(
+                                      "Kategorian poisto onnistui!", context,
+                                      cb: () {
+                                    onRefresh();
+                                    Navigator.of(context).pop();
                                   });
-                                }
-                              },
-                            ),
-                          ])),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.red.withOpacity(.7),
-                        shape: BoxShape.circle,
-                      ),
-                      alignment: Alignment.center,
-                      height: 33,
-                      width: 33,
-                      child: const Icon(
-                        Icons.close,
-                        size: 18,
-                        color: Colors.white,
-                      ),
+                                }).catchError((err) {
+                                  AlertHelper.displayErrorAlert(err, context);
+                                });
+                              }
+                            },
+                          ),
+                        ])),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withOpacity(.7),
+                      shape: BoxShape.circle,
                     ),
-                  )
-                ]),
-              ),
+                    alignment: Alignment.center,
+                    height: 33,
+                    width: 33,
+                    child: const Icon(
+                      Icons.close,
+                      size: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              ]),
             ),
           ),
         ],

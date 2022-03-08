@@ -42,5 +42,6 @@ class Filter implements AbstractFilter {
       other is Filter && (other.id == id && other.name == name);
 
   @override
+  // ignore: unnecessary_overrides
   int get hashCode => super.hashCode;
 }

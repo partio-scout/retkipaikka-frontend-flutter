@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
-import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 
 class AbstractFilterDatasource extends DataTableSource {
   final List<AbstractFilter> filters;

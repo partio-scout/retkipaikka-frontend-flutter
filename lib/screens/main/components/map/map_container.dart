@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
@@ -5,7 +6,6 @@ import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/triplocation_api.dart';
 import 'package:retkipaikka_flutter/helpers/components/app_spinner.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
-import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:retkipaikka_flutter/screens/main/components/map/location_map.dart';
 import 'package:retkipaikka_flutter/screens/main/components/map/map_drawer.dart';
 import 'package:retkipaikka_flutter/screens/main/components/map/map_header.dart';
@@ -17,7 +17,6 @@ class MapContainer extends HookWidget {
   final TripLocationApi triplocationApi = TripLocationApi();
   @override
   Widget build(BuildContext context) {
-    bool isDesktop = Responsive.isDesktop(context);
     var isLoading = useState<bool>(false);
     useEffect(() {
       Future.microtask(() {
@@ -27,12 +26,19 @@ class MapContainer extends HookWidget {
           triplocationApi.getAcceptedLocations().then((res) {
             state.setLocations(res);
           }).catchError((err) {
-            print("FETCHING TRIPLOCATIONS ERROR");
+            if (kDebugMode) {
+              print("FETCHING TRIPLOCATIONS ERROR");
+            }
             AlertHelper.displayErrorAlert("Network error!", context);
           }).whenComplete(() => isLoading.value = false);
         }
       });
+      return null;
     }, []);
+
+    double windowHeight = MediaQuery.of(context).size.height-100;
+    bool isDesktop = Responsive.isDesktop(context);
+    windowHeight = isDesktop? windowHeight:windowHeight*0.85;
     return MouseRegion(
       onEnter: (event) {
         AppState state = context.read<AppState>();
@@ -49,16 +55,16 @@ class MapContainer extends HookWidget {
       child: IgnorePointer(
         ignoring: isLoading.value,
         child: SizedBox(
-            height: isDesktop ? 800 : 600,
+            height: windowHeight,
             child: Stack(
               children: [
                 Scaffold(
                     drawerScrimColor: Colors.transparent,
                     appBar: const MapHeader(),
                     body: Stack(
-                      children: [
+                      children: const[
                         SizedBox(width: double.infinity, child: LocationMap()),
-                        const MapDrawer(),
+                         MapDrawer(),
                         //isLoading.value?const AppSpinner():const SizedBox(),
                       ],
                     )),

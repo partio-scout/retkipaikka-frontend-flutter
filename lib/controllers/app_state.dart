@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:retkipaikka_flutter/helpers/shared_preferences_helper.dart';
 import 'package:retkipaikka_flutter/models/admin_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AppState extends ChangeNotifier {
+  AppState({this.darkTheme = false});
   bool isLoading = false;
   bool scrollEnabled = true;
   ScrollController scrollController = ScrollController();
@@ -12,8 +12,15 @@ class AppState extends ChangeNotifier {
   AdminUser? currentUser;
   bool isLoggedIn = false;
   GlobalKey<ScaffoldState> mainScaffoldKey = GlobalKey();
+  bool darkTheme = false;
+  bool mapPanning = true;
   void _setLoading(bool state) {
     isLoading = state;
+    notifyListeners();
+  }
+
+  void setMapPanning(bool state){
+    mapPanning = state;
     notifyListeners();
   }
 
@@ -52,6 +59,18 @@ class AppState extends ChangeNotifier {
     notifyListeners();
     return res;
   }
+
+  Future<bool> handleAfterUserUpdate(AdminUser user) async{
+    return handleAfterLogin(user);
+  } 
+
+  void setDarkTheme(bool state)async{
+    darkTheme = state;
+    await SharedPreferencesHelper.saveToPrefs(SharedPreferencesHelper.kThemeMode,state.toString());
+    notifyListeners();
+  }
+
+
 
   void setLogin(AdminUser user) {
     currentUser = user;

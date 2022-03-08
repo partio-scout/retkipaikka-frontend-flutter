@@ -6,12 +6,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPreferencesHelper {
   static const kUserKey = "RETKIPAIKKA_USER";
   static const kAccessToken = "RETKIPAIKKA_TOKEN";
+  static const kThemeMode = "RETKIPAIKKA_THEME";
   static Future<bool> saveToPrefs(String key, String value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setString(key, value);
   }
   static Future<bool> saveLogin(AdminUser user) async{
-    return saveToPrefs(kUserKey, jsonEncode(AdminUser.toJson(user))).then((value) => saveToPrefs(kAccessToken, user.token));
+    if(user.token == null){
+      return false;
+    }
+    return saveToPrefs(kUserKey, jsonEncode(AdminUser.toJson(user))).then((value) => saveToPrefs(kAccessToken, user.token!));
   }
 
   static Future<bool> deleteLogin() async{
@@ -20,6 +24,10 @@ class SharedPreferencesHelper {
 
   static Future<String?> getSavedToken() async{
     return await getStringFromPrefs(kAccessToken);
+  }
+
+  static Future<String?> getThemeMode() async{
+    return await getStringFromPrefs(kThemeMode);
   }
 
   static Future<AdminUser?> getSavedUser() async{

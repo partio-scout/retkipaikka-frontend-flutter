@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/user_api.dart';
 import 'package:retkipaikka_flutter/helpers/components/form_info_text.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:retkipaikka_flutter/helpers/shared_preferences_helper.dart';
-import 'package:provider/provider.dart';
 
 class RegisterForm extends HookWidget {
   RegisterForm({Key? key}) : super(key: key);
-  UserApi userApi = UserApi();
+  final UserApi userApi = UserApi();
   @override
   Widget build(BuildContext context) {
     var formKey =
@@ -104,7 +101,7 @@ class RegisterForm extends HookWidget {
               ],
             )),
         MaterialButton(
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).primaryColor,
           child: const Text(
             "Rekisteröidy",
             style: TextStyle(color: Colors.white),

@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/user_api.dart';
@@ -35,7 +33,7 @@ class AppDrawer extends StatelessWidget {
                           children: [
                             Text(
                               aState.currentUser!.email,
-                              style: TextStyle(fontSize: 20),
+                              style: const TextStyle(fontSize: 20),
                             ),
                             const SizedBox(height: 5),
                             Text(aState.currentUser!.username),
@@ -46,7 +44,7 @@ class AppDrawer extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 25),
-                  Divider(color: Theme.of(context).primaryColor),
+                  const Divider(),
                   const SizedBox(height: 35),
                 ] else
                   const SizedBox(),
@@ -98,12 +96,12 @@ class AppDrawer extends StatelessWidget {
                       leadingWidget: SizedBox(
                           width: 35,
                           child: Switch(
-                              activeColor: Colors.white,
-                              activeTrackColor:
-                                  const Color.fromRGBO(63, 148, 112, 1),
-                              value: false,
+                              activeColor: Theme.of(context).colorScheme.primary,
+                              //activeTrackColor:
+                                //  Theme.of(context).primaryColor,
+                              value: aState.darkTheme,
                               onChanged: (bool value) {
-                                print(value);
+                               aState.setDarkTheme(!aState.darkTheme);
                               }))),
                   aState.isLoggedIn && aState.currentUser != null
                       ? generateListTile(
@@ -121,7 +119,7 @@ class AppDrawer extends StatelessWidget {
                                 Routemaster.of(context).push(UserRoutes.locations);
                               });                                                          
                             }).catchError((err) {
-                              print(err);
+                             
                               AlertHelper.displayErrorAlert(err, context);
                             });
 
@@ -145,7 +143,7 @@ ListTile generateListTile(
     Function()? onTap,
     Widget? leadingWidget,
     required BuildContext context}) {
-  Widget leadingItem = Icon(leadingIcon, color: Colors.black);
+  Widget leadingItem = Icon(leadingIcon);
   if (leadingWidget != null) {
     leadingItem = leadingWidget;
   }
@@ -154,7 +152,7 @@ ListTile generateListTile(
     leading: leadingItem,
     title: Text(
       titleText,
-      style: TextStyle(color: Colors.black, fontSize: 16),
+      style: const TextStyle(fontSize: 16),
     ),
     //hoverColor: Theme.of(context).primaryColor,
     onTap: onTap,

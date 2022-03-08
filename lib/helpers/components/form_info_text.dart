@@ -12,7 +12,7 @@ class FormInfoText extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          color: Colors.black.withOpacity(0.5),
+          color: Theme.of(context).textTheme.caption?.color?.withOpacity(0.5),
         ),
       ),
     );

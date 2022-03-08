@@ -37,5 +37,6 @@ class GeoArea implements AbstractFilter {
       other is GeoArea && (other.id == id && other.name == name);
 
   @override
+  // ignore: unnecessary_overrides
   int get hashCode => super.hashCode;
 }

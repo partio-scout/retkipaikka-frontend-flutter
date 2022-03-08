@@ -1,6 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:retkipaikka_flutter/contants.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
@@ -11,8 +11,6 @@ import "package:provider/provider.dart";
 import 'package:retkipaikka_flutter/helpers/components/dynamic_layout_wrapper.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
-import 'package:retkipaikka_flutter/models/filter_model.dart';
-import 'package:retkipaikka_flutter/models/geo_area_model.dart';
 import 'package:retkipaikka_flutter/screens/main/components/filtering/tag_bar.dart';
 
 class FilteringComponent extends HookWidget {
@@ -28,6 +26,7 @@ class FilteringComponent extends HookWidget {
     // List<AbstractFilter> allCategoryFilters = [];
     // List<AbstractFilter> allRegions = [];
     // List<AbstractFilter> allMunicipalities = [];
+    
     useEffect(() {
       Future.microtask(() async {
         if (filteringState.allMunicipalities.isEmpty ||
@@ -46,19 +45,23 @@ class FilteringComponent extends HookWidget {
           }).then((data) {
             filteringState.setCommonFilters(data);
           }).catchError((error) {
-            print("FETCHING FILTERS ERROR");
+            if (kDebugMode) {
+              print("FETCHING FILTERS ERROR");
+            }
             AlertHelper.displayErrorAlert("Network error!", context);
           }).whenComplete(() => loading.value = false);
         } else {
           loading.value = false;
         }
       });
+      return null;
     }, []);
 
-    return Container(
+    
+
+    return SizedBox(
       width: double.infinity,
       // height: 90,
-      color: backgroundColor,
       child: Wrap(children: [
         Padding(
           padding: const EdgeInsets.only(top: 10),
@@ -84,7 +87,7 @@ class FilteringComponent extends HookWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
               DynamicLayoutWrapper(
@@ -103,7 +106,7 @@ class FilteringComponent extends HookWidget {
                           filteringState.getCategoryFiltersForDropdown()),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
               DynamicLayoutWrapper(
@@ -133,7 +136,7 @@ class FilteringComponent extends HookWidget {
                         .handleFiltering(filteringState);
                   },
                   color: Theme.of(context).primaryColor,
-                  child: Text(
+                  child: const Text(
                     "Suodata",
                     style: TextStyle(color: Colors.white),
                   ),

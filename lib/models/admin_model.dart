@@ -1,6 +1,6 @@
 class AdminUser {
   final String id;
-  final String token;
+  final String? token;
   final String notifications;
   final String userNotifications;
   final String username;
@@ -8,6 +8,7 @@ class AdminUser {
   final List<dynamic> roles;
   final List<dynamic> regions;
   final bool newUser;
+  final String? createdAt;
 
   AdminUser(
       {required this.id,
@@ -18,10 +19,12 @@ class AdminUser {
       required this.email,
       required this.roles,
       required this.regions,
-      required this.newUser});
+      required this.newUser,
+      required this.createdAt
+      });
 
   factory AdminUser.fromJson(Map<String, dynamic> json) {
-    print(json);
+   
     return AdminUser(
         id: json["userId"],
         token: json["id"],
@@ -31,7 +34,8 @@ class AdminUser {
         email: json["user"]["email"],
         roles: json["user"]["roles"],
         regions: json["user"]["regions"],
-        newUser: json["user"]["new_user"]);
+        newUser: json["user"]["new_user"],
+        createdAt: json["user"]["createdAt"],);
   }
 
 
@@ -41,12 +45,13 @@ class AdminUser {
         "id":user.token,
         "user":{
           "notifications":user.notifications,
-          "user_notifications":user.notifications,
+          "user_notifications":user.userNotifications,
           "username":user.username,
           "email":user.email,
           "roles":user.roles,
           "regions":user.regions,
           "new_user":user.newUser,
+          "createdAt":user.createdAt
         }
       };
    

@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
-import 'package:retkipaikka_flutter/models/filter_model.dart';
+
 
 class CustomDropdownButton extends HookWidget {
   final AbstractFilter initialValue;
@@ -47,11 +45,12 @@ class CustomDropdownButton extends HookWidget {
       }
       return null;
     }, [initialValue]);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          color: bgColor,
+        SizedBox(
+         // color: bgColor,
           height: height,
           child: DropdownButtonFormField<AbstractFilter>(
             value: dropDownState.value,
@@ -64,24 +63,24 @@ class CustomDropdownButton extends HookWidget {
                 floatingLabelStyle: floatingLabelStyle,
                 errorText: errorText,
                 //errorMaxLines: 3,
-                contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                border: OutlineInputBorder()),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                border: const OutlineInputBorder()),
             icon: const Icon(
               Icons.keyboard_arrow_down_rounded,
-              color: Colors.black,
+             
             ),
             elevation: 16,
 
-            dropdownColor: bgColor,
+            //dropdownColor: bgColor,
 
             hint: Text(dropDownState.value.name),
-            focusColor: focusColor, // const TextStyle(color: Colors.white),
+            focusColor: Theme.of(context).scaffoldBackgroundColor, // const TextStyle(color: Colors.white),
             //underline: Container(height: 2, color: bgColor),
             onChanged: disabled
                 ? null
                 : (AbstractFilter? newValue) {
                     //print(newValue);
-                    print(" ONCHANGE");
+                   
                     if (newValue != null) {
                       dropDownState.value = newValue;
                       if (onDropdownChange != null) {

@@ -21,7 +21,7 @@ class ImageApi extends BaseApi {
       String locationId, List<XFile> images) async {
     Uri parsedUri = await buildUri("/" + locationId + "/upload", {});
     var request = http.MultipartRequest("POST", parsedUri);
-    List<String> imgArr = [];
+
     for (XFile img in images) {
       request.files.add(http.MultipartFile.fromBytes(
           "image", await img.readAsBytes(),

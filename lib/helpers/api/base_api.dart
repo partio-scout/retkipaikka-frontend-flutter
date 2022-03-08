@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:retkipaikka_flutter/helpers/shared_preferences_helper.dart';
 
@@ -9,13 +10,13 @@ class BaseApi {
   //192.168.0.3 // use computer if if debugging with real device
   //10.0.2.2 // android emulator
 
-  static const baseUrl = "http://192.168.0.3:3000/api";
-  final int timeoutSeconds;
+  static const baseUrl = "https://retkipaikka-backend.herokuapp.com/api";
+
   static const Map<String, String> defaultHeaders = {
     HttpHeaders.contentTypeHeader: "application/json"
   };
 
-  BaseApi(this.route, {this.timeoutSeconds = 10});
+  BaseApi(this.route);
 
   Future<Map<String, dynamic>?> setAuthParam(
       Map<String, dynamic>? queryParams) async {
@@ -59,7 +60,9 @@ class BaseApi {
 
     //print(newParams);
 
-    print("GET: " + parsedUri.toString());
+    if (kDebugMode) {
+      print("GET: " + parsedUri.toString());
+    }
     return http.get(parsedUri, headers: headers);
   }
 
@@ -73,7 +76,9 @@ class BaseApi {
     }
     String stringifiedBody = jsonEncode(body);
     //setAuthParam(null);
-    print("POST: " + parsedUri.toString());
+    if (kDebugMode) {
+      print("POST: " + parsedUri.toString());
+    }
     return http.post(parsedUri, headers: headers, body: stringifiedBody);
   }
 
@@ -87,7 +92,9 @@ class BaseApi {
     }
     String stringifiedBody = jsonEncode(body);
     //setAuthParam(null);
-    print("PATCH: " + parsedUri.toString());
+    if (kDebugMode) {
+      print("PATCH: " + parsedUri.toString());
+    }
     return http.patch(parsedUri, headers: headers, body: stringifiedBody);
   }
 
@@ -101,7 +108,9 @@ class BaseApi {
     }
     String stringifiedBody = jsonEncode(body);
     //setAuthParam(null);
-    print("POST: " + parsedUri.toString());
+    if (kDebugMode) {
+      print("POST: " + parsedUri.toString());
+    }
     return http.put(parsedUri, headers: headers, body: stringifiedBody);
   }
 
@@ -115,7 +124,9 @@ class BaseApi {
     }
     String stringifiedBody = jsonEncode(body);
 
-    print("DELETE: " + parsedUri.toString());
+    if (kDebugMode) {
+      print("DELETE: " + parsedUri.toString());
+    }
     return http.delete(parsedUri, headers: headers, body: stringifiedBody);
   }
 

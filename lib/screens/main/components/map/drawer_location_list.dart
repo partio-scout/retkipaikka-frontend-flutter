@@ -12,7 +12,7 @@ class DrawerLocationList extends StatelessWidget {
       String categoryName, BuildContext context) {
     List<Widget> tiles = [];
     tiles.add(Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.only(left: 15,right: 15,top:20),
       child: Text(categoryName, style: const TextStyle(fontSize: 20)),
     ));
     for (var location in categoryLocations) {
@@ -22,7 +22,9 @@ class DrawerLocationList extends StatelessWidget {
           context.read<TripLocationState>().setSelectedLocation(location);
         },
       ));
+      
     }
+    
     return tiles;
   }
 
@@ -32,29 +34,31 @@ class DrawerLocationList extends StatelessWidget {
     List<AbstractFilter> categories =
         context.read<FilteringState>().allCategoryFilters;
 
-    List<TripLocation> favourites = tState.filteredTriplocations.where((element) => element.isFavourite).toList();
-    return ListView(
-      controller: ScrollController(),
-      children: [
-      SizedBox(
+    List<TripLocation> favourites = tState.filteredTriplocations
+        .where((element) => element.isFavourite)
+        .toList();
+    return ListView(controller: ScrollController(), children: [
+      const SizedBox(
         height: 10,
       ),
-      if(favourites.isNotEmpty) ...[Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Text("Suosikit", style: const TextStyle(fontSize: 20)),
-      ),
-      ...favourites.map((location) {
-        return ListTile(
-          title: Text(location.name),
-          onTap: () {
-            context.read<TripLocationState>().setSelectedLocation(location);
-          },
-        );
-      }),
-       Divider(),
-      SizedBox(
-        height: 10,
-      )],
+      if (favourites.isNotEmpty) ...[
+        const Padding(
+          padding:  EdgeInsets.symmetric(horizontal: 15),
+          child:  Text("Suosikit", style: TextStyle(fontSize: 20)),
+        ),
+        ...favourites.map((location) {
+          return ListTile(
+            title: Text(location.name),
+            onTap: () {
+              context.read<TripLocationState>().setSelectedLocation(location);
+            },
+          );
+        }),
+        const Divider(),
+        const SizedBox(
+          height: 10,
+        )
+      ],
       ...categories
           .map((category) {
             List<Widget> returnList = [];

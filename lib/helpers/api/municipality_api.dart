@@ -1,11 +1,10 @@
 import 'package:retkipaikka_flutter/helpers/api/base_api.dart';
-import 'package:retkipaikka_flutter/models/geo_area_model.dart';
 
 class MunicipalityApi extends BaseApi {
   MunicipalityApi({String route = "/Municipalities"}) : super(route);
 
   Future<List<dynamic>> getAllMunicipalities() async {
-    dynamic municipalities = await get("/", null);
+    dynamic municipalities = await get("", null);
 
     return parseResponse(municipalities);
   }

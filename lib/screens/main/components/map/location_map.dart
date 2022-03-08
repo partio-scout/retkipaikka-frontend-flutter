@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:retkipaikka_flutter/controllers/app_state.dart';
+import 'package:retkipaikka_flutter/contants.dart';
 import 'package:provider/provider.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,12 +12,19 @@ import 'package:collection/collection.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class LocationMap extends HookWidget {
-  LocationMap({Key? key}) : super(key: key);
+  const LocationMap({Key? key}) : super(key: key);
+
+
+  int getFlags() {
+    if (isMobile()) {
+      return InteractiveFlag.drag  |  InteractiveFlag.pinchZoom;
+    }
+    return InteractiveFlag.all;
+  }
 
   @override
   Widget build(BuildContext context) {
     TripLocationState tState = context.watch<TripLocationState>();
-    var markerState = useState<CustomMarker?>(null);
     useEffect(() {
       List<CustomMarker> dataList = [];
       for (var item in tState.filteredTriplocations) {
@@ -39,14 +46,22 @@ class LocationMap extends HookWidget {
         dataList.add(tState.selectedMarker!);
       }
       tState.setMapMarkers(dataList);
+      return null;
     }, [tState.filteredTriplocations, tState.selectedMarker]);
-
+   
     return FlutterMap(
       options: MapOptions(
+        
+       // allowPanningOnScrollingParent: context.watch<AppState>().mapPanning,
         onMapCreated: (c) {
           tState.mapController = c;
+          
         },
-        onTap: ((tapPosition, point) {
+        onTap: (lp,latlng){
+          if(isMobile() && tState.drawerOpen){
+            tState.closeDrawer();
+          }
+          
           if (tState.popupController.selectedMarkers.isNotEmpty) {
             tState.popupController.hideAllPopups();
           } else {
@@ -54,27 +69,33 @@ class LocationMap extends HookWidget {
                 locationId: "-1",
                 width: 50.0,
                 height: 80.0,
-                point: point,
-                builder: (ctx) => const Icon(Icons.outlined_flag_outlined)));
+                point: latlng,
+                builder: (ctx) => const Icon(Icons.outlined_flag_outlined,color: Colors.black,)));
           }
-        }),
-        interactiveFlags: InteractiveFlag.all &
-            ~InteractiveFlag.rotate &
-            ~InteractiveFlag.drag &
-            ~InteractiveFlag.flingAnimation,
+        },
+      
+        //pinchMoveThreshold: 60,
+        //pinchZoomThreshold: 60,
+
+        interactiveFlags: getFlags(),
         plugins: [MarkerClusterPlugin()],
         center: LatLng(61.29, 23.45),
         zoom: 8,
       ),
+      
       layers: [
+    
         TileLayerOptions(
           urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
           subdomains: ['a', 'b', 'c'],
           attributionBuilder: (_) {
-            return Text("© OpenStreetMap contributors");
+            return const Text("© OpenStreetMap contributors");
           },
+         
+       
         ),
         MarkerClusterLayerOptions(
+          
             centerMarkerOnClick: false,
             disableClusteringAtZoom: 11,
             builder: ((context, markers) {
@@ -85,7 +106,7 @@ class LocationMap extends HookWidget {
                 child: Center(
                   child: Text(
                     markers.length.toString(),
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
               );
@@ -93,7 +114,7 @@ class LocationMap extends HookWidget {
             // onMarkerTap: (item){
             //   ValueKey<String> key = item.key as ValueKey<String>;
             //   print(key);
-
+    
             // },
             popupOptions: PopupOptions(
                 popupController: tState.popupController,
@@ -102,13 +123,13 @@ class LocationMap extends HookWidget {
                   TripLocation? loc = tState.filteredTriplocations
                       .firstWhereOrNull(
                           (elem) => elem.id == cMarker.locationId);
-
+    
                   if (loc != null) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: FittedBox(
                         child: Container(
-                          color: Colors.white,
+                          color: Theme.of(context).scaffoldBackgroundColor,
                           child: Row(children: [
                             IconButton(
                               icon: loc.isFavourite
@@ -153,17 +174,18 @@ class LocationMap extends HookWidget {
                                           EdgeInsets.zero)),
                                 )
                               ],
-                            )
+                            ),
+                            const SizedBox(width: 15,)
                           ]),
                         ),
                       ),
                     );
                   }
-                  return SizedBox();
+                  return const SizedBox();
                 }),
             markers: tState.mapMarkers,
             maxClusterRadius: 120,
-            size: Size(40, 40)),
+            size: const Size(40, 40)),
       ],
     );
   }

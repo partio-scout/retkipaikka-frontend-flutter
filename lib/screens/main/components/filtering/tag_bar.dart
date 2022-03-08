@@ -12,24 +12,24 @@ class TagBar extends StatelessWidget {
   Widget build(BuildContext context) {
     FilteringState filteringState = context.watch<FilteringState>();
     
-    return Container(
-      child:Align(
-        alignment: Alignment.topLeft,
-        child: Wrap(
-          runSpacing: 5,
-          alignment: WrapAlignment.start,
-          children: [
-          for(AbstractFilter filter in [...filteringState.locationFiltering, ...filteringState.categoryFiltering, ...filteringState.commonFiltering]) ...[
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: FilterTag(filter: filter),
-            ),
-            
-      
-          ]
-      
-        ],),
-      )
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Wrap(
+        runSpacing: 5,
+        alignment: WrapAlignment.start,
+        children: [
+        for(AbstractFilter filter in [...filteringState.locationFiltering, ...filteringState.categoryFiltering, ...filteringState.commonFiltering]) ...[
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: FilterTag(filter: filter,onTagPressed: (tag){
+               context.read<FilteringState>().handleFilterRemove(tag);
+            },),
+          ),
+          
+    
+        ]
+    
+      ],),
     );
   }
 }

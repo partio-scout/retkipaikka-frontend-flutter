@@ -30,20 +30,20 @@ class FilteringApi {
   }
 
   Future<List<GeoArea>> getMunicipalities() async {
-    dynamic response = await municipalityApi.get("/", null);
+    dynamic response = await municipalityApi.get("", null);
     List<dynamic> municipalities = municipalityApi.parseResponse(response);
 
     return jsonToGeoArea(municipalities);
   }
 
   Future<List<GeoArea>> getRegions() async {
-    dynamic response = await regionApi.get("/", null);
+    dynamic response = await regionApi.get("", null);
     List<dynamic> regions = regionApi.parseResponse(response);
     return jsonToGeoArea(regions);
   }
 
   Future<List<Filter>> getFilters() async {
-    dynamic response = await filterApi.get("/", null);
+    dynamic response = await filterApi.get("", null);
     List<dynamic> filters = filterApi.parseResponse(response);
     return jsonToFilter(filters);
   }
@@ -104,7 +104,7 @@ class FilteringApi {
   }
 
   Future<List<Filter>> getCategories() async {
-    dynamic response = await categoryApi.get("/", null);
+    dynamic response = await categoryApi.get("", null);
     List<dynamic> categories = categoryApi.parseResponse(response);
     return jsonToFilter(categories);
   }

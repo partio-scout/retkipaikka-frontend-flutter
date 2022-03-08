@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:retkipaikka_flutter/helpers/api/base_api.dart';
 import 'package:retkipaikka_flutter/helpers/api/image_api.dart';
-import 'package:retkipaikka_flutter/models/admin_model.dart';
+
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -108,7 +108,7 @@ class TripLocationApi extends BaseApi {
     Uri parsedUri = await buildUri("/addNewLocation", {});
     var request = http.MultipartRequest("POST", parsedUri);
     request.fields['object'] = jsonEncode(data);
-    List<String> imgArr = [];
+   
     for (XFile img in images) {
       request.files.add(http.MultipartFile.fromBytes(
           "image", await img.readAsBytes(),

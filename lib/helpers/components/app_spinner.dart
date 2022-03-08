@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 
 class AppSpinner extends StatelessWidget {
   const AppSpinner({
@@ -15,7 +15,7 @@ class AppSpinner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        child: CircularProgressIndicator(),
+        child: const CircularProgressIndicator(),
         width: width,
         height: height,
       ),

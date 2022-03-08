@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
+import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
-
+import 'package:collection/collection.dart';
 class LocationDatasource extends DataTableSource {
   final List<TripLocation> locations;
   final Function(TripLocation) onTap;
-  LocationDatasource({required this.locations, required this.onTap});
+  final List<AbstractFilter> categories;
+  LocationDatasource({required this.locations, required this.onTap,required this.categories});
 
   @override
   DataRow getRow(int index) {
@@ -18,11 +21,18 @@ class LocationDatasource extends DataTableSource {
         DataCell(Text(locations[index].name)),
         DataCell(Text(locations[index].municipality ?? "-")),
         DataCell(Text(locations[index].region)),
-        DataCell(Text(locations[index].category.toString())),
+        DataCell(Text(getCategoryNameById(locations[index].category))),
         DataCell(Text(locations[index].owner ?? "-")),
       ],
     );
   }
+  String getCategoryNameById(int id) {
+   
+    AbstractFilter? category =
+        categories.firstWhereOrNull((element) => element.id == id);
+    return category?.name ?? "-";
+  }
+ 
 
   @override
   // TODO: implement isRowCountApproximate

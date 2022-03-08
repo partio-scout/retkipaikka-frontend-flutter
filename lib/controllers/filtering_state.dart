@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter/foundation.dart';
 import 'package:retkipaikka_flutter/contants.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:retkipaikka_flutter/models/filter_model.dart';
-import 'package:retkipaikka_flutter/models/geo_area_model.dart';
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:collection/collection.dart';
 
@@ -35,6 +34,11 @@ class FilteringState extends ChangeNotifier {
     return Filter(id: -1, type: kfilterType.noFilter, name: "Ei suodattimia");
   }
 
+
+  List<AbstractFilter> regionIdsToFilter(List<dynamic> ids){
+    List<AbstractFilter> geoList = allRegions.where((element) => ids.contains(element.id)).toList();
+    return geoList;
+  }
   List<AbstractFilter> getCommonFiltersForDropdown() {
     return [getInitialCommonFilter(), ...allCommonFilters];
   }
@@ -61,10 +65,10 @@ class FilteringState extends ChangeNotifier {
   }
 
   void addCommonFilter(AbstractFilter filter) {
-    print(filter);
-
-    if (!filterExistsInArray(commonFiltering, filter))
+   
+    if (!filterExistsInArray(commonFiltering, filter)) {
       commonFiltering.add(filter);
+    }
     notifyListeners();
   }
 
@@ -76,8 +80,9 @@ class FilteringState extends ChangeNotifier {
   }
 
   void addLocationFilter(AbstractFilter area) {
-    if (!filterExistsInArray(locationFiltering, area))
+    if (!filterExistsInArray(locationFiltering, area)) {
       locationFiltering.add(area);
+    }
     notifyListeners();
   }
 

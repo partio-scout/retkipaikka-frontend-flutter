@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/screens/app_drawer.dart';
 import 'package:retkipaikka_flutter/screens/app_header.dart';
-import 'package:retkipaikka_flutter/screens/main/front_page_screen.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:provider/provider.dart';
 class AdminMainContainer extends StatelessWidget {
@@ -15,11 +13,14 @@ class AdminMainContainer extends StatelessWidget {
     final tabPage = TabPage.of(context);
     bool isDesktop = Responsive.isDesktop(context);
     return Scaffold(
+        //resizeToAvoidBottomInset: false,
         appBar: const AppHeader(title: "Partion Retkipaikat"),
         //key:context.read<AppState>().mainScaffoldKey,
         endDrawer:  AppDrawer(),
         bottomNavigationBar: TabBar(
-        labelColor: Theme.of(context).primaryColor, 
+        indicatorColor:  Theme.of(context).colorScheme.primary,
+        labelColor: context.select((AppState s )=>s.darkTheme? null:Theme.of(context).primaryColor), 
+       
         physics: const NeverScrollableScrollPhysics(),
         tabs:  [
           Tab(icon: const Icon(Icons.plus_one,),text: isDesktop?"Uudet retkipaikat":null ,),
@@ -51,7 +52,7 @@ class MainContainerSinglePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         //key:context.read<AppState>().mainScaffoldKey,
-        appBar:AppHeader(title: "Partion Retkipaikat"),
+        appBar:const AppHeader(title: "Partion Retkipaikat"),
         endDrawer:  AppDrawer(),
          body: child);
   }

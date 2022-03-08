@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
@@ -15,7 +16,9 @@ class FormParser {
       var geoObj = {"lat": splittedCoords[0], "lng": splittedCoords[1]};
       dataCpy["location_geo"] = geoObj;
     } else {
-      print("GEO IS NOT VALID");
+      if (kDebugMode) {
+        print("GEO IS NOT VALID");
+      }
       return null;
     }
     FilteringState state = context.read<FilteringState>();
@@ -36,7 +39,9 @@ class FormParser {
     }
 
     if (regionId == -1) {
-      print("REGION ID IS NOT VALID");
+      if (kDebugMode) {
+        print("REGION ID IS NOT VALID");
+      }
       return null;
     }
     dataCpy.remove("location_area");

@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:provider/provider.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
@@ -14,16 +13,33 @@ import 'package:retkipaikka_flutter/models/admin_model.dart';
 import 'package:retkipaikka_flutter/routes.dart';
 
 import 'package:routemaster/routemaster.dart';
-//import 'package:flutter_displaymode/flutter_displaymode.dart';
+import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-/*   if (defaultTargetPlatform == TargetPlatform.android && !kIsWeb) {
+  if (defaultTargetPlatform == TargetPlatform.android && !kIsWeb) {
     // Add support for 120hz displays
-    //await FlutterDisplayMode.setHighRefreshRate();
-  } */
-  runApp(const MyApp());
+    try {
+      await FlutterDisplayMode.setHighRefreshRate();
+    } catch (err) {
+      if (kDebugMode) {
+        print(err);
+      }
+    }
+  }
+  bool darkTheme = false;
+  String? themeMode = await SharedPreferencesHelper.getThemeMode();
+  if (themeMode != null) {
+    darkTheme = themeMode == "true";
+  }
+
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => AppState(darkTheme: darkTheme)),
+    ChangeNotifierProvider(create: (context) => FilteringState()),
+    ChangeNotifierProvider(create: (context) => NotificationState()),
+    ChangeNotifierProvider(create: (context) => TripLocationState()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -32,37 +48,46 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => AppState()),
-        ChangeNotifierProvider(create: (context) => FilteringState()),
-        ChangeNotifierProvider(create: (context) => NotificationState()),
-        ChangeNotifierProvider(create: (context) => TripLocationState()),
+    return MaterialApp.router(
+      title: 'Partion retkipaikat',
+      debugShowCheckedModeBanner: false,
+      supportedLocales: const [
+        Locale("fi"),
+        Locale("en"),
+        Locale("se"),
+        Locale("smn")
       ],
-      child: MaterialApp.router(
-        title: 'Partion retkipaikat',
-        debugShowCheckedModeBanner: false,
-        supportedLocales: const [
-          Locale("fi"),
-          Locale("en"),
-          Locale("se"),
-          Locale("smn")
-        ],
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        theme: ThemeData(
-          primarySwatch: createMaterialColor(const Color(0xFF253764)),
-        ),
-        builder: (context, child) {
-          return AppWrapper(child: child);
-        },
-        routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
-          return AppPages.appRoutes(context);
-        }),
-        routeInformationParser: const RoutemasterParser(),
-      ),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      darkTheme: ThemeData.dark().copyWith(
+          appBarTheme: const AppBarTheme()
+              .copyWith(backgroundColor: const Color(0xFF424242)),
+          primaryColor: const Color(0xFF253764),
+          colorScheme: const ColorScheme.dark(
+              primary: Color(0xFF28aae1), secondary: Color(0xFF253764)),
+          primaryColorLight: const Color(0xFF28aae1)),
+      themeMode: context.select((AppState a) {
+        if (a.darkTheme) {
+          return ThemeMode.dark;
+        }
+        return ThemeMode.light;
+      }),
+      theme: ThemeData.light().copyWith(
+          primaryColor: const Color(0xFF253764),
+          colorScheme: const ColorScheme.light(
+            primary: Color(0xFF253764),
+            secondary: Color(0xFF28aae1),
+          ),
+          primaryColorLight: const Color(0xFF28aae1)),
+      builder: (context, child) {
+        return AppWrapper(child: child);
+      },
+      routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
+        return AppPages.appRoutes(context);
+      }),
+      routeInformationParser: const RoutemasterParser(),
     );
   }
 }
@@ -89,7 +114,9 @@ class AppWrapper extends HookWidget {
               await context.read<AppState>().handleAfterLogout();
             }
           }).catchError((err) {
-            print(err);
+            if (kDebugMode) {
+              print(err);
+            }
           }).whenComplete(() {
             isLoading.value = false;
           });
@@ -104,7 +131,7 @@ class AppWrapper extends HookWidget {
             color: Theme.of(context).scaffoldBackgroundColor,
             height: double.infinity,
             width: double.infinity,
-            child: AppSpinner())
+            child: const AppSpinner())
         : child ?? const SizedBox();
   }
 }

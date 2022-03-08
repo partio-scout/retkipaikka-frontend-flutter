@@ -30,20 +30,21 @@ class CustomAutocomplete extends HookWidget {
   Widget build(BuildContext context) {
     var dropdownData = useState<List<AbstractFilter>>(data);
     var controller = useTextEditingController();
-
     useEffect(() {
       controller.text = value ?? "";
+      return null;
     }, [value]);
     // Needs to use state here because wont update the dropdown data after initial load otherwise
     useEffect(() {
       dropdownData.value = data;
+      return null;
     }, [data]);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-            color: Colors.white,
+        SizedBox(
+            //color: Theme.of(context).scaffoldBackgroundColor,
             height: height,
             child: TypeAheadField<AbstractFilter>(
               //initialValue: initialValue,
@@ -56,12 +57,12 @@ class CustomAutocomplete extends HookWidget {
                   autofocus: false,
                   style: DefaultTextStyle.of(context).style,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     labelText: title,
                     errorText: errorText,
                     isDense: true,
                     contentPadding:
-                        EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                        const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                     floatingLabelStyle: floatingLabelStyle,
                     labelStyle: floatingLabelStyle,
                     floatingLabelBehavior: FloatingLabelBehavior.always,

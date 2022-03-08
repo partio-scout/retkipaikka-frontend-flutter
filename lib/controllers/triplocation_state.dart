@@ -5,12 +5,9 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/helpers/api/base_api.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
-import 'package:retkipaikka_flutter/models/geo_area_model.dart';
 
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:retkipaikka_flutter/screens/main/components/map/location_map.dart';
-import 'package:retkipaikka_flutter/screens/main/components/map/location_map.dart';
-import 'package:retkipaikka_flutter/screens/main/components/map/map_container.dart';
 import 'package:collection/collection.dart';
 
 class TripLocationState extends ChangeNotifier {

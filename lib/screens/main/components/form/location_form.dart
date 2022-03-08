@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -26,7 +25,7 @@ import 'package:retkipaikka_flutter/screens/main/components/map/location_map.dar
 class LocationForm extends HookWidget {
   LocationForm({Key? key, this.initialLocation, this.afterFormSave})
       : super(key: key);
-  TripLocationApi tripLocationApi = TripLocationApi();
+  final TripLocationApi tripLocationApi = TripLocationApi();
   final TripLocation? initialLocation;
   final Function()? afterFormSave;
 
@@ -45,6 +44,7 @@ class LocationForm extends HookWidget {
       }
       return null;
     }, [marker]);
+   
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -109,7 +109,7 @@ class LocationForm extends HookWidget {
                 builder: (FormFieldState<dynamic> field) {
                   List<AbstractFilter> categories =
                       filteringState.allCategoryFilters;
-                  print(field.value);
+                  
                   Filter initialFilter = Filter(
                       id: -1, type: kfilterType.noCategory, name: "Ei tyyppiä");
                   return CustomDropdownButton(
@@ -199,7 +199,7 @@ class LocationForm extends HookWidget {
                           readOnly: true,
                           onTap: () {
                             context.read<AppState>().scrollController.animateTo(
-                                150,
+                                200,
                                 duration: const Duration(milliseconds: 50),
                                 curve: Curves.linear);
                           },
@@ -265,6 +265,7 @@ class LocationForm extends HookWidget {
                       }
                     ],
                   ),
+                  activeColor: Theme.of(context).colorScheme.primary,
                   options: filteringState.allCommonFilters.map((filter) {
                     return CustomCheckbox(
                         key: ValueKey(filter.id),
@@ -397,12 +398,13 @@ class LocationForm extends HookWidget {
               ),
               initialLocation != null
                   ? FormBuilderCheckbox(
+                      activeColor: Theme.of(context).colorScheme.primary,
                       contentPadding: EdgeInsets.zero,
                       name: "location_accepted",
                       controlAffinity: ListTileControlAffinity.leading,
-                      title: Padding(
+                      title: const Padding(
                           padding: EdgeInsets.zero,
-                          child: Text("Retkipaikka näkyvissä käyttäjälle")))
+                          child:  Text("Retkipaikka näkyvissä käyttäjälle")))
                   : const SizedBox(),
               FormBuilderField(
                 name: 'location_images',
@@ -421,10 +423,10 @@ class LocationForm extends HookWidget {
           height: 25,
         ),
         MaterialButton(
-          color: Theme.of(context).colorScheme.secondary,
-          child: Text(
+          color: Theme.of(context).primaryColor,
+          child: const Text(
             "Lähetä",
-            style: TextStyle(color: Colors.white),
+            style:  TextStyle(color: Colors.white),
           ),
           onPressed: () async {
             formKey.value.currentState?.save();
@@ -487,7 +489,7 @@ class LocationForm extends HookWidget {
                           "Virhe retkipaikan muokkaamisessa!", context);
                     });
                   } else {
-                    print(parsedFormData);
+                   
                     tripLocationApi
                         .handleTripLocationPost(parsedFormData, images)
                         .then((value) {

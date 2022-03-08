@@ -44,7 +44,7 @@ class LocationForm extends HookWidget {
       }
       return null;
     }, [marker]);
-   
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -76,6 +76,7 @@ class LocationForm extends HookWidget {
               FormBuilderTextField(
                 textCapitalization: TextCapitalization.sentences,
                 name: 'location_name',
+                textInputAction: TextInputAction.none,
                 decoration: const InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     labelText: 'Retkipaikka*',
@@ -109,7 +110,7 @@ class LocationForm extends HookWidget {
                 builder: (FormFieldState<dynamic> field) {
                   List<AbstractFilter> categories =
                       filteringState.allCategoryFilters;
-                  
+
                   Filter initialFilter = Filter(
                       id: -1, type: kfilterType.noCategory, name: "Ei tyyppiä");
                   return CustomDropdownButton(
@@ -214,7 +215,7 @@ class LocationForm extends HookWidget {
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 10),
                               border: const OutlineInputBorder()),
-/*                           validator: FormBuilderValidators.compose(
+                          /*                           validator: FormBuilderValidators.compose(
                             [
                               FormBuilderValidators.required(context,
                                   errorText: "Coordinates are required")
@@ -404,7 +405,7 @@ class LocationForm extends HookWidget {
                       controlAffinity: ListTileControlAffinity.leading,
                       title: const Padding(
                           padding: EdgeInsets.zero,
-                          child:  Text("Retkipaikka näkyvissä käyttäjälle")))
+                          child: Text("Retkipaikka näkyvissä käyttäjälle")))
                   : const SizedBox(),
               FormBuilderField(
                 name: 'location_images',
@@ -426,7 +427,7 @@ class LocationForm extends HookWidget {
           color: Theme.of(context).primaryColor,
           child: const Text(
             "Lähetä",
-            style:  TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
           ),
           onPressed: () async {
             formKey.value.currentState?.save();
@@ -435,6 +436,7 @@ class LocationForm extends HookWidget {
               Map<String, dynamic>? formData =
                   formKey.value.currentState?.value;
               if (formData != null) {
+                FocusScope.of(context).unfocus();
                 formData = Map.from(formData);
                 List<XFile> images = [];
                 if (formData["location_images"] != null) {
@@ -489,7 +491,6 @@ class LocationForm extends HookWidget {
                           "Virhe retkipaikan muokkaamisessa!", context);
                     });
                   } else {
-                   
                     tripLocationApi
                         .handleTripLocationPost(parsedFormData, images)
                         .then((value) {

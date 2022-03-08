@@ -24,8 +24,9 @@ class TripLocationApi extends BaseApi {
     Map<String, dynamic> params = {
       "filter": jsonEncode({
         "where": {"location_accepted": true},
-        "limitedFields": limitedFields
-      })
+        "limitedFields": limitedFields,
+        "order": "location_category ASC"
+      }),
     };
     return await getLocations(params);
   }
@@ -108,7 +109,7 @@ class TripLocationApi extends BaseApi {
     Uri parsedUri = await buildUri("/addNewLocation", {});
     var request = http.MultipartRequest("POST", parsedUri);
     request.fields['object'] = jsonEncode(data);
-   
+
     for (XFile img in images) {
       request.files.add(http.MultipartFile.fromBytes(
           "image", await img.readAsBytes(),

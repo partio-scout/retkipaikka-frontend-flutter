@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:collection/collection.dart';

@@ -10,22 +10,22 @@ class MapHeader extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     TripLocationState tState = context.watch<TripLocationState>();
     return AppBar(
-      leading: IconButton(icon: const Icon(Icons.menu),onPressed:(){
-        
-        tState.drawerButtonClick();
-      } ),
+      leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            tState.drawerButtonClick();
+          }),
       actions: [
+        // SimpleDropdownButton(
+        //     initialValue: "100",
+        //     dropdownData: const ["100", "500", "1000", "Kaikki"],
+        //     //focusColor: Theme.of(context).primaryColor,
+        //     //bgColor: Theme.of(context).primaryColor,
 
-        SimpleDropdownButton(
-            initialValue: "100",
-            dropdownData: const ["100", "500", "1000", "Kaikki"],
-            //focusColor: Theme.of(context).primaryColor,
-            //bgColor: Theme.of(context).primaryColor,
-            
-            onDropdownChange: (value){
-            
-            },
-            ),
+        //     onDropdownChange: (value){
+
+        //     },
+        //     ),
         Padding(
           padding: const EdgeInsets.only(top: 17, right: 20, left: 20),
           child: Text(tState.filteredTriplocations.length.toString()),

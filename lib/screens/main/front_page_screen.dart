@@ -27,41 +27,41 @@ class FrontPageScreen extends HookWidget {
         controller: state.scrollController,
         physics:
             state.scrollEnabled ? null : const NeverScrollableScrollPhysics(),
-        children: [Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const TitleImage(),
-            FilteringComponent(),
-             Padding(
-               padding: padding,
-               child: MapContainer(),
-             ),
-            //CustomImagePicker(),
-            Padding(
-              padding: padding,
-              child: ListTileTheme(
-                dense: true, // Reduces height
-                child: ExpansionTile(
-                    //collapsedIconColor: Colors.black,
-                    iconColor: Theme.of(context).textTheme.bodyText1?.color,
-                    title: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text("Ilmoita Retkipaikka!",
-                          style: TextStyle(fontSize: 25)),
-                    ),
-                    
-                    //collapsedBackgroundColor: Colors.white,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: LocationForm(),
-                      )
-                    ]),
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const TitleImage(),
+              FilteringComponent(),
+              Padding(
+                padding: padding,
+                child: MapContainer(),
               ),
-            )
-          ],
-        )
+              //CustomImagePicker(),
+              Padding(
+                padding: padding,
+                child: ListTileTheme(
+                  dense: true, // Reduces height
+                  child: ExpansionTile(
+                      //collapsedIconColor: Colors.black,
+                      iconColor: Theme.of(context).textTheme.bodyText1?.color,
+                      title: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text("Ilmoita Retkipaikka!",
+                            style: TextStyle(fontSize: 25)),
+                      ),
+
+                      //collapsedBackgroundColor: Colors.white,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15.0),
+                          child: LocationForm(),
+                        )
+                      ]),
+                ),
+              )
+            ],
+          )
         ]);
-        
   }
 }

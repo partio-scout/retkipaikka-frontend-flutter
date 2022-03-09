@@ -14,10 +14,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 class LocationMap extends HookWidget {
   const LocationMap({Key? key}) : super(key: key);
 
-
   int getFlags() {
     if (isMobile()) {
-      return InteractiveFlag.drag  |  InteractiveFlag.pinchZoom;
+      return InteractiveFlag.drag | InteractiveFlag.pinchZoom;
     }
     return InteractiveFlag.all;
   }
@@ -48,20 +47,18 @@ class LocationMap extends HookWidget {
       tState.setMapMarkers(dataList);
       return null;
     }, [tState.filteredTriplocations, tState.selectedMarker]);
-   
+
     return FlutterMap(
       options: MapOptions(
-        
-       // allowPanningOnScrollingParent: context.watch<AppState>().mapPanning,
+        // allowPanningOnScrollingParent: context.watch<AppState>().mapPanning,
         onMapCreated: (c) {
           tState.mapController = c;
-          
         },
-        onTap: (lp,latlng){
-          if(isMobile() && tState.drawerOpen){
+        onTap: (lp, latlng) {
+          if (isMobile() && tState.drawerOpen) {
             tState.closeDrawer();
           }
-          
+
           if (tState.popupController.selectedMarkers.isNotEmpty) {
             tState.popupController.hideAllPopups();
           } else {
@@ -70,10 +67,13 @@ class LocationMap extends HookWidget {
                 width: 50.0,
                 height: 80.0,
                 point: latlng,
-                builder: (ctx) => const Icon(Icons.outlined_flag_outlined,color: Colors.black,)));
+                builder: (ctx) => const Icon(
+                      Icons.outlined_flag_outlined,
+                      color: Colors.black,
+                    )));
           }
         },
-      
+
         //pinchMoveThreshold: 60,
         //pinchZoomThreshold: 60,
 
@@ -82,20 +82,15 @@ class LocationMap extends HookWidget {
         center: LatLng(61.29, 23.45),
         zoom: 8,
       ),
-      
       layers: [
-    
         TileLayerOptions(
           urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
           subdomains: ['a', 'b', 'c'],
           attributionBuilder: (_) {
             return const Text("© OpenStreetMap contributors");
           },
-         
-       
         ),
         MarkerClusterLayerOptions(
-          
             centerMarkerOnClick: false,
             disableClusteringAtZoom: 11,
             builder: ((context, markers) {
@@ -114,7 +109,7 @@ class LocationMap extends HookWidget {
             // onMarkerTap: (item){
             //   ValueKey<String> key = item.key as ValueKey<String>;
             //   print(key);
-    
+
             // },
             popupOptions: PopupOptions(
                 popupController: tState.popupController,
@@ -123,7 +118,7 @@ class LocationMap extends HookWidget {
                   TripLocation? loc = tState.filteredTriplocations
                       .firstWhereOrNull(
                           (elem) => elem.id == cMarker.locationId);
-    
+
                   if (loc != null) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10),
@@ -175,7 +170,9 @@ class LocationMap extends HookWidget {
                                 )
                               ],
                             ),
-                            const SizedBox(width: 15,)
+                            const SizedBox(
+                              width: 15,
+                            )
                           ]),
                         ),
                       ),

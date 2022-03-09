@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
 import 'package:provider/provider.dart';
-import 'package:retkipaikka_flutter/helpers/components/simple_dropdown_button.dart';
 
 class MapHeader extends StatelessWidget with PreferredSizeWidget {
   const MapHeader({Key? key}) : super(key: key);

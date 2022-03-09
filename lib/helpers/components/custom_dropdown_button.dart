@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 
-
 class CustomDropdownButton extends HookWidget {
   final AbstractFilter initialValue;
   final List<AbstractFilter> dropdownData;
@@ -50,8 +49,8 @@ class CustomDropdownButton extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-         // color: bgColor,
-          height: errorText == null? height:height*1.45,
+          // color: bgColor,
+          height: errorText == null ? height : height * 1.45,
           child: DropdownButtonFormField<AbstractFilter>(
             value: dropDownState.value,
             isExpanded: true,
@@ -67,20 +66,20 @@ class CustomDropdownButton extends HookWidget {
                 border: const OutlineInputBorder()),
             icon: const Icon(
               Icons.keyboard_arrow_down_rounded,
-             
             ),
             elevation: 16,
 
             //dropdownColor: bgColor,
 
             hint: Text(dropDownState.value.name),
-            focusColor: Theme.of(context).scaffoldBackgroundColor, // const TextStyle(color: Colors.white),
+            focusColor: Theme.of(context)
+                .scaffoldBackgroundColor, // const TextStyle(color: Colors.white),
             //underline: Container(height: 2, color: bgColor),
             onChanged: disabled
                 ? null
                 : (AbstractFilter? newValue) {
                     //print(newValue);
-                   
+
                     if (newValue != null) {
                       dropDownState.value = newValue;
                       if (onDropdownChange != null) {

@@ -55,7 +55,7 @@ class CustomAutocomplete extends HookWidget {
                   enabled: !disabled,
                   controller: controller,
                   autofocus: false,
-                  style: TextStyle(fontSize: 17),
+                  style: const TextStyle(fontSize: 17),
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     labelText: title,

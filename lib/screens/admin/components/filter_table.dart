@@ -3,7 +3,6 @@ import 'package:retkipaikka_flutter/contants.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/filtering_api.dart';
 import 'package:retkipaikka_flutter/helpers/components/base_dialog.dart';
-import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:retkipaikka_flutter/screens/admin/components/abstract_filter_datasource.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

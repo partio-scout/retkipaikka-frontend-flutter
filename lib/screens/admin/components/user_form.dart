@@ -100,9 +100,9 @@ class UserForm extends HookWidget {
                       formKey.value.currentState?.value;
                   if (formData != null) {
                     Map<String, dynamic> data = Map.from(formData);
-                    data["user"] ={
-                      "admin_id":user.id,
-                      "new_user":data["new_user"]
+                    data["user"] = {
+                      "admin_id": user.id,
+                      "new_user": data["new_user"]
                     };
                     data.remove("new_user");
                     //Navigator.of(context).pop();

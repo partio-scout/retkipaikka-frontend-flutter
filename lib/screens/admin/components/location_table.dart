@@ -4,7 +4,6 @@ import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/triplocation_api.dart';
 import 'package:retkipaikka_flutter/helpers/components/base_dialog.dart';
-import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:retkipaikka_flutter/screens/admin/components/location_datasource.dart';

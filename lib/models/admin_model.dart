@@ -20,40 +20,37 @@ class AdminUser {
       required this.roles,
       required this.regions,
       required this.newUser,
-      required this.createdAt
-      });
+      required this.createdAt});
 
   factory AdminUser.fromJson(Map<String, dynamic> json) {
-   
     return AdminUser(
-        id: json["userId"],
-        token: json["id"],
-        notifications: json["user"]["notifications"],
-        userNotifications: json["user"]["user_notifications"],
-        username: json["user"]["username"],
-        email: json["user"]["email"],
-        roles: json["user"]["roles"],
-        regions: json["user"]["regions"],
-        newUser: json["user"]["new_user"],
-        createdAt: json["user"]["createdAt"],);
+      id: json["userId"],
+      token: json["id"],
+      notifications: json["user"]["notifications"],
+      userNotifications: json["user"]["user_notifications"],
+      username: json["user"]["username"],
+      email: json["user"]["email"],
+      roles: json["user"]["roles"],
+      regions: json["user"]["regions"],
+      newUser: json["user"]["new_user"],
+      createdAt: json["user"]["createdAt"],
+    );
   }
 
-
-   static Map<String,dynamic> toJson(AdminUser user) {
-      return {
-        "userId":user.id,
-        "id":user.token,
-        "user":{
-          "notifications":user.notifications,
-          "user_notifications":user.userNotifications,
-          "username":user.username,
-          "email":user.email,
-          "roles":user.roles,
-          "regions":user.regions,
-          "new_user":user.newUser,
-          "createdAt":user.createdAt
-        }
-      };
-   
+  static Map<String, dynamic> toJson(AdminUser user) {
+    return {
+      "userId": user.id,
+      "id": user.token,
+      "user": {
+        "notifications": user.notifications,
+        "user_notifications": user.userNotifications,
+        "username": user.username,
+        "email": user.email,
+        "roles": user.roles,
+        "regions": user.regions,
+        "new_user": user.newUser,
+        "createdAt": user.createdAt
+      }
+    };
   }
 }

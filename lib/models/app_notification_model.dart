@@ -18,7 +18,7 @@ class AppNotification extends DateParser {
   String? linkTextSa;
 
   String? linkUrl;
- 
+
   bool displayInFrontPage;
   bool displayInList;
 
@@ -39,9 +39,8 @@ class AppNotification extends DateParser {
       this.linkTextSa,
       this.linkTextSv,
       this.linkUrl,
-      updatedAt
-      }) : super(updatedAt: updatedAt);
-
+      updatedAt})
+      : super(updatedAt: updatedAt);
 
   factory AppNotification.fromJson(Map<String, dynamic> json) {
     return AppNotification(
@@ -61,7 +60,6 @@ class AppNotification extends DateParser {
         linkUrl: json["link_url"],
         displayInFrontPage: json["display_frontpage"] ?? false,
         displayInList: json["enabled"] ?? false,
-        updatedAt: json["updatedAt"]
-        );
+        updatedAt: json["updatedAt"]);
   }
 }

@@ -32,7 +32,6 @@ class LoginForm extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FormBuilderTextField(
-                  
                   name: "email",
                   decoration: const InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,

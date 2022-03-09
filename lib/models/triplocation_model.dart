@@ -1,4 +1,3 @@
-
 import 'package:latlong2/latlong.dart';
 import 'package:retkipaikka_flutter/models/date_parser.dart';
 
@@ -22,27 +21,27 @@ class TripLocation extends DateParser {
   List<String> images;
   bool isFavourite;
 
-  TripLocation(
-      {required this.id,
-      required this.category,
-      required this.region,
-      required this.name,
-      required this.geo,
-      required this.accepted,
-      required this.owner,
-      this.municipality,
-      this.description,
-      this.pricing,
-      this.website,
-      this.phone,
-      this.mail,
-      this.editorName,
-      this.filters = const [],
-      this.images = const [],
-      this.isFavourite = false,
-      createdAt,
-      updatedAt,
-      }):super(createdAt:createdAt,updatedAt: updatedAt);
+  TripLocation({
+    required this.id,
+    required this.category,
+    required this.region,
+    required this.name,
+    required this.geo,
+    required this.accepted,
+    required this.owner,
+    this.municipality,
+    this.description,
+    this.pricing,
+    this.website,
+    this.phone,
+    this.mail,
+    this.editorName,
+    this.filters = const [],
+    this.images = const [],
+    this.isFavourite = false,
+    createdAt,
+    updatedAt,
+  }) : super(createdAt: createdAt, updatedAt: updatedAt);
 
   factory TripLocation.fromJson(Map<String, dynamic> json) {
     return TripLocation(
@@ -62,37 +61,23 @@ class TripLocation extends DateParser {
         editorName: json["location_editor"],
         createdAt: json["createdAt"],
         updatedAt: json["updatedAt"],
-        filters: json["filters"] != null? json["filters"].cast<int>() : [],
-        images: json["images"] != null?json["images"].cast<String>() : []);
+        filters: json["filters"] != null ? json["filters"].cast<int>() : [],
+        images: json["images"] != null ? json["images"].cast<String>() : []);
   }
 
   LatLng getCoordinates() {
     return LatLng(geo["lat"], geo["lng"]);
   }
 
-
-  String getCoordinatesStringified(){
-    return geo["lat"].toString()+", "+geo["lng"].toString();
+  String getCoordinatesStringified() {
+    return geo["lat"].toString() + ", " + geo["lng"].toString();
   }
 
-
-
-
-  void toggleFavourite(){
-      isFavourite = !isFavourite;
+  void toggleFavourite() {
+    isFavourite = !isFavourite;
   }
 
-  void setFavourite(bool value){
+  void setFavourite(bool value) {
     isFavourite = value;
   }
-
-
-
-
-
-
-
-
-
- 
 }

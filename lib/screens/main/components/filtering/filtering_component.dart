@@ -26,7 +26,7 @@ class FilteringComponent extends HookWidget {
     // List<AbstractFilter> allCategoryFilters = [];
     // List<AbstractFilter> allRegions = [];
     // List<AbstractFilter> allMunicipalities = [];
-    
+
     useEffect(() {
       Future.microtask(() async {
         if (filteringState.allMunicipalities.isEmpty ||
@@ -56,8 +56,6 @@ class FilteringComponent extends HookWidget {
       });
       return null;
     }, []);
-
-    
 
     return SizedBox(
       width: double.infinity,
@@ -95,7 +93,7 @@ class FilteringComponent extends HookWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CustomDropdownButton(
-                    height: 50,
+                      height: 50,
                       bgColor: Colors.white,
                       focusColor: Colors.white,
                       title: "Tyyppi",
@@ -115,7 +113,7 @@ class FilteringComponent extends HookWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CustomDropdownButton(
-                    height: 50,
+                      height: 50,
                       bgColor: Colors.white,
                       focusColor: Colors.white,
                       title: "Suodattimet",

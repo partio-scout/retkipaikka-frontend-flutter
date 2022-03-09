@@ -1,11 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 
 class BaseDialog extends StatelessWidget {
-  const BaseDialog({Key? key,required this.children})
-      : super(key: key);
+  const BaseDialog({Key? key, required this.children}) : super(key: key);
   final List<Widget> children;
   @override
   Widget build(BuildContext context) {

@@ -13,12 +13,12 @@ class NotificationsScreen extends HookWidget {
   NotificationsScreen({Key? key}) : super(key: key);
   final NotificationApi notificationApi = NotificationApi();
 
-  Future<void> refresh(BuildContext context){
-       return notificationApi.getNotificationsToDisplay().then((value) {
-          context.read<NotificationState>().setNotifications(value);
-        }).catchError((err) {
-          AlertHelper.displayErrorAlert(err, context);
-        });
+  Future<void> refresh(BuildContext context) {
+    return notificationApi.getNotificationsToDisplay().then((value) {
+      context.read<NotificationState>().setNotifications(value);
+    }).catchError((err) {
+      AlertHelper.displayErrorAlert(err, context);
+    });
   }
 
   @override
@@ -47,23 +47,28 @@ class NotificationsScreen extends HookWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Ilmoitukset",style:TextStyle(fontSize: 20)),
-                IconButton(onPressed:(){
-                  isLoading.value = true;
-                  refresh(context).whenComplete(() => isLoading.value = false);
-                }, icon: Icon(Icons.refresh))
+                const Text("Ilmoitukset", style: TextStyle(fontSize: 20)),
+                IconButton(
+                    onPressed: () {
+                      isLoading.value = true;
+                      refresh(context)
+                          .whenComplete(() => isLoading.value = false);
+                    },
+                    icon: Icon(Icons.refresh))
               ],
             ),
             const SizedBox(
               height: 50,
             ),
-            Stack(children: [
-              
-              NotificationList(notifications: notifications),
-              
-              isLoading.value?const Padding(padding: EdgeInsets.only(top:30), child: AppSpinner()):const SizedBox(),
-            ],)
-            
+            Stack(
+              children: [
+                NotificationList(notifications: notifications),
+                isLoading.value
+                    ? const Padding(
+                        padding: EdgeInsets.only(top: 30), child: AppSpinner())
+                    : const SizedBox(),
+              ],
+            )
           ],
         ),
       ),

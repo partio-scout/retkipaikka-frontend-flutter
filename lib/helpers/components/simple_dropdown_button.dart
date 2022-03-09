@@ -28,11 +28,13 @@ class SimpleDropdownButton extends HookWidget {
         color: Colors.white,
       ),
       elevation: 16,
-    
-      dropdownColor: context.select((AppState a) => a.darkTheme?null: Theme.of(context).primaryColor),
-      
-     // focusColor: Theme.of(context).appBarTheme.backgroundColor,
-      hint: Text(dropDownState.value,style: const TextStyle(color: Colors.white)),
+
+      dropdownColor: context.select(
+          (AppState a) => a.darkTheme ? null : Theme.of(context).primaryColor),
+
+      // focusColor: Theme.of(context).appBarTheme.backgroundColor,
+      hint: Text(dropDownState.value,
+          style: const TextStyle(color: Colors.white)),
       underline: Container(height: 2),
       onChanged: (String? newValue) {
         dropDownState.value = newValue!;
@@ -40,15 +42,11 @@ class SimpleDropdownButton extends HookWidget {
           onDropdownChange!(newValue);
         }
       },
-      
+
       items: dropdownData.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: Text(
-            
-            value,      
-            style:const TextStyle(color: Colors.white)   
-          ),
+          child: Text(value, style: const TextStyle(color: Colors.white)),
         );
       }).toList(),
     );

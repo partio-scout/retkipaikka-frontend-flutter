@@ -14,19 +14,19 @@ class AdminDatasource extends DataTableSource {
         onTap(data[index]);
       },
       cells: [
-        //DataCell(Text(locations[index].id)),    
+        //DataCell(Text(locations[index].id)),
         DataCell(Text(data[index].email)),
         DataCell(Text(data[index].username)),
-        DataCell(Text(notificationToStr(data[index].userNotifications) )),
-        DataCell(Text(notificationToStr(data[index].notifications) )),
-        DataCell(Text(data[index].roles.map((e) => e["name"]).toList().join(", "))),
+        DataCell(Text(notificationToStr(data[index].userNotifications))),
+        DataCell(Text(notificationToStr(data[index].notifications))),
+        DataCell(
+            Text(data[index].roles.map((e) => e["name"]).toList().join(", "))),
       ],
     );
   }
 
-
-  String notificationToStr(String noti){
-    switch(noti){
+  String notificationToStr(String noti) {
+    switch (noti) {
       case "none":
         return "Ei mitään";
       case "all":
@@ -37,6 +37,7 @@ class AdminDatasource extends DataTableSource {
         return "-";
     }
   }
+
   @override
   // TODO: implement isRowCountApproximate
   bool get isRowCountApproximate => false;

@@ -3,16 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-
 class ImageSlider extends HookWidget {
   ImageSlider({Key? key, required this.images}) : super(key: key);
 
   final List<String> images;
 
   final CarouselController controller = CarouselController();
-  
+
   List<Widget> getImageSliders(List<dynamic> images, BuildContext context) {
- 
     final List<Widget> imageSliders = images
         .map(
           (item) => Container(
@@ -91,7 +89,8 @@ class ImageSlider extends HookWidget {
                 child: Container(
                   width: 12.0,
                   height: 12.0,
-                  margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 4.0),
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: (Theme.of(context).brightness == Brightness.dark

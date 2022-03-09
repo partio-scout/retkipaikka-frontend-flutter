@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:retkipaikka_flutter/controllers/notification_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/notification_api.dart';
-import 'package:retkipaikka_flutter/helpers/components/dynamic_layout_wrapper.dart';
-import 'package:retkipaikka_flutter/helpers/components/form_info_text.dart';
 import 'package:retkipaikka_flutter/helpers/components/notification_card.dart';
-import 'package:retkipaikka_flutter/helpers/responsive.dart';
 
 import 'package:retkipaikka_flutter/models/app_notification_model.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -71,10 +66,10 @@ class NotificationBuilder extends HookWidget {
                       return notificationApi.getAllNotifications();
                     }).then((value) {
                       AlertHelper.displaySuccessAlert(
-                          "Ilmoituksen muokkaus onnistui!", context,cb: (){
-                            Navigator.of(context).pop();
-                          });
-                      
+                          "Ilmoituksen muokkaus onnistui!", context, cb: () {
+                        Navigator.of(context).pop();
+                      });
+
                       context
                           .read<NotificationState>()
                           .setAdminNotifications(value);
@@ -83,24 +78,26 @@ class NotificationBuilder extends HookWidget {
                     });
                   }
                 },
-                onDelete: initialData?.id != null?(id){
-                    notificationApi
-                        .deleteNotification(id.toString())
-                        .then((value) {
-                      return notificationApi.getAllNotifications();
-                    }).then((value) {
-                      AlertHelper.displaySuccessAlert(
-                          "Ilmoituksen poisto onnistui!", context,cb: (){
+                onDelete: initialData?.id != null
+                    ? (id) {
+                        notificationApi
+                            .deleteNotification(id.toString())
+                            .then((value) {
+                          return notificationApi.getAllNotifications();
+                        }).then((value) {
+                          AlertHelper.displaySuccessAlert(
+                              "Ilmoituksen poisto onnistui!", context, cb: () {
                             Navigator.of(context).pop();
                           });
-                      
-                      context
-                          .read<NotificationState>()
-                          .setAdminNotifications(value);
-                    }).catchError((err) {
-                      AlertHelper.displayErrorAlert(err, context);
-                    });
-                }:null,
+
+                          context
+                              .read<NotificationState>()
+                              .setAdminNotifications(value);
+                        }).catchError((err) {
+                          AlertHelper.displayErrorAlert(err, context);
+                        });
+                      }
+                    : null,
               )
             ],
           );

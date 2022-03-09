@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/user_api.dart';
 import 'package:retkipaikka_flutter/helpers/components/base_dialog.dart';
-import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/models/admin_model.dart';
 import 'package:retkipaikka_flutter/models/role_model.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

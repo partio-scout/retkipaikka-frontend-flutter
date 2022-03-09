@@ -5,8 +5,9 @@ import 'package:retkipaikka_flutter/screens/login/components/login_form.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:retkipaikka_flutter/screens/login/components/register_form.dart';
 import 'package:routemaster/routemaster.dart';
+
 class LoginScreen extends HookWidget {
-  const LoginScreen({Key? key,required this.isLoginPage}) : super(key: key);
+  const LoginScreen({Key? key, required this.isLoginPage}) : super(key: key);
   final bool isLoginPage;
   @override
   Widget build(BuildContext context) {
@@ -16,36 +17,34 @@ class LoginScreen extends HookWidget {
     return Padding(
       padding: padding,
       child: SingleChildScrollView(
-          child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 50,),
-                isLoginPage
-                    ? LoginForm()
-                    :  RegisterForm(),
-                const SizedBox(height: 25),
-                InkWell(
-                  onTap: () {
-                    if(isLoginPage){
-                      Routemaster.of(context).push(UserRoutes.signUp);
-                    }else{
-                      Routemaster.of(context).push(UserRoutes.login);
-                    }
-                  },
-                  child: Text(
-                    isLoginPage
-                        ? "Pyydä käyttöoikeuksia hallintasivulle"
-                        : "Takaisin kirjautumiseen",
-                    style:
-                        const TextStyle(decoration: TextDecoration.underline),
-                  ),
+        child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 50,
+              ),
+              isLoginPage ? LoginForm() : RegisterForm(),
+              const SizedBox(height: 25),
+              InkWell(
+                onTap: () {
+                  if (isLoginPage) {
+                    Routemaster.of(context).push(UserRoutes.signUp);
+                  } else {
+                    Routemaster.of(context).push(UserRoutes.login);
+                  }
+                },
+                child: Text(
+                  isLoginPage
+                      ? "Pyydä käyttöoikeuksia hallintasivulle"
+                      : "Takaisin kirjautumiseen",
+                  style: const TextStyle(decoration: TextDecoration.underline),
                 ),
-                const SizedBox(height: 25)
-              ]),
-        ),
-      
+              ),
+              const SizedBox(height: 25)
+            ]),
+      ),
     );
   }
 }

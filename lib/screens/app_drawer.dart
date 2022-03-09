@@ -78,15 +78,15 @@ class AppDrawer extends StatelessWidget {
                         aState.closeDrawer(context);
                       }),
                 ],
-                 generateListTile(
-                      context: context,
-                      padding: const EdgeInsets.only(top: 5, bottom: 5),
-                      leadingIcon: Icons.notifications_outlined,
-                      titleText: "Ilmoitukset",
-                      onTap: () {
-                        Routemaster.of(context).push(UserRoutes.notifications);
-                        aState.closeDrawer(context);
-                      }),
+                generateListTile(
+                    context: context,
+                    padding: const EdgeInsets.only(top: 5, bottom: 5),
+                    leadingIcon: Icons.notifications_outlined,
+                    titleText: "Ilmoitukset",
+                    onTap: () {
+                      Routemaster.of(context).push(UserRoutes.notifications);
+                      aState.closeDrawer(context);
+                    }),
               ],
             ),
           ),
@@ -105,12 +105,13 @@ class AppDrawer extends StatelessWidget {
                       leadingWidget: SizedBox(
                           width: 35,
                           child: Switch(
-                              activeColor: Theme.of(context).colorScheme.primary,
+                              activeColor:
+                                  Theme.of(context).colorScheme.primary,
                               //activeTrackColor:
-                                //  Theme.of(context).primaryColor,
+                              //  Theme.of(context).primaryColor,
                               value: aState.darkTheme,
                               onChanged: (bool value) {
-                               aState.setDarkTheme(!aState.darkTheme);
+                                aState.setDarkTheme(!aState.darkTheme);
                               }))),
                   aState.isLoggedIn && aState.currentUser != null
                       ? generateListTile(
@@ -120,15 +121,16 @@ class AppDrawer extends StatelessWidget {
                           context: context,
                           onTap: () async {
                             userApi.logout(aState.currentUser).then((res) {
-                            
                               return aState.handleAfterLogout();
                             }).then((res) {
-                             // BuildContext sContext = Scaffold.of(context).context;
-                              AlertHelper.displaySuccessAlert("Uloskirjautuminen onnistui!", context,cb: (){
-                                Routemaster.of(context).push(UserRoutes.locations);
-                              });                                                          
+                              // BuildContext sContext = Scaffold.of(context).context;
+                              AlertHelper.displaySuccessAlert(
+                                  "Uloskirjautuminen onnistui!", context,
+                                  cb: () {
+                                Routemaster.of(context)
+                                    .push(UserRoutes.locations);
+                              });
                             }).catchError((err) {
-                             
                               AlertHelper.displayErrorAlert(err, context);
                             });
 

@@ -50,7 +50,7 @@ class FrontPageScreen extends HookWidget {
                         child: Text("Ilmoita Retkipaikka!",
                             style: TextStyle(fontSize: 25)),
                       ),
-    
+
                       //collapsedBackgroundColor: Colors.white,
                       children: [
                         Padding(

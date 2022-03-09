@@ -21,7 +21,12 @@ class NewLocationNotifications extends HookWidget {
   Widget build(BuildContext context) {
     var groupValue = useState<String>(user?.notifications ?? "none");
     var selectedRegions = useState<List<AbstractFilter>>(user?.regions != null
-        ? user!.regions.map((e) => GeoArea(id: e["region_id"], type: kfilterType.region, name: e["object_name"])).toList()
+        ? user!.regions
+            .map((e) => GeoArea(
+                id: e["region_id"],
+                type: kfilterType.region,
+                name: e["object_name"]))
+            .toList()
         : []);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,27 +101,29 @@ class NewLocationNotifications extends HookWidget {
               selectedRegions.value = tempList;
             },
           ),
-          
         ],
-        const SizedBox(height: 15,),
+        const SizedBox(
+          height: 15,
+        ),
         MaterialButton(
           color: Theme.of(context).primaryColor,
           onPressed: (groupValue.value == "select" &&
-                  selectedRegions.value.isEmpty )
+                  selectedRegions.value.isEmpty)
               ? null
               : () async {
-                  List<int> regs = groupValue.value == "select"?
-                      selectedRegions.value.map((elem) => elem.id).toList():[];
+                  List<int> regs = groupValue.value == "select"
+                      ? selectedRegions.value.map((elem) => elem.id).toList()
+                      : [];
                   userApi
                       .modifyUserNotifications(user!.id, groupValue.value, regs)
                       .then((value) {
-                    return userApi.fetchSingleUser(user!.id,user!.token);
+                    return userApi.fetchSingleUser(user!.id, user!.token);
                   }).then((value) {
                     context.read<AppState>().handleAfterUserUpdate(value);
                   }).then(((value) {
-                    AlertHelper.displaySuccessAlert("Ilmoitusasetukset päivitetty", context);
-                  }))
-                  .catchError((err) {
+                    AlertHelper.displaySuccessAlert(
+                        "Ilmoitusasetukset päivitetty", context);
+                  })).catchError((err) {
                     AlertHelper.displayErrorAlert(err, context);
                   });
                 },

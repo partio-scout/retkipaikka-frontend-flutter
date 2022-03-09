@@ -40,21 +40,16 @@ class DrawerLocationList extends StatelessWidget {
     List<AbstractFilter> categories =
         context.read<FilteringState>().allCategoryFilters;
 
-    List<TripLocation> favourites = tState.filteredTriplocations
-        .where((element) => element.isFavourite)
-        .toList();
-
     return ListView.builder(
       shrinkWrap: true,
       controller: ScrollController(),
-      key:const PageStorageKey(0),
+      key: const PageStorageKey(0),
       itemCount: tState.filteredTriplocations.length,
       itemBuilder: ((context, index) {
         TripLocation location = tState.filteredTriplocations[index];
         return ListTile(
           subtitle: Text(getCategoryNameById(location.category, categories)),
           title: Text(location.name),
-          
           trailing: IconButton(
             icon: location.isFavourite
                 ? const Icon(Icons.star)
@@ -71,54 +66,5 @@ class DrawerLocationList extends StatelessWidget {
         );
       }),
     );
-
   }
-/*   @override
-  Widget build(BuildContext context) {
-    TripLocationState tState = context.watch<TripLocationState>();
-    List<AbstractFilter> categories =
-        context.read<FilteringState>().allCategoryFilters;
-
-    List<TripLocation> favourites = tState.filteredTriplocations
-        .where((element) => element.isFavourite)
-        .toList();
-    return ListView(controller: ScrollController(), children: [
-      const SizedBox(
-        height: 10,
-      ),
-      if (favourites.isNotEmpty) ...[
-        const Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 15),
-          child:  Text("Suosikit", style: TextStyle(fontSize: 20)),
-        ),
-        ...favourites.map((location) {
-          return ListTile(
-            title: Text(location.name),
-            onTap: () {
-              context.read<TripLocationState>().setSelectedLocation(location);
-            },
-          );
-        }),
-        const Divider(),
-        const SizedBox(
-          height: 10,
-        )
-      ],
-      ...categories
-          .map((category) {
-            List<Widget> returnList = [];
-            List<TripLocation> categoryLocations = tState.filteredTriplocations
-                .where((element) => element.category == category.id)
-                .toList();
-            if (categoryLocations.isNotEmpty) {
-              returnList.addAll(
-                  buildByCategory(categoryLocations, category.name, context));
-            }
-            return returnList;
-          })
-          .expand((element) => element)
-          .toList()
-    ]);
-  } 
-  */
 }

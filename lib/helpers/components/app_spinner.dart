@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class AppSpinner extends StatelessWidget {
   const AppSpinner({
     Key? key,

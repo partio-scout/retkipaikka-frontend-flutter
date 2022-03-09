@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:retkipaikka_flutter/controllers/notification_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/components/dynamic_layout_wrapper.dart';
 import 'package:retkipaikka_flutter/helpers/components/form_info_text.dart';
-import 'package:retkipaikka_flutter/helpers/components/notification_card.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 
 import 'package:retkipaikka_flutter/models/app_notification_model.dart';
@@ -13,12 +11,15 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 import 'package:retkipaikka_flutter/screens/admin/components/notification_builder.dart';
 
-
 class NotificationForm extends HookWidget {
-  const NotificationForm({Key? key, required this.notification, required this.onSubmit,this.onDelete})
+  const NotificationForm(
+      {Key? key,
+      required this.notification,
+      required this.onSubmit,
+      this.onDelete})
       : super(key: key);
   final AppNotification? notification;
-  final Function(Map<String,dynamic>) onSubmit;
+  final Function(Map<String, dynamic>) onSubmit;
   final Function(int)? onDelete;
 
   @override
@@ -35,26 +36,25 @@ class NotificationForm extends HookWidget {
           height: 30,
         ),
         FormBuilder(
-            initialValue: notification != null? {
-              "title": notification!.title,
-              "title_sv": notification!.titleSv,
-              "title_sa": notification!.titleSa,
-              "title_en": notification!.titleEn,
-              "text": notification!.text,
-              "text_sv": notification!.textSv,
-              "text_sa": notification!.textSa,
-              "text_en": notification!.textEn,
-              "link_text": notification!.linkText,
-              "link_text_sv": notification!.linkTextSv,
-              "link_text_sa": notification!.linkTextSa,
-              "link_text_en": notification!.linkTextEn,
-              "link_url": notification!.linkUrl,
-              "enabled": notification!.displayInList,
-              "display_frontpage": notification!.displayInFrontPage
-            }:{
-              "enabled":false,
-              "display_frontpage":false
-            },
+            initialValue: notification != null
+                ? {
+                    "title": notification!.title,
+                    "title_sv": notification!.titleSv,
+                    "title_sa": notification!.titleSa,
+                    "title_en": notification!.titleEn,
+                    "text": notification!.text,
+                    "text_sv": notification!.textSv,
+                    "text_sa": notification!.textSa,
+                    "text_en": notification!.textEn,
+                    "link_text": notification!.linkText,
+                    "link_text_sv": notification!.linkTextSv,
+                    "link_text_sa": notification!.linkTextSa,
+                    "link_text_en": notification!.linkTextEn,
+                    "link_url": notification!.linkUrl,
+                    "enabled": notification!.displayInList,
+                    "display_frontpage": notification!.displayInFrontPage
+                  }
+                : {"enabled": false, "display_frontpage": false},
             key: formKey.value,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,8 +70,7 @@ class NotificationForm extends HookWidget {
                           children: [
                             FormBuilderTextField(
                               onChanged: (val) {
-                                
-                                if (val != null ) {
+                                if (val != null) {
                                   NotificationBuilderState s =
                                       context.read<NotificationBuilderState>();
                                   s.notification.title = val;
@@ -497,9 +496,8 @@ class NotificationForm extends HookWidget {
                       contentPadding: EdgeInsets.symmetric(horizontal: 10),
                       border: OutlineInputBorder()),
                   validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.url( context,
-                    requireProtocol: true,
-                        errorText: "Url must be valid")
+                    FormBuilderValidators.url(context,
+                        requireProtocol: true, errorText: "Url must be valid")
                   ]),
                 ),
                 const FormInfoText(text: "Kirjoita linkin osoite"),
@@ -552,8 +550,8 @@ class NotificationForm extends HookWidget {
                   Map<String, dynamic>? formData =
                       formKey.value.currentState?.value;
                   if (formData != null) {
-                    Map<String,dynamic> temp = Map.from(formData);
-                    if(notification?.id != null){
+                    Map<String, dynamic> temp = Map.from(formData);
+                    if (notification?.id != null) {
                       temp["notification_id"] = notification!.id.toString();
                     }
                     onSubmit(temp);
@@ -562,7 +560,6 @@ class NotificationForm extends HookWidget {
                     // onSubmit(formData);
                   }
                 } else {
-                  
                   AlertHelper.displayErrorAlert(
                       "Lomake ei ole täytetty oikein!", context);
                 }
@@ -575,23 +572,23 @@ class NotificationForm extends HookWidget {
             const SizedBox(
               width: 20,
             ),
-             if (onDelete != null && notification != null && notification?.id != null) 
+            if (onDelete != null &&
+                notification != null &&
+                notification?.id != null)
               MaterialButton(
                 color: Colors.red,
                 onPressed: () {
                   AlertHelper.displayConfirmAlert(
                       "Haluatko poistaa ilmoituksen?", context, onConfirm: () {
-                  
-                      Navigator.of(context).pop();
-                      onDelete!(notification!.id!);
-                    
+                    Navigator.of(context).pop();
+                    onDelete!(notification!.id!);
                   }, onCancel: () {
                     Navigator.of(context).pop();
                   });
                 },
                 child:
                     const Text("Poista", style: TextStyle(color: Colors.white)),
-              ) 
+              )
           ],
         ),
       ],

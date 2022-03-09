@@ -11,28 +11,31 @@ class SharedPreferencesHelper {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setString(key, value);
   }
-  static Future<bool> saveLogin(AdminUser user) async{
-    if(user.token == null){
+
+  static Future<bool> saveLogin(AdminUser user) async {
+    if (user.token == null) {
       return false;
     }
-    return saveToPrefs(kUserKey, jsonEncode(AdminUser.toJson(user))).then((value) => saveToPrefs(kAccessToken, user.token!));
+    return saveToPrefs(kUserKey, jsonEncode(AdminUser.toJson(user)))
+        .then((value) => saveToPrefs(kAccessToken, user.token!));
   }
 
-  static Future<bool> deleteLogin() async{
-    return deleteFromPrefs(kAccessToken).then((value) => deleteFromPrefs(kUserKey));
+  static Future<bool> deleteLogin() async {
+    return deleteFromPrefs(kAccessToken)
+        .then((value) => deleteFromPrefs(kUserKey));
   }
 
-  static Future<String?> getSavedToken() async{
+  static Future<String?> getSavedToken() async {
     return await getStringFromPrefs(kAccessToken);
   }
 
-  static Future<String?> getThemeMode() async{
+  static Future<String?> getThemeMode() async {
     return await getStringFromPrefs(kThemeMode);
   }
 
-  static Future<AdminUser?> getSavedUser() async{
+  static Future<AdminUser?> getSavedUser() async {
     String? value = await getStringFromPrefs(kUserKey);
-    if(value != null){
+    if (value != null) {
       return AdminUser.fromJson(jsonDecode(value));
     }
     return null;

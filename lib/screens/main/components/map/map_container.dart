@@ -36,9 +36,9 @@ class MapContainer extends HookWidget {
       return null;
     }, []);
 
-    double windowHeight = MediaQuery.of(context).size.height-100;
+    double windowHeight = MediaQuery.of(context).size.height - 100;
     bool isDesktop = Responsive.isDesktop(context);
-    windowHeight = isDesktop? windowHeight:windowHeight*0.85;
+    windowHeight = isDesktop ? windowHeight : windowHeight * 0.85;
     return MouseRegion(
       onEnter: (event) {
         AppState state = context.read<AppState>();
@@ -62,9 +62,9 @@ class MapContainer extends HookWidget {
                     drawerScrimColor: Colors.transparent,
                     appBar: const MapHeader(),
                     body: Stack(
-                      children: const[
+                      children: const [
                         SizedBox(width: double.infinity, child: LocationMap()),
-                         MapDrawer(),
+                        MapDrawer(),
                         //isLoading.value?const AppSpinner():const SizedBox(),
                       ],
                     )),

@@ -1,7 +1,8 @@
-import 'package:intl/intl.dart';
-import 'package:latlong2/latlong.dart';
 
-class TripLocation {
+import 'package:latlong2/latlong.dart';
+import 'package:retkipaikka_flutter/models/date_parser.dart';
+
+class TripLocation extends DateParser {
   String id;
   int category;
   String region;
@@ -16,8 +17,7 @@ class TripLocation {
   String? phone;
   String? mail;
   String? editorName;
-  String? createdAt;
-  String? updatedAt;
+
   List<int> filters;
   List<String> images;
   bool isFavourite;
@@ -37,12 +37,12 @@ class TripLocation {
       this.phone,
       this.mail,
       this.editorName,
-      this.createdAt,
-      this.updatedAt,
       this.filters = const [],
       this.images = const [],
-      this.isFavourite = false
-      });
+      this.isFavourite = false,
+      createdAt,
+      updatedAt,
+      }):super(createdAt:createdAt,updatedAt: updatedAt);
 
   factory TripLocation.fromJson(Map<String, dynamic> json) {
     return TripLocation(
@@ -75,15 +75,7 @@ class TripLocation {
     return geo["lat"].toString()+", "+geo["lng"].toString();
   }
 
-  String? createdAtParsed() {
-    if (createdAt == null) return null;
-    return DateFormat("dd.MM.yyyy").format(DateTime.parse(createdAt!));
-  }
 
-  String? updatedAtParsed() {
-    if (updatedAt == null) return null;
-    return DateFormat("dd.MM.yyyy").format(DateTime.parse(updatedAt!));
-  }
 
 
   void toggleFavourite(){
@@ -93,4 +85,14 @@ class TripLocation {
   void setFavourite(bool value){
     isFavourite = value;
   }
+
+
+
+
+
+
+
+
+
+ 
 }

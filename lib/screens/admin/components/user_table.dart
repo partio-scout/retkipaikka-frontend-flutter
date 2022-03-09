@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/user_api.dart';
+import 'package:retkipaikka_flutter/helpers/components/base_dialog.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/models/admin_model.dart';
 import 'package:retkipaikka_flutter/models/role_model.dart';
@@ -80,92 +81,48 @@ class UserTableDialog extends StatelessWidget {
   final List<Role> allRoles;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: Responsive.isDesktop(context)
-          ? const EdgeInsets.symmetric(horizontal: 200, vertical: 50)
-          : const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Material(
-            //type: MaterialType.transparency,
-            child: SingleChildScrollView(
-              child: Stack(alignment: Alignment.topRight, children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Käyttäjän muokkaus",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: const Text(
-                            "Jos kirjautuminen on sallittu, käyttäjä pääsee kirjautumaan mutta ei pysty muokkaamaan mitään. Käyttäjällä pitää siis olla aina rooli, jotta pystyy muokkaamaan. HUOM. superadmin saa kaikki mahdolliset oikeudet, admin saa muokkaamisoikeudet retkipaikkoihin ja suodattimiin."),
-                      ),
-                      UserForm(
-                        user: user,
-                        allRoles: allRoles,
-                        onSubmit: (data) {
-                          userApi
-                              .modifyUser(user.id, data)
-                              .then((value) {
-                                AlertHelper.displaySuccessAlert(
-                                    "Käyttäjän muokkaus onnistui", context,
-                                    cb: () {});
-                              })
-                              .then((value) => onRefresh())
-                              .catchError((err) {
-                                AlertHelper.displayErrorAlert(err, context);
-                              });
-                        },
-                        onDelete: (uuid) {
-                          userApi
-                              .deleteUserById(uuid)
-                              .then((value) {
-                                AlertHelper.displaySuccessAlert(
-                                    "Käyttäjän poisto onnistui", context,
-                                    cb: () {
-                                  Navigator.of(context).pop();
-                                });
-                              })
-                              .then((value) => onRefresh())
-                              .catchError((err) {
-                                AlertHelper.displayErrorAlert(err, context);
-                              });
-                        },
-                      )
-                    ],
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.red.withOpacity(.7),
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    height: 33,
-                    width: 33,
-                    child: const Icon(
-                      Icons.close,
-                      size: 18,
-                      color: Colors.white,
-                    ),
-                  ),
-                )
-              ]),
-            ),
-          ),
-        ],
+    return BaseDialog(children: [
+      const Text(
+        "Käyttäjän muokkaus",
+        style: TextStyle(fontSize: 20),
       ),
-    );
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: const Text(
+            "Jos kirjautuminen on sallittu, käyttäjä pääsee kirjautumaan mutta ei pysty muokkaamaan mitään. Käyttäjällä pitää siis olla aina rooli, jotta pystyy muokkaamaan. HUOM. superadmin saa kaikki mahdolliset oikeudet, admin saa muokkaamisoikeudet retkipaikkoihin ja suodattimiin."),
+      ),
+      UserForm(
+        user: user,
+        allRoles: allRoles,
+        onSubmit: (data) {
+          userApi
+              .modifyUser(user.id, data)
+              .then((value) {
+                AlertHelper.displaySuccessAlert(
+                    "Käyttäjän muokkaus onnistui", context, cb: () {
+                  Navigator.of(context).pop();
+                });
+              })
+              .then((value) => onRefresh())
+              .catchError((err) {
+                AlertHelper.displayErrorAlert(err, context);
+              });
+        },
+        onDelete: (uuid) {
+          userApi
+              .deleteUserById(uuid)
+              .then((value) {
+                AlertHelper.displaySuccessAlert(
+                    "Käyttäjän poisto onnistui", context, cb: () {
+                  Navigator.of(context).pop();
+                });
+              })
+              .then((value) => onRefresh())
+              .catchError((err) {
+                AlertHelper.displayErrorAlert(err, context);
+              });
+        },
+      )
+    ]);
   }
 }

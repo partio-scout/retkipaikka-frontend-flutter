@@ -75,6 +75,7 @@ class FilteringComponent extends HookWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CustomAutocomplete(
+                    height: 50,
                     data: [
                       ...filteringState.allMunicipalities,
                       ...filteringState.allRegions
@@ -94,6 +95,7 @@ class FilteringComponent extends HookWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CustomDropdownButton(
+                    height: 50,
                       bgColor: Colors.white,
                       focusColor: Colors.white,
                       title: "Tyyppi",
@@ -113,6 +115,7 @@ class FilteringComponent extends HookWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CustomDropdownButton(
+                    height: 50,
                       bgColor: Colors.white,
                       focusColor: Colors.white,
                       title: "Suodattimet",

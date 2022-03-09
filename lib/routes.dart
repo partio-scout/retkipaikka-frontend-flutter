@@ -9,6 +9,7 @@ import 'package:retkipaikka_flutter/screens/login/login_screen.dart';
 import 'package:retkipaikka_flutter/screens/main/front_page_screen.dart';
 import 'package:retkipaikka_flutter/screens/main_container.dart';
 import 'package:retkipaikka_flutter/screens/notifications/notification_screen.dart';
+
 import 'package:routemaster/routemaster.dart';
 import 'package:provider/provider.dart';
 
@@ -44,8 +45,8 @@ class AppPages {
             child: MainContainerSinglePage(child: FrontPageScreen()));
       },
       UserRoutes.notifications: (routeData) {
-        return const CustomMaterialPage(
-            child: MainContainerSinglePage(child: NotificationScreen()));
+        return CustomMaterialPage(
+            child: MainContainerSinglePage(child:NotificationsScreen()));
       },
       UserRoutes.login: (routeData) {
         return const CustomMaterialPage(
@@ -94,7 +95,7 @@ class AppPages {
       },
       AdminRoutes.adminNotifications: (routeData) {
         return privateRoute(
-            const CustomMaterialPage(child: AdminNotificationsScreen()),
+             CustomMaterialPage(child: AdminNotificationsScreen()),
             context);
       },
       AdminRoutes.adminSettings: (routeData) {

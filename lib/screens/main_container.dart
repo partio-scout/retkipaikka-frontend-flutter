@@ -59,8 +59,7 @@ class AdminMainContainer extends StatelessWidget {
             for (final stack in tabPage.stacks)
               GestureDetector(
                   onTap: () {
-                    print("TAP");
-                    FocusScope.of(context).unfocus();
+                    FocusScope.of(context).requestFocus(FocusNode());
                   },
                   child: PageStackNavigator(stack: stack)),
           ],
@@ -81,8 +80,7 @@ class MainContainerSinglePage extends StatelessWidget {
         endDrawer: AppDrawer(),
         body: GestureDetector(
             onTap: () {
-              print("TAP");
-              FocusScope.of(context).unfocus();
+              FocusScope.of(context).requestFocus(FocusNode());
             },
             child: child));
   }

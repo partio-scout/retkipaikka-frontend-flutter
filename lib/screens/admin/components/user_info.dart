@@ -71,8 +71,7 @@ class InfoForm extends HookWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FormBuilderTextField(
-                  textCapitalization: TextCapitalization.sentences,
+                FormBuilderTextField(               
                   name: "email",
                   decoration: const InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,

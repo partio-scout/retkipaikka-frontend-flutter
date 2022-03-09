@@ -105,7 +105,7 @@ class UserForm extends HookWidget {
                       "new_user":data["new_user"]
                     };
                     data.remove("new_user");
-                    Navigator.of(context).pop();
+                    //Navigator.of(context).pop();
                     onSubmit(data);
                   }
                 } else {

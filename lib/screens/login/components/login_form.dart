@@ -32,7 +32,7 @@ class LoginForm extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FormBuilderTextField(
-                  textCapitalization: TextCapitalization.sentences,
+                  
                   name: "email",
                   decoration: const InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -88,6 +88,7 @@ class LoginForm extends HookWidget {
               Map<String, dynamic>? formData =
                   formKey.value.currentState?.value;
               if (formData != null) {
+                FocusScope.of(context).requestFocus(FocusNode());
                 userApi.login(formData).then((res) {
                   return context.read<AppState>().handleAfterLogin(res);
                 }).then((value) {

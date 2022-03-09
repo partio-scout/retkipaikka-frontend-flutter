@@ -166,6 +166,7 @@ class FilterForm extends HookWidget {
                 formKey.value.currentState?.save();
                 if (formKey.value.currentState != null &&
                     formKey.value.currentState!.validate()) {
+                  FocusScope.of(context).requestFocus(FocusNode());
                   Map<String, dynamic>? formData =
                       formKey.value.currentState?.value;
                   if (formData != null) {

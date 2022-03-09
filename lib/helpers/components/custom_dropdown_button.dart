@@ -51,7 +51,7 @@ class CustomDropdownButton extends HookWidget {
       children: [
         SizedBox(
          // color: bgColor,
-          height: height,
+          height: errorText == null? height:height*1.45,
           child: DropdownButtonFormField<AbstractFilter>(
             value: dropDownState.value,
             isExpanded: true,

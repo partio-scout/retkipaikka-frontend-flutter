@@ -45,7 +45,7 @@ class CustomAutocomplete extends HookWidget {
       children: [
         SizedBox(
             //color: Theme.of(context).scaffoldBackgroundColor,
-            height: height,
+            height: errorText == null ? height : height * 1.45,
             child: TypeAheadField<AbstractFilter>(
               //initialValue: initialValue,
 
@@ -55,14 +55,14 @@ class CustomAutocomplete extends HookWidget {
                   enabled: !disabled,
                   controller: controller,
                   autofocus: false,
-                  style: DefaultTextStyle.of(context).style,
+                  style: TextStyle(fontSize: 17),
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     labelText: title,
                     errorText: errorText,
                     isDense: true,
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 10),
                     floatingLabelStyle: floatingLabelStyle,
                     labelStyle: floatingLabelStyle,
                     floatingLabelBehavior: FloatingLabelBehavior.always,

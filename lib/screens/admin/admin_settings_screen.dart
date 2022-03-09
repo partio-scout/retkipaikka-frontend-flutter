@@ -17,8 +17,8 @@ class AdminSettingsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     EdgeInsets padding = Responsive.isDesktop(context)
-        ? const EdgeInsets.only(left: 100, right: 100, top: 30)
-        : const EdgeInsets.only(left: 10, right: 10, top: 30);
+        ? const EdgeInsets.only(left: 100, right: 100, top: 40)
+        : const EdgeInsets.only(left: 10, right: 10, top: 40);
 
     AdminUser? user = context.select((AppState s) => s.currentUser);
     useFetchFilters(context);

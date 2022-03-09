@@ -36,8 +36,8 @@ class AdminFiltersScreen extends HookWidget {
     var isLoading = useState<bool>(false);
     FilteringState fState = context.watch<FilteringState>();
     EdgeInsets padding = Responsive.isDesktop(context)
-        ? const EdgeInsets.only(left: 100, right: 100, top: 20)
-        : const EdgeInsets.only(left: 10, right: 10, top: 20);
+        ? const EdgeInsets.only(left: 100, right: 100, top: 15)
+        : const EdgeInsets.only(left: 10, right: 10, top: 15);
     useFetchFilters(context, isLoading: isLoading);
     bool isSuperAdmin = useCheckHasUserRights(context);
     return ListView(

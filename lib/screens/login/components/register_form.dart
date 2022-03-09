@@ -24,7 +24,7 @@ class RegisterForm extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FormBuilderTextField(
-                  textCapitalization: TextCapitalization.sentences,
+                  
                   name: "email",
                   decoration: const InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -113,6 +113,7 @@ class RegisterForm extends HookWidget {
               Map<String, dynamic>? formData =
                   formKey.value.currentState?.value;
               if (formData != null) {
+                FocusScope.of(context).requestFocus(FocusNode());
                 userApi.register(formData).then((res) {
                   AlertHelper.displaySuccessAlert(
                       "Rekisteröityminen onnistui!", context);

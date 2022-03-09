@@ -28,12 +28,13 @@ class LocationForm extends HookWidget {
   final TripLocationApi tripLocationApi = TripLocationApi();
   final TripLocation? initialLocation;
   final Function()? afterFormSave;
-
+  final FocusNode focusNode = FocusNode(skipTraversal: true);
   @override
   Widget build(BuildContext context) {
     FilteringState filteringState = context.watch<FilteringState>();
     var formKey =
         useState<GlobalKey<FormBuilderState>>(GlobalKey<FormBuilderState>());
+
     CustomMarker? marker = context.watch<TripLocationState>().selectedMarker;
     useEffect(() {
       if (formKey.value.currentState != null && marker != null) {
@@ -317,7 +318,6 @@ class LocationForm extends HookWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FormBuilderTextField(
-                          textCapitalization: TextCapitalization.sentences,
                           name: 'location_website',
                           decoration: const InputDecoration(
                               floatingLabelBehavior:
@@ -347,7 +347,6 @@ class LocationForm extends HookWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FormBuilderTextField(
-                          textCapitalization: TextCapitalization.sentences,
                           name: 'location_mail',
                           decoration: const InputDecoration(
                               floatingLabelBehavior:
@@ -436,7 +435,7 @@ class LocationForm extends HookWidget {
               Map<String, dynamic>? formData =
                   formKey.value.currentState?.value;
               if (formData != null) {
-                FocusScope.of(context).unfocus();
+                FocusScope.of(context).requestFocus(FocusNode());
                 formData = Map.from(formData);
                 List<XFile> images = [];
                 if (formData["location_images"] != null) {
@@ -507,6 +506,7 @@ class LocationForm extends HookWidget {
                 }
               }
             } else {
+              FocusScope.of(context).requestFocus(FocusNode());
               AlertHelper.displayErrorAlert(
                   "Lomake ei ole täytetty oikein!", context);
             }

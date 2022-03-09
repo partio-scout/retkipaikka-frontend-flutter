@@ -23,9 +23,12 @@ class TitleImage extends StatelessWidget {
           ),
 
           const Center(
-            child: Text(
-              "Partion Retkipaikat",
-              style: TextStyle(color: Colors.white, fontSize: 50),
+            child: Padding(
+              padding:  EdgeInsets.only(left: 5),
+              child: Text(
+                "Partion Retkipaikat",
+                style: TextStyle(color: Colors.white, fontSize: 50),
+              ),
             ),
           ),
         ],

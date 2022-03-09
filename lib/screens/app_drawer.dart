@@ -45,7 +45,7 @@ class AppDrawer extends StatelessWidget {
                   ),
                   const SizedBox(height: 25),
                   const Divider(),
-                  const SizedBox(height: 35),
+                  const SizedBox(height: 15),
                 ] else
                   const SizedBox(),
                 if (aState.isLoggedIn) ...[
@@ -77,7 +77,16 @@ class AppDrawer extends StatelessWidget {
                         Routemaster.of(context).push(UserRoutes.login);
                         aState.closeDrawer(context);
                       }),
-                ]
+                ],
+                 generateListTile(
+                      context: context,
+                      padding: const EdgeInsets.only(top: 5, bottom: 5),
+                      leadingIcon: Icons.notifications_outlined,
+                      titleText: "Ilmoitukset",
+                      onTap: () {
+                        Routemaster.of(context).push(UserRoutes.notifications);
+                        aState.closeDrawer(context);
+                      }),
               ],
             ),
           ),

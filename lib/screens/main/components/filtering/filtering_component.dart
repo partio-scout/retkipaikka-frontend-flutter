@@ -73,7 +73,7 @@ class FilteringComponent extends HookWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CustomAutocomplete(
-                    height: 50,
+                    height: 48,
                     data: [
                       ...filteringState.allMunicipalities,
                       ...filteringState.allRegions
@@ -127,7 +127,7 @@ class FilteringComponent extends HookWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 5, left: 10, right: 10),
+                padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                 child: MaterialButton(
                   padding: EdgeInsets.zero,
                   height: 50,

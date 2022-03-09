@@ -7,6 +7,7 @@ class SharedPreferencesHelper {
   static const kUserKey = "RETKIPAIKKA_USER";
   static const kAccessToken = "RETKIPAIKKA_TOKEN";
   static const kThemeMode = "RETKIPAIKKA_THEME";
+  static const kUserFavourites = "RETKIPAIKKA_FAVOURITES";
   static Future<bool> saveToPrefs(String key, String value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setString(key, value);
@@ -18,6 +19,31 @@ class SharedPreferencesHelper {
     }
     return saveToPrefs(kUserKey, jsonEncode(AdminUser.toJson(user)))
         .then((value) => saveToPrefs(kAccessToken, user.token!));
+  }
+
+  static Future<List<dynamic>?> getUserFavourites() async {
+    String? val = await getStringFromPrefs(kUserFavourites);
+    if (val != null) {
+      return jsonDecode(val);
+    }
+    return null;
+  }
+
+  static Future<bool> addUserFavourite(String id) async {
+    List<dynamic> currentFavourites = await getUserFavourites() ?? [];
+    currentFavourites.add(id);
+    String encoded = jsonEncode(currentFavourites);
+    return saveToPrefs(kUserFavourites, encoded);
+  }
+
+  static Future<bool> removeUserFavourite(String id) async {
+    List<dynamic> currentFavourites = await getUserFavourites() ?? [];
+
+    currentFavourites =
+        currentFavourites.where((element) => element != id).toList();
+
+    String encoded = jsonEncode(currentFavourites);
+    return saveToPrefs(kUserFavourites, encoded);
   }
 
   static Future<bool> deleteLogin() async {

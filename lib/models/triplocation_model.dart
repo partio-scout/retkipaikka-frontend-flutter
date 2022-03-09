@@ -1,4 +1,5 @@
 import 'package:latlong2/latlong.dart';
+import 'package:retkipaikka_flutter/helpers/shared_preferences_helper.dart';
 import 'package:retkipaikka_flutter/models/date_parser.dart';
 
 class TripLocation extends DateParser {
@@ -73,11 +74,14 @@ class TripLocation extends DateParser {
     return geo["lat"].toString() + ", " + geo["lng"].toString();
   }
 
-  void toggleFavourite() {
+  Future<bool> toggleFavourite() async {
+    bool currentFav = isFavourite;
     isFavourite = !isFavourite;
-  }
 
-  void setFavourite(bool value) {
-    isFavourite = value;
+    if (currentFav) {
+      return SharedPreferencesHelper.removeUserFavourite(id);
+    } else {
+      return SharedPreferencesHelper.addUserFavourite(id);
+    }
   }
 }

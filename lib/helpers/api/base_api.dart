@@ -10,7 +10,7 @@ class BaseApi {
   //192.168.0.3 // use computer if if debugging with real device
   //10.0.2.2 // android emulator
 
-  static const baseUrl = "http://192.168.0.4:3000/api";
+  static const baseUrl = "https://retkipaikka-backend.herokuapp.com/api";
 
   static const Map<String, String> defaultHeaders = {
     HttpHeaders.contentTypeHeader: "application/json"

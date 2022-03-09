@@ -4,6 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/helpers/api/base_api.dart';
+import 'package:retkipaikka_flutter/helpers/shared_preferences_helper.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
@@ -57,7 +58,16 @@ class TripLocationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setLocations(List<TripLocation> locList) {
+  void setLocations(List<TripLocation> locList) async {
+    List<dynamic>? favouriteIds =
+        await SharedPreferencesHelper.getUserFavourites();
+    if (favouriteIds != null) {
+      for (TripLocation loc in locList) {
+        if (favouriteIds.contains(loc.id)) {
+          loc.isFavourite = true;
+        }
+      }
+    }
     allTripLocations = locList;
     filteredTriplocations = locList;
     notifyListeners();
@@ -160,8 +170,8 @@ class TripLocationState extends ChangeNotifier {
     //}
   }
 
-  void toggleFavourite(TripLocation location) {
-    location.toggleFavourite();
+  void toggleFavourite(TripLocation location) async {
+    await location.toggleFavourite();
     notifyListeners();
   }
 }

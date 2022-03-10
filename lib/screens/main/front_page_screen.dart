@@ -40,6 +40,7 @@ class FrontPageScreen extends HookWidget {
     useEffect(() {
       Future.microtask(() async {
         NotificationApi notificationApi = ApiService().notificationApi;
+
         notificationApi.getNotificationForFrontpage().then((value) {
           if (value != null) {
             showFlash(
@@ -59,7 +60,7 @@ class FrontPageScreen extends HookWidget {
                   child: FlashBar(
                     title: Text(value.getTranslatedTitle(context)),
                     content: Text(value.getTranslatedText(context)),
-                    showProgressIndicator: true,
+                    //showProgressIndicator: false,
                     actions: [
                       InkWell(
                         child: const Text("..."),

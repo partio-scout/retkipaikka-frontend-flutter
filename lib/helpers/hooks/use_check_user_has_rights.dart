@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:retkipaikka_flutter/contants.dart';
+import 'package:retkipaikka_flutter/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/models/admin_model.dart';

@@ -71,7 +71,7 @@ class CustomDropdownButton extends HookWidget {
 
             //dropdownColor: bgColor,
 
-            hint: Text(dropDownState.value.name),
+            hint: Text(dropDownState.value.getTranslatedName(context)),
             focusColor: Theme.of(context)
                 .scaffoldBackgroundColor, // const TextStyle(color: Colors.white),
             //underline: Container(height: 2, color: bgColor),
@@ -90,7 +90,7 @@ class CustomDropdownButton extends HookWidget {
             items: newDropdownDataState.value
                 .map<DropdownMenuItem<AbstractFilter>>((AbstractFilter value) {
               return DropdownMenuItem<AbstractFilter>(
-                  value: value, child: Text(value.name));
+                  value: value, child: Text(value.getTranslatedName(context)));
             }).toList(),
           ),
         ),

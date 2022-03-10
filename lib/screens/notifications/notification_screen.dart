@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/controllers/notification_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/notification_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/app_spinner.dart';
 import 'package:retkipaikka_flutter/helpers/components/notification_list.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/models/app_notification_model.dart';
 import 'package:provider/provider.dart';
@@ -11,10 +13,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 class NotificationsScreen extends HookWidget {
   NotificationsScreen({Key? key}) : super(key: key);
-  final NotificationApi notificationApi = NotificationApi();
+  final NotificationApi notificationApi = ApiService().notificationApi;
 
   Future<void> refresh(BuildContext context) {
-    return notificationApi.getNotificationsToDisplay().then((value) {
+    return notificationApi.getNotificationsForList().then((value) {
       context.read<NotificationState>().setNotifications(value);
     }).catchError((err) {
       AlertHelper.displayErrorAlert(err, context);
@@ -47,14 +49,14 @@ class NotificationsScreen extends HookWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Ilmoitukset", style: TextStyle(fontSize: 20)),
+                Text("Ilmoitukset".t(context), style: const TextStyle(fontSize: 20)),
                 IconButton(
                     onPressed: () {
                       isLoading.value = true;
                       refresh(context)
                           .whenComplete(() => isLoading.value = false);
                     },
-                    icon: Icon(Icons.refresh))
+                    icon:const Icon(Icons.refresh))
               ],
             ),
             const SizedBox(

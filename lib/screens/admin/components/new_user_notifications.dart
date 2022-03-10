@@ -4,11 +4,13 @@ import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/user_api.dart';
 import 'package:provider/provider.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/models/admin_model.dart';
 
 class NewUserNotifications extends HookWidget {
   NewUserNotifications({Key? key, required this.user}) : super(key: key);
-  final UserApi userApi = UserApi();
+  final UserApi userApi = ApiService().userApi;
   final AdminUser? user;
   @override
   Widget build(BuildContext context) {
@@ -16,12 +18,12 @@ class NewUserNotifications extends HookWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Ilmoitukset uusista käyttäjistä",
-          style: TextStyle(fontSize: 20),
+         Text(
+          "Ilmoitukset uusista käyttäjistä".t(context),
+          style: const TextStyle(fontSize: 20),
         ),
         ListTile(
-          title: const Text("Ei ilmoituksia"),
+          title:  Text("Ei ilmoituksia".t(context)),
           leading: Radio<String>(
             value: "none",
             groupValue: groupValue.value,
@@ -34,7 +36,7 @@ class NewUserNotifications extends HookWidget {
           ),
         ),
         ListTile(
-          title: const Text("Kaikki ilmoitukset"),
+          title:  Text("Kaikki ilmoitukset".t(context)),
           leading: Radio<String>(
             value: "all",
             groupValue: groupValue.value,
@@ -61,14 +63,14 @@ class NewUserNotifications extends HookWidget {
               context.read<AppState>().handleAfterUserUpdate(value);
             }).then(((value) {
               AlertHelper.displaySuccessAlert(
-                  "Ilmoitusasetukset päivitetty", context);
+                  "Ilmoitusasetukset päivitetty!", context);
             })).catchError((err) {
               AlertHelper.displayErrorAlert(err, context);
             });
           },
-          child: const Text(
-            "Tallenna",
-            style: TextStyle(color: Colors.white),
+          child:  Text(
+            "Tallenna".t(context),
+            style: const TextStyle(color: Colors.white),
           ),
         ),
       ],

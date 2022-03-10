@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:retkipaikka_flutter/contants.dart';
+import 'package:retkipaikka_flutter/constants.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/triplocation_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_autocomplete.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_dropdown_button.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_image_picker.dart';
 import 'package:retkipaikka_flutter/helpers/components/dynamic_layout_wrapper.dart';
 import 'package:retkipaikka_flutter/helpers/components/form_info_text.dart';
 import 'package:retkipaikka_flutter/helpers/form_parser.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:provider/provider.dart';
@@ -25,10 +27,9 @@ import 'package:retkipaikka_flutter/screens/main/components/map/location_map.dar
 class LocationForm extends HookWidget {
   LocationForm({Key? key, this.initialLocation, this.afterFormSave})
       : super(key: key);
-  final TripLocationApi tripLocationApi = TripLocationApi();
+  final TripLocationApi tripLocationApi = ApiService().triplocationApi;
   final TripLocation? initialLocation;
   final Function()? afterFormSave;
-  final FocusNode focusNode = FocusNode(skipTraversal: true);
   @override
   Widget build(BuildContext context) {
     FilteringState filteringState = context.watch<FilteringState>();
@@ -45,7 +46,7 @@ class LocationForm extends HookWidget {
       }
       return null;
     }, [marker]);
-
+    //Locale currentLocale = context.select((AppState a) => a.appLocale,);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -78,16 +79,16 @@ class LocationForm extends HookWidget {
                 textCapitalization: TextCapitalization.sentences,
                 name: 'location_name',
                 textInputAction: TextInputAction.none,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    labelText: 'Retkipaikka*',
-                    hintText: "Esimerkkipaikka",
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                    border: OutlineInputBorder()),
+                    labelText: 'Retkipaikka'.t(context) + "*",
+                    hintText: "Esimerkkipaikka".t(context),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                    border: const OutlineInputBorder()),
                 validator: FormBuilderValidators.compose(
                   [
                     FormBuilderValidators.required(context,
-                        errorText: "Name is required")
+                        errorText: "Nimi on pakollinen kenttä!".t(context))
                   ],
                 ),
               ),
@@ -102,7 +103,7 @@ class LocationForm extends HookWidget {
                     (val) {
                       //AbstractFilter? filter = val as AbstractFilter?;
                       if (val == null || val == -1) {
-                        return "Category is required";
+                        return "Kategoria on pakollinen kenttä!".t(context);
                       }
                       return null;
                     }
@@ -113,13 +114,15 @@ class LocationForm extends HookWidget {
                       filteringState.allCategoryFilters;
 
                   Filter initialFilter = Filter(
-                      id: -1, type: kfilterType.noCategory, name: "Ei tyyppiä");
+                      id: -1,
+                      type: kfilterType.noCategory,
+                      name: "Ei tyyppiä".t(context));
                   return CustomDropdownButton(
                       height: 50,
                       bgColor: Colors.white,
                       focusColor: Colors.white,
                       floatingLabelStyle: null,
-                      title: "Tyyppi*",
+                      title: "Tyyppi".t(context) + "*",
                       disabled: categories.isEmpty,
                       onDropdownChange: (AbstractFilter value) {
                         field.didChange(value.id);
@@ -156,7 +159,8 @@ class LocationForm extends HookWidget {
                                 if (val == null ||
                                     filteringState.findAreaFilterByName(val) ==
                                         null) {
-                                  return "Location is required";
+                                  return "Sijainti on pakollinen kenttä!"
+                                      .t(context);
                                 }
                                 return null;
                               }
@@ -173,7 +177,7 @@ class LocationForm extends HookWidget {
                               value: field.value,
                               disabled: false,
                               height: 50,
-                              title: "Sijainti*",
+                              title: "Sijainti".t(context) + "*",
                               errorText: field.errorText,
                               clearAfterSelect: false,
                               onValueSelect: (AbstractFilter value) {
@@ -208,8 +212,8 @@ class LocationForm extends HookWidget {
                           decoration: InputDecoration(
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
-                              labelText: 'Koordinaatit*',
-                              hintText: "Koordinaatit",
+                              labelText: 'Koordinaatit'.t(context) + "*",
+                              hintText: "Koordinaatit".t(context),
                               errorStyle: TextStyle(
                                 color: Theme.of(context).errorColor,
                               ),
@@ -235,11 +239,11 @@ class LocationForm extends HookWidget {
                 textCapitalization: TextCapitalization.sentences,
                 maxLines: 5,
                 name: 'location_description',
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    labelText: 'Kuvaus paikasta',
-                    hintText: "Kuvaus",
-                    border: OutlineInputBorder()),
+                    labelText: 'Kuvaus paikasta'.t(context),
+                    hintText: "Kuvaus".t(context),
+                    border: const OutlineInputBorder()),
               ),
               const FormInfoText(text: "Kirjoita kuvaus retkipaikasta"),
               const SizedBox(height: 25),
@@ -247,11 +251,11 @@ class LocationForm extends HookWidget {
                 textCapitalization: TextCapitalization.sentences,
                 maxLines: 5,
                 name: 'location_pricing',
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    labelText: 'Vuokrahintatiedot',
-                    hintText: "Tiedot",
-                    border: OutlineInputBorder()),
+                    labelText: 'Vuokrahintatiedot'.t(context),
+                    hintText: "Tiedot".t(context),
+                    border: const OutlineInputBorder()),
               ),
               const FormInfoText(text: "Kirjoita hintatietoja, jos niitä on"),
               const SizedBox(height: 25),
@@ -261,7 +265,8 @@ class LocationForm extends HookWidget {
                     [
                       (val) {
                         if (val == null || val.isEmpty) {
-                          return "At least one feature must be selected";
+                          return "Vähintään yksi ominaisuus pitää olla valittuna!"
+                              .t(context);
                         }
                         return null;
                       }
@@ -271,7 +276,7 @@ class LocationForm extends HookWidget {
                   options: filteringState.allCommonFilters.map((filter) {
                     return CustomCheckbox(
                         key: ValueKey(filter.id),
-                        text: filter.name,
+                        text: filter.getTranslatedName(context),
                         value: filter.id);
                   }).toList()),
               const FormInfoText(text: "Valitse retkipaikkaa kuvaavat asiat"),
@@ -288,18 +293,20 @@ class LocationForm extends HookWidget {
                         FormBuilderTextField(
                           textCapitalization: TextCapitalization.sentences,
                           name: 'location_owner',
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
-                              labelText: 'Omistaja/Yhteystieto*',
-                              hintText: "Esimerkkiomistaja",
+                              labelText:
+                                  'Omistaja/Yhteystieto'.t(context) + '*',
+                              hintText: "Esimerkkiomistaja".t(context),
                               contentPadding:
                                   EdgeInsets.symmetric(horizontal: 10),
                               border: OutlineInputBorder()),
                           validator: FormBuilderValidators.compose(
                             [
                               FormBuilderValidators.required(context,
-                                  errorText: "Owner is required")
+                                  errorText: "Omistaja on pakollinen kenttä"
+                                      .t(context))
                             ],
                           ),
                         ),
@@ -319,18 +326,20 @@ class LocationForm extends HookWidget {
                       children: [
                         FormBuilderTextField(
                           name: 'location_website',
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
-                              labelText: 'Verkkosivu',
+                              labelText: 'Verkkosivu'.t(context),
                               hintText: "www.retkipaikka.fi",
                               contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
-                              border: OutlineInputBorder()),
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              border: const OutlineInputBorder()),
                           validator: FormBuilderValidators.compose(
                             [
                               FormBuilderValidators.url(context,
-                                  errorText: "Url must be valid!")
+                                  errorText:
+                                      "Osoitteen pitää olla validi url osoite!"
+                                          .t(context))
                             ],
                           ),
                         ),
@@ -348,18 +357,20 @@ class LocationForm extends HookWidget {
                       children: [
                         FormBuilderTextField(
                           name: 'location_mail',
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
-                              labelText: 'Sähköposti',
+                              labelText: 'Sähköposti'.t(context),
                               hintText: "example@ex.com",
                               contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
-                              border: OutlineInputBorder()),
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              border: const OutlineInputBorder()),
                           validator: FormBuilderValidators.compose(
                             [
                               FormBuilderValidators.email(context,
-                                  errorText: "Email must be valid!")
+                                  errorText:
+                                      "Sähköpostin pitää olla oikean muotoinen!"
+                                          .t(context))
                             ],
                           ),
                         ),
@@ -378,14 +389,14 @@ class LocationForm extends HookWidget {
                         FormBuilderTextField(
                           textCapitalization: TextCapitalization.sentences,
                           name: 'location_phone',
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
-                              labelText: 'Puhelinnumero',
+                              labelText: 'Puhelinnumero'.t(context),
                               hintText: "0441234568",
                               contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
-                              border: OutlineInputBorder()),
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              border: const OutlineInputBorder()),
                         ),
                         const FormInfoText(text: "Kirjoita puhelinnumero"),
                       ],
@@ -402,9 +413,10 @@ class LocationForm extends HookWidget {
                       contentPadding: EdgeInsets.zero,
                       name: "location_accepted",
                       controlAffinity: ListTileControlAffinity.leading,
-                      title: const Padding(
+                      title: Padding(
                           padding: EdgeInsets.zero,
-                          child: Text("Retkipaikka näkyvissä käyttäjälle")))
+                          child: Text(
+                              "Retkipaikka näkyvissä käyttäjälle".t(context))))
                   : const SizedBox(),
               FormBuilderField(
                 name: 'location_images',
@@ -424,9 +436,9 @@ class LocationForm extends HookWidget {
         ),
         MaterialButton(
           color: Theme.of(context).primaryColor,
-          child: const Text(
-            "Lähetä",
-            style: TextStyle(color: Colors.white),
+          child: Text(
+            "Lähetä".t(context),
+            style: const TextStyle(color: Colors.white),
           ),
           onPressed: () async {
             formKey.value.currentState?.save();
@@ -486,8 +498,7 @@ class LocationForm extends HookWidget {
                           "Retkipaikkaa muokattu onnistuneesti!", context,
                           cb: afterFormSave);
                     }).catchError((error) {
-                      AlertHelper.displayErrorAlert(
-                          "Virhe retkipaikan muokkaamisessa!", context);
+                      AlertHelper.displayErrorAlert(error, context);
                     });
                   } else {
                     tripLocationApi
@@ -499,8 +510,7 @@ class LocationForm extends HookWidget {
                           "Retkipaikka ilmoitettu onnistuneesti!", context,
                           cb: afterFormSave);
                     }).catchError((error) {
-                      AlertHelper.displayErrorAlert(
-                          "Virhe retkipaikan ilmoittamisessa!", context);
+                      AlertHelper.displayErrorAlert(error, context);
                     });
                   }
                 }

@@ -6,7 +6,8 @@ class LocationDatasource extends DataTableSource {
   final List<TripLocation> locations;
   final Function(TripLocation) onTap;
   final List<AbstractFilter> categories;
-  LocationDatasource({required this.locations, required this.onTap,required this.categories});
+  final BuildContext context;
+  LocationDatasource({required this.locations, required this.onTap,required this.categories,required this.context});
 
   @override
   DataRow getRow(int index) {
@@ -29,7 +30,7 @@ class LocationDatasource extends DataTableSource {
    
     AbstractFilter? category =
         categories.firstWhereOrNull((element) => element.id == id);
-    return category?.name ?? "-";
+    return category?.getTranslatedName(context) ?? "-";
   }
  
 

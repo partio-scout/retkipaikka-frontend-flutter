@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 
 class TitleImage extends StatelessWidget {
   const TitleImage({Key? key}) : super(key: key);
@@ -22,12 +23,12 @@ class TitleImage extends StatelessWidget {
             width: double.infinity,
           ),
 
-          const Center(
+           Center(
             child: Padding(
-              padding: EdgeInsets.only(left: 5),
+              padding: const EdgeInsets.only(left: 5),
               child: Text(
-                "Partion Retkipaikat",
-                style: TextStyle(color: Colors.white, fontSize: 50),
+                "Partion Retkipaikat".t(context),
+                style: const TextStyle(color: Colors.white, fontSize: 50),
               ),
             ),
           ),

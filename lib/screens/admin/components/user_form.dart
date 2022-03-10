@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/components/form_info_text.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/models/admin_model.dart';
 import 'package:retkipaikka_flutter/models/role_model.dart';
 import 'package:retkipaikka_flutter/screens/main/components/form/location_form.dart';
@@ -53,11 +54,11 @@ class UserForm extends HookWidget {
                   contentPadding: EdgeInsets.zero,
                   name: "new_user",
                   controlAffinity: ListTileControlAffinity.leading,
-                  title: const Padding(
+                  title:  Padding(
                     padding: EdgeInsets.zero,
                     child: Text(
-                      "Kirjautuminen sallittu",
-                      style: TextStyle(fontSize: 15),
+                      "Kirjautuminen sallittu".t(context),
+                      style: const TextStyle(fontSize: 15),
                     ),
                   ),
                 ),
@@ -65,7 +66,7 @@ class UserForm extends HookWidget {
                 const SizedBox(
                   height: 25,
                 ),
-                const Text("Roolit", style: TextStyle(fontSize: 20)),
+                Text("Roolit".t(context), style: TextStyle(fontSize: 20)),
                 FormBuilderCheckboxGroup(
                     name: "roles",
                     decoration: const InputDecoration(
@@ -113,9 +114,9 @@ class UserForm extends HookWidget {
                       "Lomake ei ole täytetty oikein!", context);
                 }
               },
-              child: const Text(
-                "Tallenna",
-                style: TextStyle(color: Colors.white),
+              child:  Text(
+                "Tallenna".t(context),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
             const SizedBox(
@@ -133,7 +134,7 @@ class UserForm extends HookWidget {
                 });
               },
               child:
-                  const Text("Poista", style: TextStyle(color: Colors.white)),
+                   Text("Poista".t(context), style: const TextStyle(color: Colors.white)),
             )
           ],
         ),

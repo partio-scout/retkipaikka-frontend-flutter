@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:retkipaikka_flutter/contants.dart';
+import 'package:retkipaikka_flutter/constants.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:retkipaikka_flutter/models/filter_model.dart';
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
@@ -21,17 +22,17 @@ class FilteringState extends ChangeNotifier {
     notifyListeners();
   }
 
-  AbstractFilter getInitialCategoryFilter() {
+  AbstractFilter getInitialCategoryFilter(BuildContext context) {
     return Filter(
-        id: -1, type: kfilterType.noCategory, name: "Ei kategorioita");
+        id: -1, type: kfilterType.noCategory, name: "Ei kategorioita".t(context));
   }
 
-  List<AbstractFilter> getCategoryFiltersForDropdown() {
-    return [getInitialCategoryFilter(), ...allCategoryFilters];
+  List<AbstractFilter> getCategoryFiltersForDropdown(BuildContext context) {
+    return [getInitialCategoryFilter(context), ...allCategoryFilters];
   }
 
-  AbstractFilter getInitialCommonFilter() {
-    return Filter(id: -1, type: kfilterType.noFilter, name: "Ei suodattimia");
+  AbstractFilter getInitialCommonFilter(BuildContext context) {
+    return Filter(id: -1, type: kfilterType.noFilter, name: "Ei suodattimia".t(context));
   }
 
 
@@ -39,8 +40,8 @@ class FilteringState extends ChangeNotifier {
     List<AbstractFilter> geoList = allRegions.where((element) => ids.contains(element.id)).toList();
     return geoList;
   }
-  List<AbstractFilter> getCommonFiltersForDropdown() {
-    return [getInitialCommonFilter(), ...allCommonFilters];
+  List<AbstractFilter> getCommonFiltersForDropdown(BuildContext context) {
+    return [getInitialCommonFilter(context), ...allCommonFilters];
   }
 
   void setCategoryFilters(List<AbstractFilter> categories) {
@@ -91,10 +92,10 @@ class FilteringState extends ChangeNotifier {
     return filterList.indexWhere((element) => element.id == filter.id) != -1;
   }
 
-  String? getCategoryForLocation(TripLocation location) {
+  AbstractFilter? getCategoryForLocation(TripLocation location) {
     AbstractFilter? category = allCategoryFilters
         .firstWhereOrNull((element) => element.id == location.category);
-    return category?.name;
+    return category;
   }
 
   AbstractFilter? getCategoryById(int? id) {
@@ -104,10 +105,10 @@ class FilteringState extends ChangeNotifier {
     return category;
   }
 
-  String? getFilterNameById(int id) {
+  AbstractFilter? getFilterById(int id) {
     AbstractFilter? filter =
         allCommonFilters.firstWhereOrNull((element) => element.id == id);
-    return filter?.name;
+    return filter;
   }
 
   void handleFilterAdd(AbstractFilter filter) {

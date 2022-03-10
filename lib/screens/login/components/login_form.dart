@@ -5,14 +5,16 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/user_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/form_info_text.dart';
 import 'package:provider/provider.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/routes.dart';
 import 'package:routemaster/routemaster.dart';
 
 class LoginForm extends HookWidget {
   LoginForm({Key? key}) : super(key: key);
-  final UserApi userApi = UserApi();
+  final UserApi userApi = ApiService().userApi;
   @override
   Widget build(BuildContext context) {
     var formKey =
@@ -22,7 +24,7 @@ class LoginForm extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       //mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const Text("Kirjautuminen", style: TextStyle(fontSize: 20)),
+         Text("Kirjautuminen".t(context), style: const TextStyle(fontSize: 20)),
         const SizedBox(
           height: 30,
         ),
@@ -33,38 +35,38 @@ class LoginForm extends HookWidget {
               children: [
                 FormBuilderTextField(
                   name: "email",
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Sähköposti*',
+                      labelText: "Sähköposti".t(context)+"*",
                       hintText: "a@gmail.com",
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                      border: OutlineInputBorder()),
+                      contentPadding:const  EdgeInsets.symmetric(horizontal: 10),
+                      border:const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
                       FormBuilderValidators.required(context,
-                          errorText: "Email is required"),
+                          errorText: "Sähköposti on vaadittu kenttä!".t(context)),
                       FormBuilderValidators.email(context,
-                          errorText: "Value is not valid email!")
+                          errorText: "Sähköpostin pitää olla oikean muotoinen!".t(context))
                     ],
                   ),
                 ),
-                const FormInfoText(text: "Kirjoita sähköpostiosoite"),
+                 FormInfoText(text: "Kirjoita sähköpostiosoitteesi".t(context)),
                 const SizedBox(
                   height: 25,
                 ),
                 FormBuilderTextField(
                   name: "password",
                   obscureText: true,
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Salasana*',
-                      hintText: "Salasana",
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                      border: OutlineInputBorder()),
+                      labelText: "Salasana".t(context) +"*",
+                      hintText: "Salasana".t(context),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                      border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
                       FormBuilderValidators.required(context,
-                          errorText: "Password is required")
+                          errorText: "Salasana on vaadittu kenttä!".t(context))
                     ],
                   ),
                 ),
@@ -76,9 +78,9 @@ class LoginForm extends HookWidget {
         ),
         MaterialButton(
           color: Theme.of(context).primaryColor,
-          child: const Text(
-            "Kirjaudu",
-            style: TextStyle(color: Colors.white),
+          child:  Text(
+            "Kirjaudu".t(context),
+            style: const TextStyle(color: Colors.white),
           ),
           onPressed: () async {
             formKey.value.currentState?.save();

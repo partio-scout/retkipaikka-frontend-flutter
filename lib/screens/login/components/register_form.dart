@@ -3,12 +3,14 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/user_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/form_info_text.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 
 class RegisterForm extends HookWidget {
   RegisterForm({Key? key}) : super(key: key);
-  final UserApi userApi = UserApi();
+  final UserApi userApi = ApiService().userApi;
   @override
   Widget build(BuildContext context) {
     var formKey =
@@ -25,18 +27,18 @@ class RegisterForm extends HookWidget {
               children: [
                 FormBuilderTextField(
                   name: "email",
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Sähköposti*',
+                      labelText: "Sähköposti".t(context) +"*",
                       hintText: "a@gmail.com",
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                      border: OutlineInputBorder()),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                      border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
                       FormBuilderValidators.required(context,
-                          errorText: "Email is required"),
+                          errorText: "Sähköposti on vaadittu kenttä!".t(context)),
                       FormBuilderValidators.email(context,
-                          errorText: "Value is not valid email!")
+                          errorText: "Sähköpostin pitää olla oikean muotoinen!".t(context))
                     ],
                   ),
                 ),
@@ -45,16 +47,16 @@ class RegisterForm extends HookWidget {
                 FormBuilderTextField(
                   textCapitalization: TextCapitalization.sentences,
                   name: "username",
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Käyttäjänimi*',
-                      hintText: "Käyttäjänimi",
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                      border: OutlineInputBorder()),
+                      labelText: "Käyttäjänimi".t(context) +"*",
+                      hintText: "Käyttäjänimi".t(context),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                      border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
                       FormBuilderValidators.required(context,
-                          errorText: "Username is required")
+                          errorText: "Käyttäjänimi on vaadittu kenttä!".t(context))
                     ],
                   ),
                 ),
@@ -63,16 +65,16 @@ class RegisterForm extends HookWidget {
                 FormBuilderTextField(
                   name: "password",
                   obscureText: true,
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Salasana*',
-                      hintText: "Salasana",
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                      border: OutlineInputBorder()),
+                      labelText: "Salasana".t(context)+"*",
+                      hintText: "Salasana".t(context),
+                      contentPadding:const EdgeInsets.symmetric(horizontal: 10),
+                      border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
                       FormBuilderValidators.required(context,
-                          errorText: "Password is required")
+                          errorText: "Salasana on vaadittu kenttä!".t(context))
                     ],
                   ),
                 ),
@@ -82,16 +84,16 @@ class RegisterForm extends HookWidget {
                   textCapitalization: TextCapitalization.sentences,
                   name: "description",
                   maxLines: 5,
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Kuvaus*',
-                      hintText: "Kuvaus",
+                      labelText: "Kuvaus".t(context)+"*",
+                      hintText: "Kuvaus".t(context),
                       //contentPadding: EdgeInsets.symmetric(horizontal: 10,ve),
-                      border: OutlineInputBorder()),
+                      border:const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
                       FormBuilderValidators.required(context,
-                          errorText: "Description is required")
+                          errorText: "Kuvaus on vaadittu kenttä!".t(context))
                     ],
                   ),
                 ),
@@ -101,9 +103,9 @@ class RegisterForm extends HookWidget {
             )),
         MaterialButton(
           color: Theme.of(context).primaryColor,
-          child: const Text(
-            "Rekisteröidy",
-            style: TextStyle(color: Colors.white),
+          child:  Text(
+            "Rekisteröidy".t(context),
+            style: const TextStyle(color: Colors.white),
           ),
           onPressed: () async {
             formKey.value.currentState?.save();

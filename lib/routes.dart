@@ -41,7 +41,7 @@ class AppPages {
   static RouteMap appRoutes(BuildContext context) {
     return RouteMap(routes: {
       UserRoutes.locations: (routeData) {
-        return const CustomMaterialPage(
+        return  CustomMaterialPage(
             child: MainContainerSinglePage(child: FrontPageScreen()));
       },
       UserRoutes.notifications: (routeData) {

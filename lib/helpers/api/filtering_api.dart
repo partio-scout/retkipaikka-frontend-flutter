@@ -1,4 +1,4 @@
-import 'package:retkipaikka_flutter/contants.dart';
+import 'package:retkipaikka_flutter/constants.dart';
 import 'package:retkipaikka_flutter/helpers/api/category_api.dart';
 import 'package:retkipaikka_flutter/helpers/api/filter_api.dart';
 import 'package:retkipaikka_flutter/helpers/api/municipality_api.dart';

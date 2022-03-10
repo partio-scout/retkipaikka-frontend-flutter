@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:retkipaikka_flutter/constants.dart';
 import 'package:retkipaikka_flutter/helpers/shared_preferences_helper.dart';
 
 class BaseApi {
@@ -10,13 +11,15 @@ class BaseApi {
   //192.168.0.3 // use computer if if debugging with real device
   //10.0.2.2 // android emulator
 
-  static const baseUrl = "https://retkipaikka-backend.herokuapp.com/api";
+  static const String baseUrl = kBaseUrl;
 
   static const Map<String, String> defaultHeaders = {
     HttpHeaders.contentTypeHeader: "application/json"
   };
 
   BaseApi(this.route);
+   
+
 
   Future<Map<String, dynamic>?> setAuthParam(
       Map<String, dynamic>? queryParams) async {
@@ -144,15 +147,15 @@ class BaseApi {
       switch (res.statusCode) {
         case 422:
         case 400:
-          throw ("Error: Data sent was not valid!");
+          throw ("Virhe: Lähetetty data ei ollut oikean muotoista!");
         case 500:
-          throw ("Error: Failed to process request");
+          throw ("Virhe: Kutsun prosessointi epäonnistui");
         case 401:
-          throw ("Error: Login credentials are not valid!");
+          throw ("Virhe: Väärä sähköposti tai salasana!");
         case 403:
-          throw ("Error: Token was not valid or user has no admin rights yet");
+          throw ("Virhe: Tunniste ei ole validi tai käyttäjällä ei ole vielä admin-oikeuksia!");
         default:
-          throw ("Error: Network error");
+          throw ("Virhe: Verkkovirhe!");
       }
     }
   }

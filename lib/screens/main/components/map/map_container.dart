@@ -4,6 +4,7 @@ import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/triplocation_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/app_spinner.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/screens/main/components/map/location_map.dart';
@@ -14,7 +15,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 class MapContainer extends HookWidget {
   MapContainer({Key? key}) : super(key: key);
-  final TripLocationApi triplocationApi = TripLocationApi();
+  final TripLocationApi triplocationApi = ApiService().triplocationApi;
   @override
   Widget build(BuildContext context) {
     var isLoading = useState<bool>(false);
@@ -29,7 +30,7 @@ class MapContainer extends HookWidget {
             if (kDebugMode) {
               print("FETCHING TRIPLOCATIONS ERROR");
             }
-            AlertHelper.displayErrorAlert("Network error!", context);
+            AlertHelper.displayErrorAlert(err, context);
           }).whenComplete(() => isLoading.value = false);
         }
       });

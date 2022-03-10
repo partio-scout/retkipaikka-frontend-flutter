@@ -10,10 +10,11 @@ class MapDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TripLocationState state = context.watch<TripLocationState>();
-    TripLocation? selectedLocation = state.selectedLocation;
+    TripLocation? selectedLocation = context.select((TripLocationState s)=>s.selectedLocation);
+    bool drawerOpen = context.select((TripLocationState s)=>s.drawerOpen);
+   
 
-    return state.drawerOpen == true
+    return drawerOpen == true
         ? Drawer(
             child: selectedLocation == null
                 ? const DrawerLocationList()

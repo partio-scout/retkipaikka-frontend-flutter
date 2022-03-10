@@ -9,6 +9,7 @@ class AppHeader extends StatelessWidget with PreferredSizeWidget {
   final String title;
   @override
   Widget build(BuildContext context) {
+    
     return AppBar(
       title: InkWell(
           onTap: () {
@@ -20,12 +21,7 @@ class AppHeader extends StatelessWidget with PreferredSizeWidget {
             onPressed: () {
               context.read<AppState>().openDrawer(context);
             },
-            icon: const Icon(Icons.menu))
-        // MaterialButton(
-        //     child: Text("Kirjaudu",style:TextStyle(color: Colors.white)),
-        //     onPressed: () {
-        //       Routemaster.of(context).push(UserRoutes.login);
-        //     })
+            icon: const Icon(Icons.menu))      
       ],
     );
   }

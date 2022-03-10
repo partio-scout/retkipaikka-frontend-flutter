@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -50,7 +51,7 @@ class CustomAutocomplete extends HookWidget {
               //initialValue: initialValue,
 
               noItemsFoundBuilder: ((context) =>
-                  const ListTile(title: Text("No results"))),
+                   ListTile(title: Text("Ei tuloksia".t(context)))),
               textFieldConfiguration: TextFieldConfiguration(
                   enabled: !disabled,
                   controller: controller,
@@ -78,7 +79,7 @@ class CustomAutocomplete extends HookWidget {
               itemBuilder: (context, suggestion) {
                 return ListTile(
                   //leading: Icon(Icons.shopping_cart),
-                  title: Text(suggestion.name),
+                  title: Text(suggestion.getTranslatedName(context)),
                   //subtitle: Text('\$${suggestion['price']}'),
                 );
               },
@@ -86,7 +87,7 @@ class CustomAutocomplete extends HookWidget {
                 if (clearAfterSelect) {
                   controller.text = "";
                 } else {
-                  controller.text = suggestion.name;
+                  controller.text = suggestion.getTranslatedName(context);
                 }
 
                 onValueSelect(suggestion);

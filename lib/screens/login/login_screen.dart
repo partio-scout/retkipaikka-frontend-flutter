@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/routes.dart';
 import 'package:retkipaikka_flutter/screens/login/components/login_form.dart';
@@ -37,8 +38,8 @@ class LoginScreen extends HookWidget {
                 },
                 child: Text(
                   isLoginPage
-                      ? "Pyydä käyttöoikeuksia hallintasivulle"
-                      : "Takaisin kirjautumiseen",
+                      ? "Pyydä käyttöoikeuksia hallintasivulle".t(context)
+                      : "Takaisin kirjautumiseen".t(context),
                   style: const TextStyle(decoration: TextDecoration.underline),
                 ),
               ),

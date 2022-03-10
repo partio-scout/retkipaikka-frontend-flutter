@@ -1,5 +1,8 @@
-import 'package:retkipaikka_flutter/contants.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:retkipaikka_flutter/constants.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
+import 'package:retkipaikka_flutter/controllers/app_state.dart';
+import 'package:provider/provider.dart';
 
 class Filter implements AbstractFilter {
   @override
@@ -11,7 +14,7 @@ class Filter implements AbstractFilter {
   @override
   String? nameEn;
   @override
-  String? nameSa;
+  String? nameSmn;
   @override
   String? nameSv;
 
@@ -21,7 +24,7 @@ class Filter implements AbstractFilter {
       required this.name,
       this.nameEn,
       this.nameSv,
-      this.nameSa});
+      this.nameSmn});
 
   factory Filter.fromJson(Map<String, dynamic> json) {
     return Filter(
@@ -30,18 +33,35 @@ class Filter implements AbstractFilter {
         name: json["object_name"],
         nameEn: json["object_name_en"],
         nameSv: json["object_name_sv"],
-        nameSa: json["object_name_sa"]);
+        nameSmn: json["object_name_sa"]);
   }
 
   @override
-  // TODO: implement parentId
   get parentId => null;
 
   @override
   bool operator ==(other) =>
-      other is Filter && (other.id == id && other.name == name);
+      other is Filter && (other.id == id && other.type == type);
 
   @override
   // ignore: unnecessary_overrides
   int get hashCode => super.hashCode;
+
+  @override
+  String getTranslatedName(BuildContext context) {
+    String locale = context.read<AppState>().appLocale.languageCode;
+
+    switch (locale) {
+      case "fi":
+        return name;
+      case "en":
+        return nameEn ?? name;
+      case "smn":
+        return nameSmn ?? nameEn ?? name;
+      case "sv":
+        return nameSv ?? nameEn ?? name;
+      default:
+        return name;
+    }
+  }
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/triplocation_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/screens/admin/components/location_table.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +15,7 @@ class AdminLocationsScreen extends HookWidget {
   AdminLocationsScreen({Key? key, required this.displayOnlyNew})
       : super(key: key);
   final bool displayOnlyNew;
-  final TripLocationApi tripLocationApi = TripLocationApi();
+  final TripLocationApi tripLocationApi = ApiService().triplocationApi;
 
   Future<void> refreshNewLocations(BuildContext context) {
     return tripLocationApi.getNewLocations().then((res) {
@@ -70,7 +72,7 @@ class AdminLocationsScreen extends HookWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FilteringComponent(
+              displayOnlyNew? const SizedBox() :FilteringComponent(
                 backgroundColor: Colors.white,
               ),
               LocationTable(
@@ -87,9 +89,9 @@ class AdminLocationsScreen extends HookWidget {
                 },
                 title: displayOnlyNew
                     ? TableTitle(
-                        text: "Uudet retkipaikat", isLoading: isLoading.value)
+                        text: "Uudet retkipaikat".t(context), isLoading: isLoading.value)
                     : TableTitle(
-                        text: "Retkipaikat", isLoading: isLoading.value),
+                        text: "Retkipaikat".t(context), isLoading: isLoading.value),
                 tableData: displayOnlyNew
                     ? tState.newLocations
                     : tState.filteredTriplocations,

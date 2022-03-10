@@ -2,16 +2,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:retkipaikka_flutter/constants.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/controllers/notification_state.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
-import 'package:retkipaikka_flutter/helpers/api/user_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/app_spinner.dart';
+import 'package:retkipaikka_flutter/helpers/locales/app_localization_delegate.dart';
+import 'package:retkipaikka_flutter/helpers/locales/smn_intl.dart';
 import 'package:retkipaikka_flutter/helpers/shared_preferences_helper.dart';
 import 'package:retkipaikka_flutter/models/admin_model.dart';
 import 'package:retkipaikka_flutter/routes.dart';
-
 import 'package:routemaster/routemaster.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -30,12 +32,16 @@ void main() async {
   }
   bool darkTheme = false;
   String? themeMode = await SharedPreferencesHelper.getThemeMode();
+
   if (themeMode != null) {
     darkTheme = themeMode == "true";
   }
+  String? appLocale = await SharedPreferencesHelper.getLocale() ?? "fi";
+  Locale locale = Locale(appLocale);
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => AppState(darkTheme: darkTheme)),
+    ChangeNotifierProvider(
+        create: (context) => AppState(darkTheme: darkTheme, appLocale: locale)),
     ChangeNotifierProvider(create: (context) => FilteringState()),
     ChangeNotifierProvider(create: (context) => NotificationState()),
     ChangeNotifierProvider(create: (context) => TripLocationState()),
@@ -51,15 +57,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Partion retkipaikat',
       debugShowCheckedModeBanner: false,
-      supportedLocales: const [
-        Locale("fi"),
-        Locale("en"),
-        Locale("se"),
-        Locale("smn")
-      ],
+      supportedLocales: kSupportedLocales.keys.map((locale) => Locale(locale)),
+      locale: context.select((AppState a) => a.appLocale),
       localizationsDelegates: const [
+        AppLocalizationDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        SmnMaterialLocalizations.delegate
       ],
       darkTheme: ThemeData.dark().copyWith(
           appBarTheme: const AppBarTheme()
@@ -104,7 +108,10 @@ class AppWrapper extends HookWidget {
 
         if (tokenFromPrefs != null) {
           //isLoading.value = true;
-          UserApi().checkTokenValidity(tokenFromPrefs).then((value) async {
+          ApiService()
+              .userApi
+              .checkTokenValidity(tokenFromPrefs)
+              .then((value) async {
             if (value) {
               AdminUser? user = await SharedPreferencesHelper.getSavedUser();
               if (user != null) {

@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:retkipaikka_flutter/helpers/api/base_api.dart';
+import 'package:retkipaikka_flutter/helpers/shared_preferences_helper.dart';
 import 'package:retkipaikka_flutter/models/app_notification_model.dart';
 
 class NotificationApi extends BaseApi {
   NotificationApi({String route = "/Notifications"}) : super(route);
+  
 
   List<AppNotification> jsonToNotifications(List<dynamic> json) {
     List<AppNotification> returnVal = [];
@@ -16,7 +18,38 @@ class NotificationApi extends BaseApi {
     return returnVal;
   }
 
-  Future<List<AppNotification>> getNotificationsToDisplay() {
+
+  Future<AppNotification?> getNotificationForFrontpage() async{
+
+    List<dynamic>? ignoreIds = await SharedPreferencesHelper.getNotificationIds();
+
+    Map<String,dynamic> where = {
+      "display_frontpage":true
+    };
+
+    if(ignoreIds != null && ignoreIds.isNotEmpty){
+      where["notification_id"] = {"nin":ignoreIds};
+    }
+    
+    Map<String, dynamic> filter = {
+      "filter":jsonEncode({
+        "where": where,
+        "order": "updatedAt DESC",
+        "limit":1,
+      })
+  };
+
+   
+
+    List<AppNotification> parsed = await _getNotifications(filter);
+
+    if(parsed.isNotEmpty){
+      return parsed[0];
+    }
+    return null;
+  }
+
+  Future<List<AppNotification>> getNotificationsForList() {
     Map<String, dynamic> filter = {
       "filter":jsonEncode({
         "where": {"enabled": true},

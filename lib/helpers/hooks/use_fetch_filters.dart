@@ -5,6 +5,7 @@ import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/filtering_api.dart';
 import 'package:provider/provider.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 
 void useFetchFilters(BuildContext context, {ValueNotifier<bool>? isLoading}) {
   useEffect(() {
@@ -17,7 +18,7 @@ void useFetchFilters(BuildContext context, {ValueNotifier<bool>? isLoading}) {
         if (isLoading != null) {
           isLoading.value = true;
         }
-        FilteringApi filteringApi = FilteringApi();
+        FilteringApi filteringApi = ApiService().filteringApi;
         await filteringApi.getMunicipalities().then((value) {
           fState.setMunicipalities(value);
           return filteringApi.getRegions();
@@ -33,7 +34,7 @@ void useFetchFilters(BuildContext context, {ValueNotifier<bool>? isLoading}) {
           if (kDebugMode) {
             print("FETCHING FILTERS ERROR");
           }
-          AlertHelper.displayErrorAlert("Network error!", context);
+          AlertHelper.displayErrorAlert(error, context);
         }).whenComplete(() {
           if (isLoading != null) {
             isLoading.value = false;

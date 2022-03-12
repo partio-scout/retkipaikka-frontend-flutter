@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
+import 'package:retkipaikka_flutter/helpers/components/custom_checkbox.dart';
 import 'package:retkipaikka_flutter/helpers/components/form_info_text.dart';
 import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/models/admin_model.dart';
 import 'package:retkipaikka_flutter/models/role_model.dart';
-import 'package:retkipaikka_flutter/screens/main/components/form/location_form.dart';
+
 
 class UserForm extends HookWidget {
   const UserForm(

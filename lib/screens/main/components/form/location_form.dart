@@ -10,6 +10,7 @@ import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/triplocation_api.dart';
 import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_autocomplete.dart';
+import 'package:retkipaikka_flutter/helpers/components/custom_checkbox.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_dropdown_button.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_image_picker.dart';
 import 'package:retkipaikka_flutter/helpers/components/dynamic_layout_wrapper.dart';
@@ -47,6 +48,7 @@ class LocationForm extends HookWidget {
       return null;
     }, [marker]);
     //Locale currentLocale = context.select((AppState a) => a.appLocale,);
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -527,13 +529,3 @@ class LocationForm extends HookWidget {
   }
 }
 
-class CustomCheckbox extends FormBuilderFieldOption {
-  final String text;
-  const CustomCheckbox({Key? key, required value, required this.text, child})
-      : super(key: key, value: value, child: child);
-
-  @override
-  Widget build(BuildContext context) {
-    return child ?? Text(text.toString());
-  }
-}

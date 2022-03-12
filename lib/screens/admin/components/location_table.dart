@@ -9,8 +9,8 @@ import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:retkipaikka_flutter/screens/admin/components/location_datasource.dart';
-import 'package:retkipaikka_flutter/screens/main/components/form/location_form.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:retkipaikka_flutter/screens/main/components/form/location_form.dart';
 import 'package:retkipaikka_flutter/screens/main/components/triplocation_info.dart';
 import 'package:provider/provider.dart';
 

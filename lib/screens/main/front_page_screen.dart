@@ -11,7 +11,7 @@ import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/helpers/shared_preferences_helper.dart';
 import 'package:retkipaikka_flutter/routes.dart';
 import 'package:retkipaikka_flutter/screens/main/components/filtering/filtering_component.dart';
-import 'package:retkipaikka_flutter/screens/main/components/form/location_form.dart';
+import 'package:retkipaikka_flutter/screens/main/components/form/location_form.dart' deferred as location_form;
 import 'package:retkipaikka_flutter/screens/main/components/map/map_container.dart';
 import 'package:retkipaikka_flutter/screens/main/components/title_image.dart';
 
@@ -121,7 +121,9 @@ class FrontPageScreen extends HookWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 15.0),
-                          child: LocationForm(),
+                          child: FutureBuilder(future: location_form.loadLibrary(), builder: (context, snapshot) {
+                            return location_form.LocationForm();
+                          }),
                         )
                       ]),
                 ),

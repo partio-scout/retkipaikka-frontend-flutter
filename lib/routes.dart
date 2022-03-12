@@ -1,14 +1,21 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
-import 'package:retkipaikka_flutter/screens/admin/admin_filters_screen.dart';
-import 'package:retkipaikka_flutter/screens/admin/admin_locations_screen.dart';
-import 'package:retkipaikka_flutter/screens/admin/admin_notifications_screen.dart';
-import 'package:retkipaikka_flutter/screens/admin/admin_settings_screen.dart';
-import 'package:retkipaikka_flutter/screens/login/login_screen.dart';
-import 'package:retkipaikka_flutter/screens/main/front_page_screen.dart';
+import 'package:retkipaikka_flutter/screens/admin/admin_filters_screen.dart'
+    deferred as admin_filters;
+import 'package:retkipaikka_flutter/screens/admin/admin_locations_screen.dart'
+    deferred as admin_locations;
+import 'package:retkipaikka_flutter/screens/admin/admin_notifications_screen.dart'
+    deferred as admin_notifications;
+import 'package:retkipaikka_flutter/screens/admin/admin_settings_screen.dart'
+    deferred as admin_settings;
+import 'package:retkipaikka_flutter/screens/login/login_screen.dart'
+    deferred as login_screen;
+import 'package:retkipaikka_flutter/screens/main/front_page_screen.dart'
+    deferred as front_page;
 import 'package:retkipaikka_flutter/screens/main_container.dart';
-import 'package:retkipaikka_flutter/screens/notifications/notification_screen.dart';
+import 'package:retkipaikka_flutter/screens/notifications/notification_screen.dart'
+    deferred as notification_screen;
 
 import 'package:routemaster/routemaster.dart';
 import 'package:provider/provider.dart';
@@ -41,26 +48,62 @@ class AppPages {
   static RouteMap appRoutes(BuildContext context) {
     return RouteMap(routes: {
       UserRoutes.locations: (routeData) {
-        return  CustomMaterialPage(
-            child: MainContainerSinglePage(child: FrontPageScreen()));
+      Future<void> loadedFile = front_page.loadLibrary();
+
+        return CustomMaterialPage(
+          child: MainContainerSinglePage(
+            child: FutureBuilder(
+              future: loadedFile,
+              builder: (context, snapshot) {
+                
+                return snapshot.connectionState == ConnectionState.done ?  front_page.FrontPageScreen(): const SizedBox();
+              },
+            ),
+          ),
+        );
       },
       UserRoutes.notifications: (routeData) {
+        Future<void> loadedFile = notification_screen.loadLibrary();
+
         return CustomMaterialPage(
-            child: MainContainerSinglePage(child:NotificationsScreen()));
+          child: MainContainerSinglePage(
+            child: FutureBuilder(
+              future: loadedFile,
+              builder: (snapshot, context) {
+                return notification_screen.NotificationsScreen();
+              },
+            ),
+          ),
+        );
       },
       UserRoutes.login: (routeData) {
-        return const CustomMaterialPage(
-            child: MainContainerSinglePage(
-                child: LoginScreen(
-          isLoginPage: true,
-        )));
+        Future<void> loadedFile = login_screen.loadLibrary();
+
+        return CustomMaterialPage(
+          child: MainContainerSinglePage(
+            child: FutureBuilder(
+              future: loadedFile,
+              builder: (snapshot, context) {
+                return login_screen.LoginScreen(
+                    isLoginPage: true);
+              },
+            ),
+          ),
+        );
       },
       UserRoutes.signUp: (routeData) {
-        return const CustomMaterialPage(
-            child: MainContainerSinglePage(
-                child: LoginScreen(
-          isLoginPage: false,
-        )));
+         Future<void> loadedFile = login_screen.loadLibrary();
+        return CustomMaterialPage(
+          child: MainContainerSinglePage(
+            child: FutureBuilder(
+              future: loadedFile,
+              builder: (snapshot, context) {
+                return login_screen.LoginScreen(
+                    isLoginPage: false);
+              },
+            ),
+          ),
+        );
       },
       AdminRoutes.adminRoot: (routeData) {
         return privateRoute(
@@ -78,29 +121,61 @@ class AppPages {
             context);
       },
       AdminRoutes.adminNew: (routeData) {
+        Future<void> loadedFile = admin_locations.loadLibrary();
         return privateRoute(
             CustomMaterialPage(
-                child: AdminLocationsScreen(displayOnlyNew: true)),
+                child: FutureBuilder(
+                    future: loadedFile,
+                    builder: (snapshot, context) {
+                      return admin_locations.AdminLocationsScreen(
+                          displayOnlyNew: true);
+                    })),
             context);
       },
       AdminRoutes.adminBrowse: (routeData) {
+        Future<void> loadedFile = admin_locations.loadLibrary();
         return privateRoute(
             CustomMaterialPage(
-                child: AdminLocationsScreen(displayOnlyNew: false)),
+                child: FutureBuilder(
+                    future: loadedFile,
+                    builder: (snapshot, context) {
+                      return admin_locations.AdminLocationsScreen(
+                          displayOnlyNew: false);
+                    })),
             context);
       },
       AdminRoutes.adminFilter: (routeData) {
+        Future<void> loadedFile = admin_filters.loadLibrary();
         return privateRoute(
-            CustomMaterialPage(child: AdminFiltersScreen()), context);
+            CustomMaterialPage(
+                child: FutureBuilder(
+                    future: loadedFile,
+                    builder: (snapshot, context) {
+                      return admin_filters.AdminFiltersScreen();
+                    })),
+            context);
       },
       AdminRoutes.adminNotifications: (routeData) {
+        Future<void> loadedFile = admin_notifications.loadLibrary();
         return privateRoute(
-             CustomMaterialPage(child: AdminNotificationsScreen()),
+            CustomMaterialPage(
+                child: FutureBuilder(
+                    future: loadedFile,
+                    builder: (snapshot, context) {
+                      return admin_notifications.AdminNotificationsScreen();
+                    })),
             context);
       },
       AdminRoutes.adminSettings: (routeData) {
+        Future<void> loadedFile = admin_settings.loadLibrary();
         return privateRoute(
-            const CustomMaterialPage(child: AdminSettingsScreen()), context);
+            CustomMaterialPage(
+                child: FutureBuilder(
+                    future: loadedFile,
+                    builder: (snapshot, context) {
+                      return admin_settings.AdminSettingsScreen();
+                    })),
+            context);
       },
     });
   }

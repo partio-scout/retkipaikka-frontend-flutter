@@ -75,8 +75,14 @@ class AppPages {
           child: MainContainerSinglePage(
             child: FutureBuilder(
               future: loadedFile,
-              builder: (snapshot, context) {
-                return notification_screen.NotificationsScreen();
+              builder: (context, snapshot) {
+                return snapshot.connectionState == ConnectionState.done
+                    ? notification_screen.NotificationsScreen()
+                    : Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        height: double.infinity,
+                        width: double.infinity,
+                        child: const AppSpinner());
               },
             ),
           ),
@@ -89,8 +95,16 @@ class AppPages {
           child: MainContainerSinglePage(
             child: FutureBuilder(
               future: loadedFile,
-              builder: (snapshot, context) {
-                return login_screen.LoginScreen(isLoginPage: true);
+              builder: (context, snapshot) {
+                return snapshot.connectionState == ConnectionState.done
+                    ? login_screen.LoginScreen(
+                        isLoginPage: true,
+                      )
+                    : Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        height: double.infinity,
+                        width: double.infinity,
+                        child: const AppSpinner());
               },
             ),
           ),
@@ -102,8 +116,16 @@ class AppPages {
           child: MainContainerSinglePage(
             child: FutureBuilder(
               future: loadedFile,
-              builder: (snapshot, context) {
-                return login_screen.LoginScreen(isLoginPage: false);
+              builder: (context, snapshot) {
+                return snapshot.connectionState == ConnectionState.done
+                    ? login_screen.LoginScreen(
+                        isLoginPage: false,
+                      )
+                    : Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        height: double.infinity,
+                        width: double.infinity,
+                        child: const AppSpinner());
               },
             ),
           ),
@@ -130,9 +152,16 @@ class AppPages {
             CustomMaterialPage(
                 child: FutureBuilder(
                     future: loadedFile,
-                    builder: (snapshot, context) {
-                      return admin_locations.AdminLocationsScreen(
-                          displayOnlyNew: true);
+                    builder: (context, snapshot) {
+                      return snapshot.connectionState == ConnectionState.done
+                          ? admin_locations.AdminLocationsScreen(
+                              displayOnlyNew: true,
+                            )
+                          : Container(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              height: double.infinity,
+                              width: double.infinity,
+                              child: const AppSpinner());
                     })),
             context);
       },
@@ -142,9 +171,16 @@ class AppPages {
             CustomMaterialPage(
                 child: FutureBuilder(
                     future: loadedFile,
-                    builder: (snapshot, context) {
-                      return admin_locations.AdminLocationsScreen(
-                          displayOnlyNew: false);
+                    builder: (context, snapshot) {
+                      return snapshot.connectionState == ConnectionState.done
+                          ? admin_locations.AdminLocationsScreen(
+                              displayOnlyNew: false,
+                            )
+                          : Container(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              height: double.infinity,
+                              width: double.infinity,
+                              child: const AppSpinner());
                     })),
             context);
       },
@@ -154,8 +190,14 @@ class AppPages {
             CustomMaterialPage(
                 child: FutureBuilder(
                     future: loadedFile,
-                    builder: (snapshot, context) {
-                      return admin_filters.AdminFiltersScreen();
+                    builder: (context, snapshot) {
+                      return snapshot.connectionState == ConnectionState.done
+                          ? admin_filters.AdminFiltersScreen()
+                          : Container(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              height: double.infinity,
+                              width: double.infinity,
+                              child: const AppSpinner());
                     })),
             context);
       },
@@ -165,8 +207,14 @@ class AppPages {
             CustomMaterialPage(
                 child: FutureBuilder(
                     future: loadedFile,
-                    builder: (snapshot, context) {
-                      return admin_notifications.AdminNotificationsScreen();
+                    builder: (context, snapshot) {
+                      return snapshot.connectionState == ConnectionState.done
+                          ? admin_notifications.AdminNotificationsScreen()
+                          : Container(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              height: double.infinity,
+                              width: double.infinity,
+                              child: const AppSpinner());
                     })),
             context);
       },
@@ -176,8 +224,14 @@ class AppPages {
             CustomMaterialPage(
                 child: FutureBuilder(
                     future: loadedFile,
-                    builder: (snapshot, context) {
-                      return admin_settings.AdminSettingsScreen();
+                    builder: (context, snapshot) {
+                      return snapshot.connectionState == ConnectionState.done
+                          ? admin_settings.AdminSettingsScreen()
+                          : Container(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              height: double.infinity,
+                              width: double.infinity,
+                              child: const AppSpinner());
                     })),
             context);
       },

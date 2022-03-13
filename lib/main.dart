@@ -53,6 +53,11 @@ void main() async {
                     color: Theme.of(context).scaffoldBackgroundColor,
                     height: double.infinity,
                     width: double.infinity,
-                    child: const AppSpinner());
+                    // Theme not loaded yet so can't use color from theme
+                    child: AppSpinner(
+                      color: darkTheme
+                          ? const Color(0xFF28aae1)
+                          : const Color(0xFF253764),
+                    ));
           })));
 }

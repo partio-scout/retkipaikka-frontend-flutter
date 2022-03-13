@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:retkipaikka_flutter/constants.dart';
 import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
@@ -24,7 +23,9 @@ class FilteringState extends ChangeNotifier {
 
   AbstractFilter getInitialCategoryFilter(BuildContext context) {
     return Filter(
-        id: -1, type: kfilterType.noCategory, name: "Ei kategorioita".t(context));
+        id: -1,
+        type: kfilterType.noCategory,
+        name: "Ei kategorioita".t(context));
   }
 
   List<AbstractFilter> getCategoryFiltersForDropdown(BuildContext context) {
@@ -32,14 +33,16 @@ class FilteringState extends ChangeNotifier {
   }
 
   AbstractFilter getInitialCommonFilter(BuildContext context) {
-    return Filter(id: -1, type: kfilterType.noFilter, name: "Ei suodattimia".t(context));
+    return Filter(
+        id: -1, type: kfilterType.noFilter, name: "Ei suodattimia".t(context));
   }
 
-
-  List<AbstractFilter> regionIdsToFilter(List<dynamic> ids){
-    List<AbstractFilter> geoList = allRegions.where((element) => ids.contains(element.id)).toList();
+  List<AbstractFilter> regionIdsToFilter(List<dynamic> ids) {
+    List<AbstractFilter> geoList =
+        allRegions.where((element) => ids.contains(element.id)).toList();
     return geoList;
   }
+
   List<AbstractFilter> getCommonFiltersForDropdown(BuildContext context) {
     return [getInitialCommonFilter(context), ...allCommonFilters];
   }
@@ -66,7 +69,6 @@ class FilteringState extends ChangeNotifier {
   }
 
   void addCommonFilter(AbstractFilter filter) {
-   
     if (!filterExistsInArray(commonFiltering, filter)) {
       commonFiltering.add(filter);
     }

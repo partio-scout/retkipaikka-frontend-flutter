@@ -5,7 +5,6 @@ import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/notification_api.dart';
 import 'package:retkipaikka_flutter/helpers/api_service.dart';
-import 'package:retkipaikka_flutter/helpers/components/app_spinner.dart';
 import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 
 import 'package:retkipaikka_flutter/helpers/responsive.dart';

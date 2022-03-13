@@ -12,8 +12,7 @@ import 'package:retkipaikka_flutter/screens/admin/admin_settings_screen.dart'
     deferred as admin_settings;
 import 'package:retkipaikka_flutter/screens/login/login_screen.dart'
     deferred as login_screen;
-import 'package:retkipaikka_flutter/screens/main/front_page_screen.dart'
-    deferred as front_page;
+import 'package:retkipaikka_flutter/screens/main/front_page_screen.dart';
 import 'package:retkipaikka_flutter/screens/main_container.dart';
 import 'package:retkipaikka_flutter/screens/notifications/notification_screen.dart'
     deferred as notification_screen;
@@ -49,22 +48,9 @@ class AppPages {
   static RouteMap appRoutes(BuildContext context) {
     return RouteMap(routes: {
       UserRoutes.locations: (routeData) {
-        Future<void> loadedFile = front_page.loadLibrary();
-
-        return CustomMaterialPage(
+        return const CustomMaterialPage(
           child: MainContainerSinglePage(
-            child: FutureBuilder(
-              future: loadedFile,
-              builder: (context, snapshot) {
-                return snapshot.connectionState == ConnectionState.done
-                    ? front_page.FrontPageScreen()
-                    : Container(
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        height: double.infinity,
-                        width: double.infinity,
-                        child: const AppSpinner());
-              },
-            ),
+            child: FrontPageScreen(),
           ),
         );
       },

@@ -3,6 +3,6 @@ $__dart_deferred_initializers__.current=function(a,b,c,$){var A,B
 a.setFunctionNamesIfNecessary([])
 A=c[44]
 B=c[23]
-var z=a.updateTypes([]);(function constants(){A.r6=new B.cC("Kirjoita k\xe4ytt\xe4j\xe4nimesi",null)
-A.r8=new B.cC("Kirjoita s\xe4hk\xf6postiosoitteesi",null)})()}
-$__dart_deferred_initializers__["mzU9Rbj+xWdUD4ZB1R7bsYBhJHI="] = $__dart_deferred_initializers__.current
+var z=a.updateTypes([]);(function constants(){A.r7=new B.cC("Kirjoita k\xe4ytt\xe4j\xe4nimesi",null)
+A.r9=new B.cC("Kirjoita s\xe4hk\xf6postiosoitteesi",null)})()}
+$__dart_deferred_initializers__["Ge+37ppoOtlEC55m0NMvWqc8Ha8="] = $__dart_deferred_initializers__.current

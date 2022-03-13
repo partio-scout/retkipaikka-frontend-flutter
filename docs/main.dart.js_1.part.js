@@ -34,7 +34,7 @@ N=c[31]
 A.SZ.prototype={
 YE(d,e){var x=y.N
 return this.d.qq(B.an(["filter",E.S.fI(B.an(["where",B.an(["enabled",!0],x,y.y),"order","updatedAt DESC"],x,y.K),null)],x,y.z)).a7(0,new A.akj(e),y.P).c3(new A.akk(e))},
-E(d,e){var x,w,v,u=null,t=e.S(y.w).f.a.a>=1366?G.qR:G.qT,s=$.bk.bN(new D.b9(!1,u,y.q),y.f)
+E(d,e){var x,w,v,u=null,t=e.S(y.w).f.a.a>=1366?G.qS:G.qU,s=$.bk.bN(new D.b9(!1,u,y.q),y.f)
 $.bk.bN(new H.es(new A.akg(this,s,e),[]),y.H)
 x=I.jE(e,new A.akh(),y.o,y.c)
 w=B.L(e,E.h,y.J)
@@ -42,7 +42,7 @@ w.toString
 v=y.p
 w=D.dG(B.a([D.af(w.H(0,"Ilmoitukset"),u,u,u,u,C.aB,u,u),D.i3(u,K.hi,u,new A.aki(this,s,e),C.aH,u)],v),C.A,C.iB,C.k,u)
 s=s.a?F.a3t:C.b0
-return H.nn(B.a([new B.aV(t,D.aI(B.a([w,L.oF,B.eq(E.aE,B.a([new M.EH(x,!1,u),s],v),E.ak,u,u)],v),C.w,C.l,C.k),u)],v),u,u,u,u,!1,!1)}}
+return H.nn(B.a([new B.aV(t,D.aI(B.a([w,L.oG,B.eq(E.aE,B.a([new M.EH(x,!1,u),s],v),E.ak,u,u)],v),C.w,C.l,C.k),u)],v),u,u,u,u,!1,!1)}}
 var z=a.updateTypes([])
 A.akj.prototype={
 $1(d){var x=B.b0(this.a,!1,y.o)
@@ -84,4 +84,4 @@ B.ev(b.typeUniverse,JSON.parse('{"SZ":{"a_":[],"e":[]}}'))
 var y=(function rtii(){var x=B.T
 return{J:x("fh"),p:x("k<e>"),c:x("p<eX>"),w:x("d7"),o:x("jt"),P:x("ab"),K:x("y"),N:x("i"),f:x("bb<o>"),q:x("b9<o>"),y:x("o"),z:x("@"),H:x("~")}})();(function constants(){F.MQ=new B.ap(0,30,0,0)
 F.a3t=new B.aV(F.MQ,N.bv,null)})()}
-$__dart_deferred_initializers__["oM77u51KCnyY91UQPS4HtvflCcg="] = $__dart_deferred_initializers__.current
+$__dart_deferred_initializers__["HinDhcclPSgywb5rFkJjrnun/bY="] = $__dart_deferred_initializers__.current

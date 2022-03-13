@@ -49,11 +49,13 @@ void main() async {
           builder: (context, snapshot) {
             return snapshot.connectionState == ConnectionState.done
                 ? app.RetkipaikkaApp()
+                // Theme not loaded yet so can't use color from theme
                 : Container(
-                    color: Theme.of(context).scaffoldBackgroundColor,
+                    color: darkTheme
+                        ? const Color(0xFF303030)
+                        : const Color(0xFFfafafa),
                     height: double.infinity,
                     width: double.infinity,
-                    // Theme not loaded yet so can't use color from theme
                     child: AppSpinner(
                       color: darkTheme
                           ? const Color(0xFF28aae1)

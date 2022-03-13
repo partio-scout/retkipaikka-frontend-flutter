@@ -55,7 +55,7 @@ w=B.c4(p,D.R,p,D.Z,p,p,p,p,!0,p,p,p,p,p,p,p,p,D.H,p,p,p,p,p,p,p,p,p,r.H(0,o),p,p
 r=A.L(e,E.h,m)
 r.toString
 q=y.p
-x=B.rM(B.aI(A.a([t,new B.cC(v,p),D.a0,B.cl(w,1,"password",!0,p,p,!1,D.bJ,p,B.eG(A.a([B.i2(e,r.H(0,"Salasana on vaadittu kentt\xe4!"),u)],s),u)),F.r7],q),D.w,D.l,D.k),D.eq,x)
+x=B.rM(B.aI(A.a([t,new B.cC(v,p),D.a0,B.cl(w,1,"password",!0,p,p,!1,D.bJ,p,B.eG(A.a([B.i2(e,r.H(0,"Salasana on vaadittu kentt\xe4!"),u)],s),u)),F.r8],q),D.w,D.l,D.k),D.eq,x)
 u=A.Y(e)
 m=A.L(e,E.h,m)
 m.toString
@@ -99,7 +99,7 @@ x=B.c4(q,D.R,q,q,q,q,q,q,!0,q,q,q,q,q,q,q,q,D.H,q,q,q,q,q,q,q,q,q,s.H(0,"Kuvaus"
 s=A.L(e,E.h,l)
 s.toString
 r=y.p
-m=B.rM(B.aI(A.a([v,M.r8,G.fG,k,M.r6,G.fG,t,F.r7,G.fG,B.cl(x,5,"description",!1,q,q,!1,L.al,q,B.eG(A.a([B.i2(e,s.H(0,"Kuvaus on vaadittu kentt\xe4!"),w)],u),w)),F.Nx,G.fG],r),D.w,D.l,D.k),D.eq,m)
+m=B.rM(B.aI(A.a([v,M.r9,G.fG,k,M.r7,G.fG,t,F.r8,G.fG,B.cl(x,5,"description",!1,q,q,!1,L.al,q,B.eG(A.a([B.i2(e,s.H(0,"Kuvaus on vaadittu kentt\xe4!"),w)],u),w)),F.Nx,G.fG],r),D.w,D.l,D.k),D.eq,m)
 w=A.Y(e)
 l=A.L(e,E.h,l)
 l.toString
@@ -110,7 +110,7 @@ if(v){v=A.L(e,E.h,t)
 v.toString
 v=v.H(0,"Pyyd\xe4 k\xe4ytt\xf6oikeuksia hallintasivulle")}else{v=A.L(e,E.h,t)
 v.toString
-v=v.H(0,"Takaisin kirjautumiseen")}return new A.aV(w,B.yf(B.aI(A.a([N.oF,u,D.a0,B.jk(!1,x,!0,B.af(v,x,x,x,x,D.FK,x,x),x,!0,x,x,x,x,x,x,x,x,x,x,new C.ahD(this,e),x,x,x,x,x),D.a0],y.p),D.w,D.eo,D.bE),x,E.G,x,x,!1,E.ad),x)}}
+v=v.H(0,"Takaisin kirjautumiseen")}return new A.aV(w,B.yf(B.aI(A.a([N.oG,u,D.a0,B.jk(!1,x,!0,B.af(v,x,x,x,x,D.FL,x,x),x,!0,x,x,x,x,x,x,x,x,x,x,new C.ahD(this,e),x,x,x,x,x),D.a0],y.p),D.w,D.eo,D.bE),x,E.G,x,x,!1,E.ad),x)}}
 var z=a.updateTypes([])
 C.ahC.prototype={
 $0(){var x=0,w=A.H(y.H),v=this,u,t,s
@@ -176,6 +176,6 @@ A.ev(b.typeUniverse,JSON.parse('{"Qx":{"a_":[],"e":[]},"Us":{"a_":[],"e":[]},"Qy
 var y=(function rtii(){var x=A.T
 return{J:x("fh"),i:x("dq"),p:x("k<e>"),k:x("k<i?(i?)>"),O:x("aL<eF>"),w:x("d7"),P:x("ab"),N:x("i"),e:x("bb<dQ<eF>>"),U:x("b9<dQ<eF>>"),y:x("o"),H:x("~")}})();(function constants(){F.N6=new A.ap(200,0,200,0)
 F.Nx=new B.cC("Kirjoita kuvaus itsest\xe4si",null)
-F.r7=new B.cC("Kirjoita salasanasi",null)
+F.r8=new B.cC("Kirjoita salasanasi",null)
 F.aaf=new B.fv("Rekister\xf6ityminen",null,D.aB,null,null,null,null,null,null,null)})()}
-$__dart_deferred_initializers__["oXAPixF9l1jRRvr78TuGUkxdzo4="] = $__dart_deferred_initializers__.current
+$__dart_deferred_initializers__["KRK00Bcfts4ag511GiPU0vvSsK0="] = $__dart_deferred_initializers__.current

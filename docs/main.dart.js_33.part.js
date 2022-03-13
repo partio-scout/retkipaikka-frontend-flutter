@@ -252,9 +252,9 @@ E(d,e){var x,w,v,u,t,s,r,q,p,o,n,m,l,k,j,i,h=this,g=null,f=B.Y(e)
 h.a.toString
 x=f.bU
 w=f.z
-switch(f.e.a){case 0:v=D.Fd
+switch(f.e.a){case 0:v=D.Fe
 break
-case 1:v=K.oE
+case 1:v=K.oF
 break
 default:v=g}v=v.V(0,new B.l(w.a,w.b).ar(0,4))
 u=h.geA()
@@ -388,7 +388,7 @@ gKJ(d){return J.aK(this.f)},
 gCJ(){return 0}}
 A.M5.prototype={
 E(d,e){var x,w,v=null,u=y.p,t=B.a([],u)
-for(x=J.az(this.c),w=this.d;x.t();)E.c.J(t,B.a([new B.aV(H.qP,new M.Cy(x.gD(x),w,v),v)],u))
+for(x=J.az(this.c),w=this.d;x.t();)E.c.J(t,B.a([new B.aV(H.qQ,new M.Cy(x.gD(x),w,v),v)],u))
 return new B.ez(D.da,v,v,M.X5(H.cg,t,H.fR,E.P,H.cg,5,0,v,D.b2),v)}}
 A.M6.prototype={
 E(d,e){var x,w,v,u=null,t=$.bk.bN(new C.b9(!1,u,y.R),y.Q),s=y.W,r=B.a([],s),q=y.L,p=y.x
@@ -483,7 +483,7 @@ v=I.ad5(x.ch.b,E.E,N.e7,"new_user",s,new B.aV(E.E,C.af(v.H(0,"Kirjautuminen sall
 x=B.L(e,E.h,w)
 x.toString
 u=y.p
-n=C.rM(C.aI(B.a([q,v,F.Ny,D.a0,C.af(x.H(0,"Roolit"),s,s,s,s,B.hf(s,s,s,s,s,s,s,s,s,s,s,20,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s),M.aM1(B.Y(e).ch.b,N.rl,"roles",J.ex(t.f,new A.au7(),y.b).el(0),s,p),F.NI,D.a0],u),D.w,D.l,D.k),o,n)
+n=C.rM(C.aI(B.a([q,v,F.Ny,D.a0,C.af(x.H(0,"Roolit"),s,s,s,s,B.hf(s,s,s,s,s,s,s,s,s,s,s,20,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s),M.aM1(B.Y(e).ch.b,N.rm,"roles",J.ex(t.f,new A.au7(),y.b).el(0),s,p),F.NI,D.a0],u),D.w,D.l,D.k),o,n)
 o=B.Y(e)
 p=B.L(e,E.h,w)
 p.toString
@@ -530,7 +530,7 @@ t=C.c4(p,D.R,p,D.Z,p,p,p,p,!0,p,p,p,p,p,p,p,p,D.H,p,p,p,p,p,p,p,p,p,u.H(0,o),p,p
 u=B.L(e,E.h,m)
 u.toString
 q=y.p
-x=C.rM(C.aI(B.a([s,O.r8,D.a0,C.cl(t,1,"username",!1,p,p,!1,D.bJ,p,C.eG(B.a([C.i2(e,u.H(0,"K\xe4ytt\xe4j\xe4nimi on vaadittu kentt\xe4!"),v)],r),v)),O.r6],q),D.w,D.l,D.k),w,x)
+x=C.rM(C.aI(B.a([s,O.r9,D.a0,C.cl(t,1,"username",!1,p,p,!1,D.bJ,p,C.eG(B.a([C.i2(e,u.H(0,"K\xe4ytt\xe4j\xe4nimi on vaadittu kentt\xe4!"),v)],r),v)),O.r7],q),D.w,D.l,D.k),w,x)
 w=B.Y(e)
 m=B.L(e,E.h,m)
 m.toString
@@ -570,7 +570,7 @@ v.toString
 v=C.af(v.H(0,"Retkipaikkailmoitukset"),t,t,t,t,t,t,t)
 o=B.L(e,E.h,o)
 o.toString
-return C.aI(B.a([G.aHa(p,V.kG,B.a([new G.e1(n),new G.e1(x),new G.e1(w),new G.e1(v),new G.e1(C.af(o.H(0,"Roolit"),t,t,t,t,t,t,t))],y.K),u.e,new A.aun(s),r,!1,new A.M_(u.d,new A.auo(u,e),B.a2(0,t,!1,y.Z)))],q),D.ck,D.l,D.k)}}
+return C.aI(B.a([G.aHa(p,V.kH,B.a([new G.e1(n),new G.e1(x),new G.e1(w),new G.e1(v),new G.e1(C.af(o.H(0,"Roolit"),t,t,t,t,t,t,t))],y.K),u.e,new A.aun(s),r,!1,new A.M_(u.d,new A.auo(u,e),B.a2(0,t,!1,y.Z)))],q),D.ck,D.l,D.k)}}
 A.yO.prototype={
 E(d,e){var x=this,w=null,v=y.J,u=B.L(e,E.h,v)
 u.toString
@@ -666,7 +666,7 @@ return!1},
 $S:11}
 A.ajg.prototype={
 $1(d){var x=J.al(d)
-return new C.fp(x.h(d,"region_id"),x.h(d,"object_name"),E.Gk,null)},
+return new C.fp(x.h(d,"region_id"),x.h(d,"object_name"),E.Gl,null)},
 $S:z+6}
 A.ajh.prototype={
 $1(d){if(d!=null)this.a.sl(0,d)},
@@ -926,4 +926,4 @@ F.ND=new C.cC("Kirjoita uusi salasana",null)
 F.NI=new C.cC("Valitse roolit k\xe4ytt\xe4j\xe4lle",null)
 F.a9T=new B.B(!0,null,null,null,null,null,15,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 F.aak=new C.fv("Salasanan vaihto",null,D.aB,null,null,null,null,null,null,null)})()}
-$__dart_deferred_initializers__["jCQ9ULUZK0mjLle9L9gWxAC162U="] = $__dart_deferred_initializers__.current
+$__dart_deferred_initializers__["uCIBmUvABJMC0z4ZwmBu5yKdusM="] = $__dart_deferred_initializers__.current

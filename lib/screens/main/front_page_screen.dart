@@ -5,13 +5,15 @@ import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/notification_api.dart';
 import 'package:retkipaikka_flutter/helpers/api_service.dart';
+import 'package:retkipaikka_flutter/helpers/components/app_spinner.dart';
 import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/helpers/shared_preferences_helper.dart';
 import 'package:retkipaikka_flutter/routes.dart';
 import 'package:retkipaikka_flutter/screens/main/components/filtering/filtering_component.dart';
-import 'package:retkipaikka_flutter/screens/main/components/form/location_form.dart' deferred as location_form;
+import 'package:retkipaikka_flutter/screens/main/components/form/location_form.dart';
+
 import 'package:retkipaikka_flutter/screens/main/components/map/map_container.dart';
 import 'package:retkipaikka_flutter/screens/main/components/title_image.dart';
 
@@ -45,13 +47,14 @@ class FrontPageScreen extends HookWidget {
           if (value != null) {
             showFlash(
               context: context,
+              transitionDuration: const Duration(milliseconds: 0),
               duration: const Duration(seconds: 10),
               builder: (_, controller) {
                 return Flash(
                   controller: controller,
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
-                  boxShadows: [const BoxShadow(blurRadius: 4)],
+                  //boxShadows: [const BoxShadow(blurRadius: 4)],
                   barrierBlur: 3.0,
                   //barrierColor: Colors.black38,
                   barrierDismissible: true,
@@ -121,9 +124,7 @@ class FrontPageScreen extends HookWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 15.0),
-                          child: FutureBuilder(future: location_form.loadLibrary(), builder: (context, snapshot) {
-                            return location_form.LocationForm();
-                          }),
+                          child: LocationForm(),
                         )
                       ]),
                 ),

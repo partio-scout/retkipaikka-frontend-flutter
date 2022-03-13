@@ -7,8 +7,7 @@ import 'package:retkipaikka_flutter/helpers/api/triplocation_api.dart';
 import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/app_spinner.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
-import 'package:retkipaikka_flutter/screens/main/components/map/location_map.dart'
-    deferred as location_map;
+import 'package:retkipaikka_flutter/screens/main/components/map/location_map.dart';
 import 'package:retkipaikka_flutter/screens/main/components/map/map_drawer.dart';
 import 'package:retkipaikka_flutter/screens/main/components/map/map_header.dart';
 import 'package:provider/provider.dart';
@@ -64,17 +63,9 @@ class MapContainer extends HookWidget {
                     drawerScrimColor: Colors.transparent,
                     appBar: const MapHeader(),
                     body: Stack(
-                      children: [
-                        SizedBox(
-                          width: double.infinity,
-                          child: FutureBuilder(
-                            future: location_map.loadLibrary(),
-                            builder: (context, snapshot) {
-                              return location_map.LocationMap();
-                            },
-                          ),
-                        ),
-                        const MapDrawer(),
+                      children: const [
+                        SizedBox(width: double.infinity, child: LocationMap()),
+                        MapDrawer(),
                         //isLoading.value?const AppSpinner():const SizedBox(),
                       ],
                     )),

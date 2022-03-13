@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
+import 'package:retkipaikka_flutter/helpers/components/app_spinner.dart';
 import 'package:retkipaikka_flutter/screens/admin/admin_filters_screen.dart'
     deferred as admin_filters;
 import 'package:retkipaikka_flutter/screens/admin/admin_locations_screen.dart'
@@ -48,15 +49,20 @@ class AppPages {
   static RouteMap appRoutes(BuildContext context) {
     return RouteMap(routes: {
       UserRoutes.locations: (routeData) {
-      Future<void> loadedFile = front_page.loadLibrary();
+        Future<void> loadedFile = front_page.loadLibrary();
 
         return CustomMaterialPage(
           child: MainContainerSinglePage(
             child: FutureBuilder(
               future: loadedFile,
               builder: (context, snapshot) {
-                
-                return snapshot.connectionState == ConnectionState.done ?  front_page.FrontPageScreen(): const SizedBox();
+                return snapshot.connectionState == ConnectionState.done
+                    ? front_page.FrontPageScreen()
+                    : Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        height: double.infinity,
+                        width: double.infinity,
+                        child: const AppSpinner());
               },
             ),
           ),
@@ -84,22 +90,20 @@ class AppPages {
             child: FutureBuilder(
               future: loadedFile,
               builder: (snapshot, context) {
-                return login_screen.LoginScreen(
-                    isLoginPage: true);
+                return login_screen.LoginScreen(isLoginPage: true);
               },
             ),
           ),
         );
       },
       UserRoutes.signUp: (routeData) {
-         Future<void> loadedFile = login_screen.loadLibrary();
+        Future<void> loadedFile = login_screen.loadLibrary();
         return CustomMaterialPage(
           child: MainContainerSinglePage(
             child: FutureBuilder(
               future: loadedFile,
               builder: (snapshot, context) {
-                return login_screen.LoginScreen(
-                    isLoginPage: false);
+                return login_screen.LoginScreen(isLoginPage: false);
               },
             ),
           ),

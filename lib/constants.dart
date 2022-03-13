@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 //192.168.0.3 // use computer if if debugging with real device
 //10.0.2.2 // android emulator
-const kBaseUrl = "https://retkipaikka-backend.herokuapp.com/api";
+const kBaseUrl = "http://192.168.0.3:3000/api";
 
 enum kfilterType {
   region,

@@ -110,9 +110,9 @@
 
   <script>
 
-    let themeValue = window.localStorage.getItem("RETKIPAIKKA_THEME")
+    let themeValue = window.localStorage.getItem("flutter.RETKIPAIKKA_THEME")
 
-    if (themeValue != null && themeValue === "true") {
+    if (themeValue != null && JSON.parse(themeValue) === "true") {
       let elem = document.getElementById("app-body")
       if (elem != null) {
         elem.style.backgroundColor = "#303030"

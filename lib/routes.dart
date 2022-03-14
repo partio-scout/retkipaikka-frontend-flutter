@@ -10,6 +10,8 @@ import 'package:retkipaikka_flutter/screens/admin/admin_notifications_screen.dar
     deferred as admin_notifications;
 import 'package:retkipaikka_flutter/screens/admin/admin_settings_screen.dart'
     deferred as admin_settings;
+import 'package:retkipaikka_flutter/screens/admin/single_location_screen.dart'
+    deferred as single_location;
 import 'package:retkipaikka_flutter/screens/login/login_screen.dart'
     deferred as login_screen;
 import 'package:retkipaikka_flutter/screens/main/front_page_screen.dart';
@@ -27,6 +29,7 @@ class AdminRoutes {
   static const adminFilter = "/admin/filters";
   static const adminSettings = "/admin/settings";
   static const adminNotifications = "/admin/notifications";
+  static const singleLocation = "/location/:id";
 }
 
 class UserRoutes {
@@ -116,6 +119,27 @@ class AppPages {
             ),
           ),
         );
+      },
+      AdminRoutes.singleLocation: (routeData) {
+        Future<void> loadedFile = single_location.loadLibrary();
+        return privateRoute(
+            CustomMaterialPage(
+                child: MainContainerSinglePage(
+              child: FutureBuilder(
+                  future: loadedFile,
+                  builder: (context, snapshot) {
+                    return snapshot.connectionState == ConnectionState.done
+                        ? single_location.SingleLocationScreen(
+                            locationId: routeData.pathParameters["id"],
+                          )
+                        : Container(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            height: double.infinity,
+                            width: double.infinity,
+                            child: const AppSpinner());
+                  }),
+            )),
+            context);
       },
       AdminRoutes.adminRoot: (routeData) {
         return privateRoute(

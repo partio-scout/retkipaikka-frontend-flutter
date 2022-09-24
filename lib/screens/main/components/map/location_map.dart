@@ -59,20 +59,16 @@ class LocationMap extends HookWidget {
           if (isMobile() && tState.drawerOpen) {
             tState.closeDrawer();
           }
-          // TODO FIX
-          if (false) {
-            tState.popupController.hideAllPopups();
-          } else {
-            tState.onMarkerClick(CustomMarker(
-                locationId: "-1",
-                width: 50.0,
-                height: 80.0,
-                point: latlng,
-                builder: (ctx) => const Icon(
-                      Icons.outlined_flag_outlined,
-                      color: Colors.black,
-                    )));
-          }
+          tState.popupController.hideAllPopups();
+          tState.onMarkerClick(CustomMarker(
+              locationId: "-1",
+              width: 50.0,
+              height: 80.0,
+              point: latlng,
+              builder: (ctx) => const Icon(
+                    Icons.outlined_flag_outlined,
+                    color: Colors.black,
+                  )));
         },
 
         //pinchMoveThreshold: 60,

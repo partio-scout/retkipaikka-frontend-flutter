@@ -5,14 +5,7 @@ import 'package:flutter/material.dart';
 //10.0.2.2 // android emulator
 const kBaseUrl = "https://retkipaikka-backend.herokuapp.com/api";
 
-enum kfilterType {
-  region,
-  municipality,
-  filter,
-  category,
-  noFilter,
-  noCategory
-}
+enum FilterType { region, municipality, filter, category, noFilter, noCategory }
 
 const Map<String, String> kSupportedLocales = {
   "en": "English",
@@ -23,44 +16,44 @@ const Map<String, String> kSupportedLocales = {
 
 const kSuperAdminRoles = ["superadmin"];
 
-kfilterType typeToFilterType(String type) {
+FilterType typeToFilterType(String type) {
   switch (type) {
     case "filter":
-      return kfilterType.filter;
+      return FilterType.filter;
     case "locationtype":
-      return kfilterType.category;
+      return FilterType.category;
     case "region":
-      return kfilterType.region;
+      return FilterType.region;
     case "municipality":
-      return kfilterType.municipality;
+      return FilterType.municipality;
     default:
-      return kfilterType.filter;
+      return FilterType.filter;
   }
 }
 
-String filterTypetoType(kfilterType type) {
+String filterTypetoType(FilterType type) {
   switch (type) {
-    case kfilterType.filter:
+    case FilterType.filter:
       return "filter";
-    case kfilterType.category:
+    case FilterType.category:
       return "locationtype";
-    case kfilterType.region:
+    case FilterType.region:
       return "region";
-    case kfilterType.municipality:
+    case FilterType.municipality:
       return "municipality";
     default:
       return "filter";
   }
 }
 
-Color getTagColor(kfilterType type) {
+Color getTagColor(FilterType type) {
   switch (type) {
-    case kfilterType.filter:
+    case FilterType.filter:
       return const Color(0xFF253764);
-    case kfilterType.category:
+    case FilterType.category:
       return const Color(0xFF28aae1);
-    case kfilterType.region:
-    case kfilterType.municipality:
+    case FilterType.region:
+    case FilterType.municipality:
       return const Color(0xFF1c4257);
     default:
       return const Color(0xFF253764);

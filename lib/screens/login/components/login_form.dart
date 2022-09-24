@@ -24,7 +24,7 @@ class LoginForm extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       //mainAxisAlignment: MainAxisAlignment.start,
       children: [
-         Text("Kirjautuminen".t(context), style: const TextStyle(fontSize: 20)),
+        Text("Kirjautuminen".t(context), style: const TextStyle(fontSize: 20)),
         const SizedBox(
           height: 30,
         ),
@@ -35,37 +35,41 @@ class LoginForm extends HookWidget {
               children: [
                 FormBuilderTextField(
                   name: "email",
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: "Sähköposti".t(context)+"*",
+                      labelText: "Sähköposti".t(context) + "*",
                       hintText: "a@gmail.com",
-                      contentPadding:const  EdgeInsets.symmetric(horizontal: 10),
-                      border:const OutlineInputBorder()),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 10),
+                      border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
-                      FormBuilderValidators.required(context,
-                          errorText: "Sähköposti on vaadittu kenttä!".t(context)),
-                      FormBuilderValidators.email(context,
-                          errorText: "Sähköpostin pitää olla oikean muotoinen!".t(context))
+                      FormBuilderValidators.required(
+                          errorText:
+                              "Sähköposti on vaadittu kenttä!".t(context)),
+                      FormBuilderValidators.email(
+                          errorText: "Sähköpostin pitää olla oikean muotoinen!"
+                              .t(context))
                     ],
                   ),
                 ),
-                 FormInfoText(text: "Kirjoita sähköpostiosoitteesi".t(context)),
+                FormInfoText(text: "Kirjoita sähköpostiosoitteesi".t(context)),
                 const SizedBox(
                   height: 25,
                 ),
                 FormBuilderTextField(
                   name: "password",
                   obscureText: true,
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: "Salasana".t(context) +"*",
+                      labelText: "Salasana".t(context) + "*",
                       hintText: "Salasana".t(context),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 10),
                       border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
-                      FormBuilderValidators.required(context,
+                      FormBuilderValidators.required(
                           errorText: "Salasana on vaadittu kenttä!".t(context))
                     ],
                   ),
@@ -78,7 +82,7 @@ class LoginForm extends HookWidget {
         ),
         MaterialButton(
           color: Theme.of(context).primaryColor,
-          child:  Text(
+          child: Text(
             "Kirjaudu".t(context),
             style: const TextStyle(color: Colors.white),
           ),

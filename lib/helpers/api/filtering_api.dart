@@ -51,14 +51,14 @@ class FilteringApi {
   Future<void> createFilter(Map<String, dynamic> data) async {
     Map<String, dynamic> dataCpy = Map.from(data);
     if (dataCpy["object_type"] == null) {
-      dataCpy["object_type"] = filterTypetoType(kfilterType.filter);
+      dataCpy["object_type"] = filterTypetoType(FilterType.filter);
     }
     dynamic res = await filterApi.post("/", dataCpy);
     return filterApi.parseResponse(res);
   }
 
   Future<void> updateFilter(Map<String, dynamic> data, int filterId) async {
-    dynamic res = await filterApi.patch("/" + filterId.toString(), data);
+    dynamic res = await filterApi.patch("/$filterId", data);
 
     return filterApi.parseResponse(res);
   }
@@ -66,24 +66,23 @@ class FilteringApi {
   Future<void> createCategory(Map<String, dynamic> data) async {
     Map<String, dynamic> dataCpy = Map.from(data);
     if (dataCpy["object_type"] == null) {
-      dataCpy["object_type"] = filterTypetoType(kfilterType.category);
+      dataCpy["object_type"] = filterTypetoType(FilterType.category);
     }
     dynamic res = await categoryApi.post("/", dataCpy);
     return categoryApi.parseResponse(res);
   }
 
   Future<void> updateCategory(Map<String, dynamic> data, int categoryId) async {
-    dynamic res = await categoryApi.patch("/" + categoryId.toString(), data);
+    dynamic res = await categoryApi.patch("/$categoryId", data);
 
     return categoryApi.parseResponse(res);
   }
 
   Future<void> deleteFilter(int filterId) async {
-    dynamic res = await filterApi
-        .get("/" + filterId.toString() + "/triplocations/count", {});
+    dynamic res = await filterApi.get("/$filterId/triplocations/count", {});
     Map<String, dynamic> countData = filterApi.parseResponse(res);
     if (countData["count"] == 0) {
-      dynamic response = await filterApi.delete("/" + filterId.toString(), {});
+      dynamic response = await filterApi.delete("/$filterId", {});
       return filterApi.parseResponse(response);
     } else {
       throw "Error: You can't delete a filter that is in use!";
@@ -91,12 +90,10 @@ class FilteringApi {
   }
 
   Future<void> deleteCategory(int categoryId) async {
-    dynamic res = await categoryApi
-        .get("/" + categoryId.toString() + "/triplocations/count", {});
+    dynamic res = await categoryApi.get("/$categoryId/triplocations/count", {});
     Map<String, dynamic> countData = categoryApi.parseResponse(res);
     if (countData["count"] == 0) {
-      dynamic response =
-          await categoryApi.delete("/" + categoryId.toString(), {});
+      dynamic response = await categoryApi.delete("/$categoryId", {});
       return categoryApi.parseResponse(response);
     } else {
       throw "Error: You can't delete a category that is in use!";

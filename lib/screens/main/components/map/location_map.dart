@@ -59,20 +59,16 @@ class LocationMap extends HookWidget {
           if (isMobile() && tState.drawerOpen) {
             tState.closeDrawer();
           }
-
-          if (tState.popupController.selectedMarkers.isNotEmpty) {
-            tState.popupController.hideAllPopups();
-          } else {
-            tState.onMarkerClick(CustomMarker(
-                locationId: "-1",
-                width: 50.0,
-                height: 80.0,
-                point: latlng,
-                builder: (ctx) => const Icon(
-                      Icons.outlined_flag_outlined,
-                      color: Colors.black,
-                    )));
-          }
+          tState.popupController.hideAllPopups();
+          tState.onMarkerClick(CustomMarker(
+              locationId: "-1",
+              width: 50.0,
+              height: 80.0,
+              point: latlng,
+              builder: (ctx) => const Icon(
+                    Icons.outlined_flag_outlined,
+                    color: Colors.black,
+                  )));
         },
 
         //pinchMoveThreshold: 60,
@@ -87,9 +83,6 @@ class LocationMap extends HookWidget {
         TileLayerOptions(
           urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
           subdomains: ['a', 'b', 'c'],
-          attributionBuilder: (_) {
-            return const Text("© OpenStreetMap contributors");
-          },
         ),
         MarkerClusterLayerOptions(
             centerMarkerOnClick: false,
@@ -164,7 +157,7 @@ class LocationMap extends HookWidget {
                                   onPressed: () {
                                     tState.setSelectedLocation(loc);
                                   },
-                                  child:  Text("Lisätiedot".t(context)),
+                                  child: Text("Lisätiedot".t(context)),
                                   style: ButtonStyle(
                                       padding: MaterialStateProperty.all(
                                           EdgeInsets.zero)),

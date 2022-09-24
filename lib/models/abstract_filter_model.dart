@@ -1,12 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/constants.dart';
 
-
-abstract class AbstractFilter   {
+abstract class AbstractFilter {
   late int id;
   late String name;
-  late kfilterType type;
+  late FilterType type;
   String? nameEn;
   String? nameSv;
   String? nameSmn;

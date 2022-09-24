@@ -71,7 +71,7 @@ class TripLocation extends DateParser {
   }
 
   String getCoordinatesStringified() {
-    return geo["lat"].toString() + ", " + geo["lng"].toString();
+    return "${geo["lat"]}, ${geo["lng"]}";
   }
 
   Future<bool> toggleFavourite() async {

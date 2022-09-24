@@ -5,7 +5,7 @@
 1. Clone the git repository ```git clone https://github.com/partio-scout/retkipaikka-frontend-flutter.git```
 
 2. Install Flutter and Visual Studio Code and recommended extensions for VS Code
-  * Flutter:  ** https://docs.flutter.dev/get-started/install/windows**
+  * Flutter:   https://docs.flutter.dev/get-started/install/windows
   * Visual Studio Code: **https://code.visualstudio.com/**
     * Dart extension
     * Flutter extension

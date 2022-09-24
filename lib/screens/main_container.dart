@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
+import 'package:retkipaikka_flutter/helpers/locales/app_localizations.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/screens/app_drawer.dart';
 import 'package:retkipaikka_flutter/screens/app_header.dart';
@@ -15,7 +17,7 @@ class AdminMainContainer extends StatelessWidget {
     bool isDesktop = Responsive.isDesktop(context);
     return Scaffold(
         //resizeToAvoidBottomInset: false,
-        appBar: const AppHeader(title: "Partion Retkipaikat"),
+        appBar:  AppHeader(title: "Partion Retkipaikat".t(context)),
         //key:context.read<AppState>().mainScaffoldKey,
         endDrawer: AppDrawer(),
         bottomNavigationBar: TabBar(
@@ -28,28 +30,28 @@ class AdminMainContainer extends StatelessWidget {
               icon: const Icon(
                 Icons.plus_one,
               ),
-              text: isDesktop ? "Uudet retkipaikat" : null,
+              text: isDesktop ?  "Uudet retkipaikat".t(context) : null,
             ),
             Tab(
                 icon: const Icon(
                   Icons.map_outlined,
                 ),
-                text: isDesktop ? "Selaa retkipaikkoja" : null),
+                text: isDesktop ? "Selaa retkipaikkoja".t(context) : null),
             Tab(
                 icon: const Icon(
                   Icons.filter_list_alt,
                 ),
-                text: isDesktop ? "Suodattimet" : null),
+                text: isDesktop ? "Suodattimet".t(context) : null),
             Tab(
                 icon: const Icon(
                   Icons.notifications,
                 ),
-                text: isDesktop ? "Ilmoitukset" : null),
+                text: isDesktop ? "Ilmoitukset".t(context) : null),
             Tab(
                 icon: const Icon(
                   Icons.settings,
                 ),
-                text: isDesktop ? "Asetukset" : null),
+                text: isDesktop ? "Asetukset".t(context) : null),
           ],
           controller: tabPage.controller,
         ),
@@ -76,7 +78,7 @@ class MainContainerSinglePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         //key:context.read<AppState>().mainScaffoldKey,
-        appBar: const AppHeader(title: "Partion Retkipaikat"),
+        appBar:  AppHeader(title: "Partion Retkipaikat".t(context)),
         endDrawer: AppDrawer(),
         body: GestureDetector(
             onTap: () {

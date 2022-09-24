@@ -8,9 +8,19 @@ class SharedPreferencesHelper {
   static const kAccessToken = "RETKIPAIKKA_TOKEN";
   static const kThemeMode = "RETKIPAIKKA_THEME";
   static const kUserFavourites = "RETKIPAIKKA_FAVOURITES";
+  static const kSeenNotifications = "RETKIPAIKKA_NOTIFICATIONS";
+  static const kAppLocale = "RETKIPAIKKA_LOCALE";
   static Future<bool> saveToPrefs(String key, String value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setString(key, value);
+  }
+
+  static Future<bool> saveLocale(String name) {
+    return saveToPrefs(kAppLocale, name);
+  }
+
+  static Future<String?> getLocale() async {
+    return getStringFromPrefs(kAppLocale);
   }
 
   static Future<bool> saveLogin(AdminUser user) async {
@@ -44,6 +54,23 @@ class SharedPreferencesHelper {
 
     String encoded = jsonEncode(currentFavourites);
     return saveToPrefs(kUserFavourites, encoded);
+  }
+
+  static Future<List<dynamic>?> getNotificationIds() async {
+    String? res = await getStringFromPrefs(kSeenNotifications);
+
+    if (res != null) {
+      return jsonDecode(res);
+    }
+    return null;
+  }
+
+  static Future<bool> saveNotificationId(String id) async {
+    List<dynamic> currentNotis = await getNotificationIds() ?? [];
+
+    currentNotis.add(id);
+
+    return saveToPrefs(kSeenNotifications, jsonEncode(currentNotis));
   }
 
   static Future<bool> deleteLogin() async {

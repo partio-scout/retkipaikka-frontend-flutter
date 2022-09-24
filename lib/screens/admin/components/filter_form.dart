@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:retkipaikka_flutter/constants.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/components/dynamic_layout_wrapper.dart';
 import 'package:retkipaikka_flutter/helpers/components/form_info_text.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 
@@ -15,19 +17,21 @@ class FilterForm extends HookWidget {
       this.onDelete,
       this.initialFilter,
       this.resetAfterSubmit = true,
+      required this.type,
       required this.title})
       : super(key: key);
   final Function(Map<String, dynamic>) onSubmit;
   final Function(int)? onDelete;
   final String title;
   final bool resetAfterSubmit;
-
+  final kfilterType type;
   final AbstractFilter? initialFilter;
   @override
   Widget build(BuildContext context) {
     var formKey =
         useState<GlobalKey<FormBuilderState>>(GlobalKey<FormBuilderState>());
-
+    String fieldName =type == kfilterType.filter ? "Suodatin".t(context):"Kategoria".t(context);
+    String confirmText =type == kfilterType.filter ? "Kirjoita lisättävän suodattimen nimi":"Kirjoita lisättävän kategorian nimi";
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       //mainAxisAlignment: MainAxisAlignment.start,
@@ -41,7 +45,7 @@ class FilterForm extends HookWidget {
                 ? {
                     "object_name": initialFilter!.name,
                     "object_name_sv": initialFilter!.nameSv,
-                    "object_name_sa": initialFilter!.nameSa,
+                    "object_name_sa": initialFilter!.nameSmn,
                     "object_name_en": initialFilter!.nameEn,
                   }
                 : {},
@@ -58,22 +62,22 @@ class FilterForm extends HookWidget {
                       FormBuilderTextField(
                         textCapitalization: TextCapitalization.sentences,
                         name: "object_name",
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                             floatingLabelBehavior: FloatingLabelBehavior.always,
-                            labelText: 'Suodatin*',
-                            hintText: "Suomeksi",
+                            labelText: fieldName+"*",
+                            hintText: "Suomeksi".t(context),
                             contentPadding:
-                                EdgeInsets.symmetric(horizontal: 10),
-                            border: OutlineInputBorder()),
+                                const EdgeInsets.symmetric(horizontal: 10),
+                            border: const OutlineInputBorder()),
                         validator: FormBuilderValidators.compose(
                           [
                             FormBuilderValidators.required(context,
-                                errorText: "Finnish name is required")
+                                errorText: "Suomenkielinen nimi on vaadittu kenttä!".t(context))
                           ],
                         ),
                       ),
-                      const FormInfoText(
-                          text: "Kirjoita lisättävän suodattimen nimi"),
+                       FormInfoText(
+                          text: confirmText),
                     ],
                   ),
                 ),
@@ -88,16 +92,16 @@ class FilterForm extends HookWidget {
                       FormBuilderTextField(
                         textCapitalization: TextCapitalization.sentences,
                         name: "object_name_sv",
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                             floatingLabelBehavior: FloatingLabelBehavior.always,
-                            labelText: 'Suodatin',
-                            hintText: "Ruotsiksi",
+                            labelText: fieldName,
+                            hintText: "Ruotsiksi".t(context),
                             contentPadding:
-                                EdgeInsets.symmetric(horizontal: 10),
-                            border: OutlineInputBorder()),
+                                const EdgeInsets.symmetric(horizontal: 10),
+                            border: const OutlineInputBorder()),
                       ),
-                      const FormInfoText(
-                          text: "Kirjoita lisättävän suodattimen nimi"),
+                       FormInfoText(
+                          text: confirmText),
                     ],
                   ),
                 ),
@@ -112,16 +116,16 @@ class FilterForm extends HookWidget {
                       FormBuilderTextField(
                         textCapitalization: TextCapitalization.sentences,
                         name: "object_name_sa",
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                             floatingLabelBehavior: FloatingLabelBehavior.always,
-                            labelText: 'Suodatin',
-                            hintText: "Saameksi",
+                            labelText: fieldName,
+                            hintText: "Saameksi".t(context),
                             contentPadding:
-                                EdgeInsets.symmetric(horizontal: 10),
-                            border: OutlineInputBorder()),
+                                const EdgeInsets.symmetric(horizontal: 10),
+                            border: const OutlineInputBorder()),
                       ),
-                      const FormInfoText(
-                          text: "Kirjoita lisättävän suodattimen nimi"),
+                       FormInfoText(
+                          text: confirmText),
                     ],
                   ),
                 ),
@@ -136,16 +140,16 @@ class FilterForm extends HookWidget {
                       FormBuilderTextField(
                         textCapitalization: TextCapitalization.sentences,
                         name: "object_name_en",
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                             floatingLabelBehavior: FloatingLabelBehavior.always,
-                            labelText: 'Suodatin',
-                            hintText: "Englanniksi",
+                            labelText: fieldName,
+                            hintText: "Englanniksi".t(context),
                             contentPadding:
-                                EdgeInsets.symmetric(horizontal: 10),
-                            border: OutlineInputBorder()),
+                                const EdgeInsets.symmetric(horizontal: 10),
+                            border: const OutlineInputBorder()),
                       ),
-                      const FormInfoText(
-                          text: "Kirjoita lisättävän suodattimen nimi"),
+                       FormInfoText(
+                          text: confirmText),
                     ],
                   ),
                 ),
@@ -181,9 +185,9 @@ class FilterForm extends HookWidget {
                       "Lomake ei ole täytetty oikein!", context);
                 }
               },
-              child: const Text(
-                "Tallenna",
-                style: TextStyle(color: Colors.white),
+              child: Text(
+                "Tallenna".t(context),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
             const SizedBox(
@@ -193,8 +197,9 @@ class FilterForm extends HookWidget {
               MaterialButton(
                 color: Colors.red,
                 onPressed: () {
+                  String text = type==kfilterType.category?"Haluatko poistaa kategorian?":"Haluatko poistaa suodattimen?";
                   AlertHelper.displayConfirmAlert(
-                      "Haluatko poistaa suodattimen?", context, onConfirm: () {
+                      text, context, onConfirm: () {
                     if (initialFilter?.id != null && onDelete != null) {
                       Navigator.of(context).pop();
                       onDelete!(initialFilter!.id);
@@ -204,7 +209,7 @@ class FilterForm extends HookWidget {
                   });
                 },
                 child:
-                    const Text("Poista", style: TextStyle(color: Colors.white)),
+                    Text("Poista".t(context), style: const TextStyle(color: Colors.white)),
               )
           ],
         ),

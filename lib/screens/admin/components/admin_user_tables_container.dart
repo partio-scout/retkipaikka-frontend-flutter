@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/user_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/models/admin_model.dart';
 import 'package:retkipaikka_flutter/models/role_model.dart';
 import 'package:retkipaikka_flutter/screens/admin/components/table_title.dart';
@@ -9,7 +11,7 @@ import 'package:retkipaikka_flutter/screens/admin/components/user_table.dart';
 
 class AdminUserTablesContainer extends HookWidget {
   AdminUserTablesContainer({Key? key}) : super(key: key);
-  final UserApi userApi = UserApi();
+  final UserApi userApi = ApiService().userApi;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class AdminUserTablesContainer extends HookWidget {
           allRoles: allRoles.value,
           tableData: currentUsers.value,
           title: TableTitle(
-              text: "Nykyiset käyttäjät", isLoading: isLoading.value),
+              text: "Nykyiset käyttäjät".t(context), isLoading: isLoading.value),
           onRefreshClick: () {
             isLoading.value = true;
             userApi.getAllUsers().then((value) {
@@ -56,7 +58,7 @@ class AdminUserTablesContainer extends HookWidget {
           allRoles: allRoles.value,
           tableData: newUsers.value,
           title:
-              TableTitle(text: "Uudet käyttäjät", isLoading: isLoading.value),
+              TableTitle(text: "Uudet käyttäjät".t(context), isLoading: isLoading.value),
           onRefreshClick: () {
             isLoading.value = true;
             userApi.getAllUsers().then((value) {

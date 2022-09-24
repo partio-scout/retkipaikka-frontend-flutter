@@ -15,16 +15,7 @@ class MapHeader extends StatelessWidget with PreferredSizeWidget {
             tState.drawerButtonClick();
           }),
       actions: [
-        // SimpleDropdownButton(
-        //     initialValue: "100",
-        //     dropdownData: const ["100", "500", "1000", "Kaikki"],
-        //     //focusColor: Theme.of(context).primaryColor,
-        //     //bgColor: Theme.of(context).primaryColor,
-
-        //     onDropdownChange: (value){
-
-        //     },
-        //     ),
+        
         Padding(
           padding: const EdgeInsets.only(top: 17, right: 20, left: 20),
           child: Text(tState.filteredTriplocations.length.toString()),

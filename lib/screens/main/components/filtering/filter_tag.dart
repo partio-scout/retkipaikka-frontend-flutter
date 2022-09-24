@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:retkipaikka_flutter/contants.dart';
+import 'package:retkipaikka_flutter/constants.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 
 class FilterTag extends StatelessWidget {
@@ -17,7 +17,7 @@ class FilterTag extends StatelessWidget {
           padding: const EdgeInsets.only(left: 5),
           child: Row(
             children: [
-              Text(filter.name, style: const TextStyle(color: Colors.white)),
+              Text(filter.getTranslatedName(context), style: const TextStyle(color: Colors.white)),
               const SizedBox(
                 width: 10,
               ),

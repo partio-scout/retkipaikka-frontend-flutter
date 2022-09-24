@@ -1,14 +1,23 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
-import 'package:retkipaikka_flutter/screens/admin/admin_filters_screen.dart';
-import 'package:retkipaikka_flutter/screens/admin/admin_locations_screen.dart';
-import 'package:retkipaikka_flutter/screens/admin/admin_notifications_screen.dart';
-import 'package:retkipaikka_flutter/screens/admin/admin_settings_screen.dart';
-import 'package:retkipaikka_flutter/screens/login/login_screen.dart';
+import 'package:retkipaikka_flutter/helpers/components/app_spinner.dart';
+import 'package:retkipaikka_flutter/screens/admin/admin_filters_screen.dart'
+    deferred as admin_filters;
+import 'package:retkipaikka_flutter/screens/admin/admin_locations_screen.dart'
+    deferred as admin_locations;
+import 'package:retkipaikka_flutter/screens/admin/admin_notifications_screen.dart'
+    deferred as admin_notifications;
+import 'package:retkipaikka_flutter/screens/admin/admin_settings_screen.dart'
+    deferred as admin_settings;
+import 'package:retkipaikka_flutter/screens/admin/single_location_screen.dart'
+    deferred as single_location;
+import 'package:retkipaikka_flutter/screens/login/login_screen.dart'
+    deferred as login_screen;
 import 'package:retkipaikka_flutter/screens/main/front_page_screen.dart';
 import 'package:retkipaikka_flutter/screens/main_container.dart';
-import 'package:retkipaikka_flutter/screens/notifications/notification_screen.dart';
+import 'package:retkipaikka_flutter/screens/notifications/notification_screen.dart'
+    deferred as notification_screen;
 
 import 'package:routemaster/routemaster.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +29,7 @@ class AdminRoutes {
   static const adminFilter = "/admin/filters";
   static const adminSettings = "/admin/settings";
   static const adminNotifications = "/admin/notifications";
+  static const singleLocation = "/location/:id";
 }
 
 class UserRoutes {
@@ -42,25 +52,94 @@ class AppPages {
     return RouteMap(routes: {
       UserRoutes.locations: (routeData) {
         return const CustomMaterialPage(
-            child: MainContainerSinglePage(child: FrontPageScreen()));
+          child: MainContainerSinglePage(
+            child: FrontPageScreen(),
+          ),
+        );
       },
       UserRoutes.notifications: (routeData) {
+        Future<void> loadedFile = notification_screen.loadLibrary();
+
         return CustomMaterialPage(
-            child: MainContainerSinglePage(child:NotificationsScreen()));
+          child: MainContainerSinglePage(
+            child: FutureBuilder(
+              future: loadedFile,
+              builder: (context, snapshot) {
+                return snapshot.connectionState == ConnectionState.done
+                    ? notification_screen.NotificationsScreen()
+                    : Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        height: double.infinity,
+                        width: double.infinity,
+                        child: const AppSpinner());
+              },
+            ),
+          ),
+        );
       },
       UserRoutes.login: (routeData) {
-        return const CustomMaterialPage(
-            child: MainContainerSinglePage(
-                child: LoginScreen(
-          isLoginPage: true,
-        )));
+        Future<void> loadedFile = login_screen.loadLibrary();
+
+        return CustomMaterialPage(
+          child: MainContainerSinglePage(
+            child: FutureBuilder(
+              future: loadedFile,
+              builder: (context, snapshot) {
+                return snapshot.connectionState == ConnectionState.done
+                    ? login_screen.LoginScreen(
+                        isLoginPage: true,
+                      )
+                    : Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        height: double.infinity,
+                        width: double.infinity,
+                        child: const AppSpinner());
+              },
+            ),
+          ),
+        );
       },
       UserRoutes.signUp: (routeData) {
-        return const CustomMaterialPage(
-            child: MainContainerSinglePage(
-                child: LoginScreen(
-          isLoginPage: false,
-        )));
+        Future<void> loadedFile = login_screen.loadLibrary();
+        return CustomMaterialPage(
+          child: MainContainerSinglePage(
+            child: FutureBuilder(
+              future: loadedFile,
+              builder: (context, snapshot) {
+                return snapshot.connectionState == ConnectionState.done
+                    ? login_screen.LoginScreen(
+                        isLoginPage: false,
+                      )
+                    : Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        height: double.infinity,
+                        width: double.infinity,
+                        child: const AppSpinner());
+              },
+            ),
+          ),
+        );
+      },
+      AdminRoutes.singleLocation: (routeData) {
+        Future<void> loadedFile = single_location.loadLibrary();
+        return privateRoute(
+            CustomMaterialPage(
+                child: MainContainerSinglePage(
+              child: FutureBuilder(
+                  future: loadedFile,
+                  builder: (context, snapshot) {
+                    return snapshot.connectionState == ConnectionState.done
+                        ? single_location.SingleLocationScreen(
+                            locationId: routeData.pathParameters["id"],
+                          )
+                        : Container(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            height: double.infinity,
+                            width: double.infinity,
+                            child: const AppSpinner());
+                  }),
+            )),
+            context);
       },
       AdminRoutes.adminRoot: (routeData) {
         return privateRoute(
@@ -78,29 +157,93 @@ class AppPages {
             context);
       },
       AdminRoutes.adminNew: (routeData) {
+        Future<void> loadedFile = admin_locations.loadLibrary();
         return privateRoute(
             CustomMaterialPage(
-                child: AdminLocationsScreen(displayOnlyNew: true)),
+                child: FutureBuilder(
+                    future: loadedFile,
+                    builder: (context, snapshot) {
+                      return snapshot.connectionState == ConnectionState.done
+                          ? admin_locations.AdminLocationsScreen(
+                              displayOnlyNew: true,
+                            )
+                          : Container(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              height: double.infinity,
+                              width: double.infinity,
+                              child: const AppSpinner());
+                    })),
             context);
       },
       AdminRoutes.adminBrowse: (routeData) {
+        Future<void> loadedFile = admin_locations.loadLibrary();
         return privateRoute(
             CustomMaterialPage(
-                child: AdminLocationsScreen(displayOnlyNew: false)),
+                child: FutureBuilder(
+                    future: loadedFile,
+                    builder: (context, snapshot) {
+                      return snapshot.connectionState == ConnectionState.done
+                          ? admin_locations.AdminLocationsScreen(
+                              displayOnlyNew: false,
+                            )
+                          : Container(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              height: double.infinity,
+                              width: double.infinity,
+                              child: const AppSpinner());
+                    })),
             context);
       },
       AdminRoutes.adminFilter: (routeData) {
+        Future<void> loadedFile = admin_filters.loadLibrary();
         return privateRoute(
-            CustomMaterialPage(child: AdminFiltersScreen()), context);
+            CustomMaterialPage(
+                child: FutureBuilder(
+                    future: loadedFile,
+                    builder: (context, snapshot) {
+                      return snapshot.connectionState == ConnectionState.done
+                          ? admin_filters.AdminFiltersScreen()
+                          : Container(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              height: double.infinity,
+                              width: double.infinity,
+                              child: const AppSpinner());
+                    })),
+            context);
       },
       AdminRoutes.adminNotifications: (routeData) {
+        Future<void> loadedFile = admin_notifications.loadLibrary();
         return privateRoute(
-             CustomMaterialPage(child: AdminNotificationsScreen()),
+            CustomMaterialPage(
+                child: FutureBuilder(
+                    future: loadedFile,
+                    builder: (context, snapshot) {
+                      return snapshot.connectionState == ConnectionState.done
+                          ? admin_notifications.AdminNotificationsScreen()
+                          : Container(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              height: double.infinity,
+                              width: double.infinity,
+                              child: const AppSpinner());
+                    })),
             context);
       },
       AdminRoutes.adminSettings: (routeData) {
+        Future<void> loadedFile = admin_settings.loadLibrary();
         return privateRoute(
-            const CustomMaterialPage(child: AdminSettingsScreen()), context);
+            CustomMaterialPage(
+                child: FutureBuilder(
+                    future: loadedFile,
+                    builder: (context, snapshot) {
+                      return snapshot.connectionState == ConnectionState.done
+                          ? admin_settings.AdminSettingsScreen()
+                          : Container(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              height: double.infinity,
+                              width: double.infinity,
+                              child: const AppSpinner());
+                    })),
+            context);
       },
     });
   }

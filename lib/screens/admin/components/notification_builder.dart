@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/controllers/notification_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/notification_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/notification_card.dart';
 
 import 'package:retkipaikka_flutter/models/app_notification_model.dart';
@@ -21,7 +22,7 @@ class NotificationBuilderState extends ChangeNotifier {
 
 class NotificationBuilder extends HookWidget {
   NotificationBuilder({Key? key, this.initialData}) : super(key: key);
-  final NotificationApi notificationApi = NotificationApi();
+  final NotificationApi notificationApi = ApiService().notificationApi;
   final AppNotification? initialData;
   final AppNotification defaultData = AppNotification(
       text:

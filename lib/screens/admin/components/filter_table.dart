@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:retkipaikka_flutter/contants.dart';
+import 'package:retkipaikka_flutter/constants.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/filtering_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/base_dialog.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:retkipaikka_flutter/screens/admin/components/abstract_filter_datasource.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -43,12 +45,12 @@ class FilterTable extends HookWidget {
                   icon: const Icon(Icons.refresh))
             ],
             showCheckboxColumn: false,
-            columns: const [
-              DataColumn(label: Text("#")),
-              DataColumn(label: Text("Nimi")),
-              DataColumn(label: Text("SV")),
-              DataColumn(label: Text("SMN")),
-              DataColumn(label: Text("EN")),
+            columns: [
+              const DataColumn(label: Text("#")),
+              DataColumn(label: Text("Nimi".t(context))),
+              const DataColumn(label: Text("SV")),
+              const DataColumn(label: Text("SMN")),
+              const DataColumn(label: Text("EN")),
             ],
             source: AbstractFilterDatasource(
                 filters: tableData,
@@ -70,14 +72,15 @@ class FilterTableDialog extends StatelessWidget {
   FilterTableDialog({Key? key, required this.filter, required this.onRefresh})
       : super(key: key);
   final AbstractFilter filter;
-  final FilteringApi filteringApi = FilteringApi();
+  final FilteringApi filteringApi = ApiService().filteringApi;
   final Function() onRefresh;
   @override
   Widget build(BuildContext context) {
     return BaseDialog(children: [
       FilterForm(
+        type: filter.type,
         resetAfterSubmit: false,
-        title: "Muokkaaminen",
+        title: "Muokkaaminen".t(context),
         initialFilter: filter,
         onSubmit: (data) {
           Map<String, dynamic> formData = Map.from(data);

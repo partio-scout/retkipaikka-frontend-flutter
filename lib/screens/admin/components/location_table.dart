@@ -3,12 +3,14 @@ import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/triplocation_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/base_dialog.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:retkipaikka_flutter/screens/admin/components/location_datasource.dart';
-import 'package:retkipaikka_flutter/screens/main/components/form/location_form.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:retkipaikka_flutter/screens/main/components/form/location_form.dart';
 import 'package:retkipaikka_flutter/screens/main/components/triplocation_info.dart';
 import 'package:provider/provider.dart';
 
@@ -47,16 +49,17 @@ class LocationTable extends HookWidget {
               }
             },
             showCheckboxColumn: false,
-            columns: const [
-              DataColumn(label: Text("Nimi")),
-              DataColumn(label: Text("Kunta")),
-              DataColumn(label: Text("Maakunta")),
-              DataColumn(label: Text("Tyyppi")),
-              DataColumn(label: Text("Omistaja")),
+            columns:  [
+              DataColumn(label: Text("Nimi".t(context))),
+              DataColumn(label: Text("Kunta".t(context))),
+              DataColumn(label: Text("Maakunta".t(context))),
+              DataColumn(label: Text("Tyyppi".t(context))),
+              DataColumn(label: Text("Omistaja".t(context))),
             ],
             source: LocationDatasource(
                 categories: categories,
                 locations: tableData,
+                context:context,
                 onTap: (location) {
                   showDialog(
                     context: context,
@@ -73,7 +76,7 @@ class LocationTable extends HookWidget {
 class LocationTableDialog extends HookWidget {
   LocationTableDialog({Key? key, required this.location}) : super(key: key);
   final TripLocation location;
-  final TripLocationApi tripLocationApi = TripLocationApi();
+  final TripLocationApi tripLocationApi = ApiService().triplocationApi;
 
   Future<void> refreshAll(BuildContext context) async {
     List<TripLocation> acceptedLocs =
@@ -103,9 +106,9 @@ class LocationTableDialog extends HookWidget {
               onPressed: () {
                 displayEditState.value = !displayEditState.value;
               },
-              child: const Text(
-                "Muokkaa",
-                style: TextStyle(color: Colors.white),
+              child: Text(
+                "Muokkaa".t(context),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
             const SizedBox(
@@ -133,7 +136,7 @@ class LocationTableDialog extends HookWidget {
                 });
               },
               child:
-                  const Text("Poista", style: TextStyle(color: Colors.white)),
+                   Text("Poista".t(context), style: const TextStyle(color: Colors.white)),
             )
           ],
         ),

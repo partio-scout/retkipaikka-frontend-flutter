@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:retkipaikka_flutter/constants.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/user_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/routes.dart';
 
 import 'package:routemaster/routemaster.dart';
@@ -11,7 +14,7 @@ class AppDrawer extends StatelessWidget {
   AppDrawer({
     Key? key,
   }) : super(key: key);
-  final UserApi userApi = UserApi();
+  final UserApi userApi = ApiService().userApi;
   @override
   Widget build(BuildContext context) {
     AppState aState = context.watch<AppState>();
@@ -53,7 +56,7 @@ class AppDrawer extends StatelessWidget {
                       context: context,
                       padding: const EdgeInsets.only(top: 5, bottom: 5),
                       leadingIcon: Icons.map_outlined,
-                      titleText: "Retkipaikat",
+                      titleText: "Retkipaikat".t(context),
                       onTap: () {
                         Routemaster.of(context).push(UserRoutes.locations);
                         aState.closeDrawer(context);
@@ -62,7 +65,7 @@ class AppDrawer extends StatelessWidget {
                       context: context,
                       padding: const EdgeInsets.only(top: 5, bottom: 5),
                       leadingIcon: Icons.settings_outlined,
-                      titleText: "Hallinta",
+                      titleText: "Hallinta".t(context),
                       onTap: () {
                         Routemaster.of(context).push(AdminRoutes.adminNew);
                         aState.closeDrawer(context);
@@ -72,7 +75,7 @@ class AppDrawer extends StatelessWidget {
                       context: context,
                       padding: const EdgeInsets.only(top: 5, bottom: 5),
                       leadingIcon: Icons.login,
-                      titleText: "Kirjaudu",
+                      titleText: "Kirjaudu".t(context),
                       onTap: () {
                         Routemaster.of(context).push(UserRoutes.login);
                         aState.closeDrawer(context);
@@ -82,7 +85,7 @@ class AppDrawer extends StatelessWidget {
                     context: context,
                     padding: const EdgeInsets.only(top: 5, bottom: 5),
                     leadingIcon: Icons.notifications_outlined,
-                    titleText: "Ilmoitukset",
+                    titleText: "Ilmoitukset".t(context),
                     onTap: () {
                       Routemaster.of(context).push(UserRoutes.notifications);
                       aState.closeDrawer(context);
@@ -96,11 +99,29 @@ class AppDrawer extends StatelessWidget {
               padding: const EdgeInsets.only(left: 25, right: 25, bottom: 15),
               child: Column(
                 children: [
-                  const Divider(color: Colors.white70),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: kSupportedLocales.keys.map((locale){
+                      return  InkWell(
+                        child: Text(locale, style: TextStyle(
+                          fontWeight:aState.appLocale.languageCode == locale? FontWeight.bold:null,
+                          color:  aState.appLocale.languageCode == locale? Theme.of(context).colorScheme.primary:null)),
+                        onTap: () {
+                          aState.setLocale(locale);
+                        
+                        },
+                      );
+                    }).toList()
+
+                    
+                    
+                  ),
+                  const SizedBox(height: 15,),
+                  //const Divider(),
                   generateListTile(
                       context: context,
                       padding: const EdgeInsets.only(top: 5, bottom: 5),
-                      titleText: "Tumma teema",
+                      titleText: "Tumma teema".t(context),
                       // use Sizedbox because switch has some built in padding
                       leadingWidget: SizedBox(
                           width: 35,
@@ -117,7 +138,7 @@ class AppDrawer extends StatelessWidget {
                       ? generateListTile(
                           padding: const EdgeInsets.only(top: 5, bottom: 5),
                           leadingIcon: Icons.logout,
-                          titleText: "Kirjaudu ulos",
+                          titleText: "Kirjaudu ulos".t(context),
                           context: context,
                           onTap: () async {
                             userApi.logout(aState.currentUser).then((res) {

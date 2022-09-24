@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
 import 'package:provider/provider.dart';
@@ -28,10 +29,10 @@ class DrawerLocationList extends StatelessWidget {
     return tiles;
   }
 
-  String getCategoryNameById(int id, List<AbstractFilter> categories) {
+  AbstractFilter? getCategoryNameById(int id, List<AbstractFilter> categories) {
     AbstractFilter? category =
         categories.firstWhereOrNull((element) => element.id == id);
-    return category?.name ?? "-";
+    return category;
   }
 
   @override
@@ -39,7 +40,8 @@ class DrawerLocationList extends StatelessWidget {
     TripLocationState tState = context.watch<TripLocationState>();
     List<AbstractFilter> categories =
         context.read<FilteringState>().allCategoryFilters;
-
+    // ignore: unused_local_variable
+    Locale currentLocale = context.select((AppState a) => a.appLocale);
     return ListView.builder(
       shrinkWrap: true,
       controller: ScrollController(),
@@ -48,7 +50,7 @@ class DrawerLocationList extends StatelessWidget {
       itemBuilder: ((context, index) {
         TripLocation location = tState.filteredTriplocations[index];
         return ListTile(
-          subtitle: Text(getCategoryNameById(location.category, categories)),
+          subtitle: Text(getCategoryNameById(location.category, categories)?.getTranslatedName(context) ?? "-"),
           title: Text(location.name),
           trailing: IconButton(
             icon: location.isFavourite

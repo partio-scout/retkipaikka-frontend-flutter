@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/controllers/notification_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/notification_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/notification_list.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/models/app_notification_model.dart';
@@ -11,7 +12,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 class AdminNotificationsScreen extends HookWidget {
   AdminNotificationsScreen({Key? key}) : super(key: key);
-  final NotificationApi notificationApi = NotificationApi();
+  final NotificationApi notificationApi = ApiService().notificationApi;
   @override
   Widget build(BuildContext context) {
     EdgeInsets padding = Responsive.isDesktop(context)

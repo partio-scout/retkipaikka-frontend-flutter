@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/user_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/base_dialog.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/models/admin_model.dart';
 import 'package:retkipaikka_flutter/models/role_model.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -43,12 +45,12 @@ class UserTable extends HookWidget {
                   icon: const Icon(Icons.refresh))
             ],
             showCheckboxColumn: false,
-            columns: const [
-              DataColumn(label: Text("Sähköposti")),
-              DataColumn(label: Text("Käyttäjänimi")),
-              DataColumn(label: Text("Käyttäjäilmoitukset")),
-              DataColumn(label: Text("Retkipaikkailmoitukset")),
-              DataColumn(label: Text("Roolit")),
+            columns:  [
+              DataColumn(label: Text("Sähköposti".t(context))),
+              DataColumn(label: Text("Käyttäjänimi".t(context))),
+              DataColumn(label: Text("Käyttäjäilmoitukset".t(context))),
+              DataColumn(label: Text("Retkipaikkailmoitukset".t(context))),
+              DataColumn(label: Text("Roolit".t(context))),
             ],
             source: AdminDatasource(
                 data: tableData,
@@ -75,20 +77,20 @@ class UserTableDialog extends StatelessWidget {
       required this.onRefresh})
       : super(key: key);
   final AdminUser user;
-  final UserApi userApi = UserApi();
+  final UserApi userApi = ApiService().userApi;
   final Function() onRefresh;
   final List<Role> allRoles;
   @override
   Widget build(BuildContext context) {
     return BaseDialog(children: [
-      const Text(
-        "Käyttäjän muokkaus",
-        style: TextStyle(fontSize: 20),
+       Text(
+        "Käyttäjän muokkaus".t(context),
+        style: const TextStyle(fontSize: 20),
       ),
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
-        child: const Text(
-            "Jos kirjautuminen on sallittu, käyttäjä pääsee kirjautumaan mutta ei pysty muokkaamaan mitään. Käyttäjällä pitää siis olla aina rooli, jotta pystyy muokkaamaan. HUOM. superadmin saa kaikki mahdolliset oikeudet, admin saa muokkaamisoikeudet retkipaikkoihin ja suodattimiin."),
+        child:  Text(
+            "Jos kirjautuminen on sallittu, käyttäjä pääsee kirjautumaan mutta ei pysty muokkaamaan mitään. Käyttäjällä pitää siis olla aina rooli, jotta pystyy muokkaamaan. HUOM. superadmin saa kaikki mahdolliset oikeudet, admin saa muokkaamisoikeudet retkipaikkoihin ja suodattimiin.".t(context)),
       ),
       UserForm(
         user: user,
@@ -98,7 +100,7 @@ class UserTableDialog extends StatelessWidget {
               .modifyUser(user.id, data)
               .then((value) {
                 AlertHelper.displaySuccessAlert(
-                    "Käyttäjän muokkaus onnistui", context, cb: () {
+                    "Käyttäjän muokkaus onnistui!", context, cb: () {
                   Navigator.of(context).pop();
                 });
               })
@@ -112,7 +114,7 @@ class UserTableDialog extends StatelessWidget {
               .deleteUserById(uuid)
               .then((value) {
                 AlertHelper.displaySuccessAlert(
-                    "Käyttäjän poisto onnistui", context, cb: () {
+                    "Käyttäjän poisto onnistui!", context, cb: () {
                   Navigator.of(context).pop();
                 });
               })

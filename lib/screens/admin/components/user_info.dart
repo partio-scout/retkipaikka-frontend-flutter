@@ -4,7 +4,9 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/user_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/form_info_text.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/models/admin_model.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
@@ -12,9 +14,9 @@ import 'package:provider/provider.dart';
 class UserInfo extends StatelessWidget {
   const UserInfo({Key? key, required this.user}) : super(key: key);
   final AdminUser? user;
-  List<Widget> textInfoCombo(String title, String? info) {
+  List<Widget> textInfoCombo(String title, String? info,BuildContext context) {
     return [
-      Text(title, style: const TextStyle(fontSize: 20)),
+      Text(title.t(context), style: const TextStyle(fontSize: 20)),
       const SizedBox(height: 5),
       Text(info ?? "-"),
       const SizedBox(
@@ -28,9 +30,9 @@ class UserInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ...textInfoCombo("Luotu:", user?.createdAt),
-        ...textInfoCombo("Rooli:",
-            user?.roles.map((role) => role["name"]).toList().join(",")),
+        ...textInfoCombo("Luotu", user?.createdAt,context),
+        ...textInfoCombo("Rooli",
+            user?.roles.map((role) => role["name"]).toList().join(","),context),
         InfoForm(
           user: user,
         ),
@@ -48,7 +50,7 @@ class UserInfo extends StatelessWidget {
 class InfoForm extends HookWidget {
   InfoForm({Key? key, required this.user}) : super(key: key);
   final AdminUser? user;
-  final UserApi userApi = UserApi();
+  final UserApi userApi = ApiService().userApi;
   @override
   Widget build(BuildContext context) {
     var formKey =
@@ -58,8 +60,9 @@ class InfoForm extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       //mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const Text("Käyttäjänimi ja sähköposti",
-            style: TextStyle(fontSize: 20)),
+        
+         Text("Käyttäjänimi ja sähköposti".t(context),
+            style:const  TextStyle(fontSize: 20)),
         const SizedBox(
           height: 30,
         ),
@@ -73,38 +76,38 @@ class InfoForm extends HookWidget {
               children: [
                 FormBuilderTextField(
                   name: "email",
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Sähköposti*',
+                      labelText: "Sähköposti".t(context)+"*",
                       hintText: "a@gmail.com",
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                      border: OutlineInputBorder()),
+                      contentPadding:const EdgeInsets.symmetric(horizontal: 10),
+                      border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
                       FormBuilderValidators.required(context,
-                          errorText: "Email is required"),
+                          errorText: "Sähköposti on vaadittu kenttä!".t(context)),
                       FormBuilderValidators.email(context,
-                          errorText: "Value is not valid email!")
+                          errorText: "Sähköpostin pitää olla oikean muotoinen!".t(context))
                     ],
                   ),
                 ),
-                const FormInfoText(text: "Kirjoita sähköpostiosoite"),
+                const FormInfoText(text: "Kirjoita sähköpostiosoitteesi"),
                 const SizedBox(
                   height: 25,
                 ),
                 FormBuilderTextField(
                   name: "username",
                   obscureText: false,
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Käyttäjänimi*',
-                      hintText: "Käyttäjänimi",
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                      border: OutlineInputBorder()),
+                      labelText: "Käyttäjänimi".t(context)+"*",
+                      hintText: "Käyttäjänimi".t(context),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                      border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
                       FormBuilderValidators.required(context,
-                          errorText: "Username is required")
+                          errorText: "Käyttäjänimi on vaadittu kenttä!".t(context))
                     ],
                   ),
                 ),
@@ -116,8 +119,8 @@ class InfoForm extends HookWidget {
         ),
         MaterialButton(
           color: Theme.of(context).primaryColor,
-          child: const Text(
-            "Tallenna",
+          child: Text(
+            "Tallenna".t(context),
             style: TextStyle(color: Colors.white),
           ),
           onPressed: () async {
@@ -132,7 +135,7 @@ class InfoForm extends HookWidget {
                 }).then((value) {
                   context.read<AppState>().handleAfterUserUpdate(value);
                   AlertHelper.displaySuccessAlert(
-                      "Tietojen muokkaus onnistui", context);
+                      "Tietojen muokkaus onnistui!", context);
                 }).catchError((err) {
                   AlertHelper.displayErrorAlert(err, context);
                 });
@@ -173,12 +176,12 @@ class PasswordForm extends HookWidget {
                 FormBuilderTextField(
                   name: "oldPassword",
                   obscureText: true,
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Nykyinen salasana*',
-                      hintText: "Salasana",
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                      border: OutlineInputBorder()),
+                      labelText: "Nykyinen salasana".t(context)+"*",
+                      hintText: "Salasana".t(context),
+                      contentPadding:const EdgeInsets.symmetric(horizontal: 10),
+                      border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
                       FormBuilderValidators.required(context,
@@ -193,12 +196,12 @@ class PasswordForm extends HookWidget {
                 FormBuilderTextField(
                   name: "newPassword",
                   obscureText: true,
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Uusi salasana*',
-                      hintText: "Salasana",
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                      border: OutlineInputBorder()),
+                      labelText: "Uusi salasana".t(context)+"*",
+                      hintText: "Salasana".t(context),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                      border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
                       FormBuilderValidators.required(context,
@@ -214,9 +217,9 @@ class PasswordForm extends HookWidget {
         ),
         MaterialButton(
           color: Theme.of(context).primaryColor,
-          child: const Text(
-            "Tallenna",
-            style: TextStyle(color: Colors.white),
+          child:  Text(
+            "Tallenna".t(context),
+            style: const TextStyle(color: Colors.white),
           ),
           onPressed: () async {
             formKey.value.currentState?.save();
@@ -230,7 +233,7 @@ class PasswordForm extends HookWidget {
                 }).then((value) {
                   context.read<AppState>().handleAfterUserUpdate(value);
                   AlertHelper.displaySuccessAlert(
-                      "Salasanan vaihto onnistui", context);
+                      "Salasanan vaihto onnistui!", context);
                 }).catchError((err) {
                   AlertHelper.displayErrorAlert(err, context);
                 });

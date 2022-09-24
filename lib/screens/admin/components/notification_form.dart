@@ -4,6 +4,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/components/dynamic_layout_wrapper.dart';
 import 'package:retkipaikka_flutter/helpers/components/form_info_text.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 
 import 'package:retkipaikka_flutter/models/app_notification_model.dart';
@@ -31,7 +32,7 @@ class NotificationForm extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       //mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text("Ilmoituksen luonti", style: const TextStyle(fontSize: 20)),
+        Text("Ilmoituksen luonti".t(context), style: const TextStyle(fontSize: 20)),
         const SizedBox(
           height: 30,
         ),
@@ -40,15 +41,15 @@ class NotificationForm extends HookWidget {
                 ? {
                     "title": notification!.title,
                     "title_sv": notification!.titleSv,
-                    "title_sa": notification!.titleSa,
+                    "title_sa": notification!.titleSmn,
                     "title_en": notification!.titleEn,
                     "text": notification!.text,
                     "text_sv": notification!.textSv,
-                    "text_sa": notification!.textSa,
+                    "text_sa": notification!.textSmn,
                     "text_en": notification!.textEn,
                     "link_text": notification!.linkText,
                     "link_text_sv": notification!.linkTextSv,
-                    "link_text_sa": notification!.linkTextSa,
+                    "link_text_sa": notification!.linkTextSmn,
                     "link_text_en": notification!.linkTextEn,
                     "link_url": notification!.linkUrl,
                     "enabled": notification!.displayInList,
@@ -79,18 +80,18 @@ class NotificationForm extends HookWidget {
                               },
                               textCapitalization: TextCapitalization.sentences,
                               name: "title",
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
-                                  labelText: 'Otsikko*',
-                                  hintText: "Suomeksi",
+                                  labelText: "Otsikko".t(context) + "*",
+                                  hintText: "Suomeksi".t(context),
                                   contentPadding:
                                       EdgeInsets.symmetric(horizontal: 10),
                                   border: OutlineInputBorder()),
                               validator: FormBuilderValidators.compose(
                                 [
                                   FormBuilderValidators.required(context,
-                                      errorText: "Finnish name is required")
+                                      errorText: "Suomenkielinen nimi on vaadittu kenttä!".t(context))
                                 ],
                               ),
                             ),
@@ -118,14 +119,14 @@ class NotificationForm extends HookWidget {
                               },
                               textCapitalization: TextCapitalization.sentences,
                               name: "title_sv",
-                              decoration: const InputDecoration(
+                              decoration:  InputDecoration(
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
-                                  labelText: 'Otsikko',
-                                  hintText: "Ruotsiksi",
+                                  labelText: 'Otsikko'.t(context),
+                                  hintText: "Ruotsiksi".t(context),
                                   contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 10),
-                                  border: OutlineInputBorder()),
+                                      const EdgeInsets.symmetric(horizontal: 10),
+                                  border: const OutlineInputBorder()),
                             ),
                             const FormInfoText(
                                 text: "Kirjoita ilmoituksen otsikko"),
@@ -145,20 +146,20 @@ class NotificationForm extends HookWidget {
                                 if (val != null) {
                                   NotificationBuilderState s =
                                       context.read<NotificationBuilderState>();
-                                  s.notification.titleSa = val;
+                                  s.notification.titleSmn = val;
                                   s.notify();
                                 }
                               },
                               textCapitalization: TextCapitalization.sentences,
                               name: "title_sa",
-                              decoration: const InputDecoration(
+                              decoration:  InputDecoration(
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
-                                  labelText: 'Otsikko',
-                                  hintText: "Saameksi",
+                                  labelText: "Otsikko".t(context),
+                                  hintText: "Saameksi".t(context),
                                   contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 10),
-                                  border: OutlineInputBorder()),
+                                      const EdgeInsets.symmetric(horizontal: 10),
+                                  border: const OutlineInputBorder()),
                             ),
                             const FormInfoText(
                                 text: "Kirjoita ilmoituksen otsikko"),
@@ -184,11 +185,11 @@ class NotificationForm extends HookWidget {
                               },
                               textCapitalization: TextCapitalization.sentences,
                               name: "title_en",
-                              decoration: const InputDecoration(
+                              decoration:  InputDecoration(
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
-                                  labelText: 'Otsikko',
-                                  hintText: "Englanniksi",
+                                  labelText: 'Otsikko'.t(context),
+                                  hintText: "Englanniksi".t(context),
                                   contentPadding:
                                       EdgeInsets.symmetric(horizontal: 10),
                                   border: OutlineInputBorder()),
@@ -222,18 +223,18 @@ class NotificationForm extends HookWidget {
                               },
                               textCapitalization: TextCapitalization.sentences,
                               name: "text",
-                              decoration: const InputDecoration(
+                              decoration:  InputDecoration(
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
-                                  labelText: 'Teksti*',
-                                  hintText: "Suomeksi",
+                                  labelText: "Teksti".t(context)+"*",
+                                  hintText: "Suomeksi".t(context),
                                   contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 10),
-                                  border: OutlineInputBorder()),
+                                      const EdgeInsets.symmetric(horizontal: 10),
+                                  border: const OutlineInputBorder()),
                               validator: FormBuilderValidators.compose(
                                 [
                                   FormBuilderValidators.required(context,
-                                      errorText: "Finnish name is required")
+                                      errorText: "Suomenkielinen nimi on vaadittu kenttä!".t(context))
                                 ],
                               ),
                             ),
@@ -260,14 +261,14 @@ class NotificationForm extends HookWidget {
                               },
                               textCapitalization: TextCapitalization.sentences,
                               name: "text_sv",
-                              decoration: const InputDecoration(
+                              decoration:  InputDecoration(
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
-                                  labelText: 'Teksti',
-                                  hintText: "Ruotsiksi",
+                                  labelText: 'Teksti'.t(context),
+                                  hintText: "Ruotsiksi".t(context),
                                   contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 10),
-                                  border: OutlineInputBorder()),
+                                      const EdgeInsets.symmetric(horizontal: 10),
+                                  border: const OutlineInputBorder()),
                             ),
                             const FormInfoText(text: "Kirjoita teksti"),
                           ],
@@ -286,23 +287,23 @@ class NotificationForm extends HookWidget {
                                 if (val != null) {
                                   NotificationBuilderState s =
                                       context.read<NotificationBuilderState>();
-                                  s.notification.textSa = val;
+                                  s.notification.textSmn = val;
                                   s.notify();
                                 }
                               },
                               textCapitalization: TextCapitalization.sentences,
                               name: "text_sa",
-                              decoration: const InputDecoration(
+                              decoration:  InputDecoration(
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
-                                  labelText: 'Teksti',
-                                  hintText: "Saameksi",
+                                  labelText: 'Teksti'.t(context),
+                                  hintText: "Saameksi".t(context),
                                   contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 10),
-                                  border: OutlineInputBorder()),
+                                      const EdgeInsets.symmetric(horizontal: 10),
+                                  border: const OutlineInputBorder()),
                             ),
                             const FormInfoText(
-                                text: "Kirjoita lisättävän suodattimen nimi"),
+                                text: "Kirjoita teksti"),
                           ],
                         ),
                       ),
@@ -325,11 +326,11 @@ class NotificationForm extends HookWidget {
                               },
                               textCapitalization: TextCapitalization.sentences,
                               name: "text_en",
-                              decoration: const InputDecoration(
+                              decoration:  InputDecoration(
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
-                                  labelText: 'Teksti',
-                                  hintText: "Englanniksi",
+                                  labelText: 'Teksti'.t(context),
+                                  hintText: "Englanniksi".t(context),
                                   contentPadding:
                                       EdgeInsets.symmetric(horizontal: 10),
                                   border: OutlineInputBorder()),
@@ -362,14 +363,14 @@ class NotificationForm extends HookWidget {
                             },
                             textCapitalization: TextCapitalization.sentences,
                             name: "link_text",
-                            decoration: const InputDecoration(
+                            decoration:  InputDecoration(
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always,
-                                labelText: 'Linkin teksti',
-                                hintText: "Suomeksi",
+                                labelText: 'Linkin teksti'.t(context),
+                                hintText: "Suomeksi".t(context),
                                 contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 10),
-                                border: OutlineInputBorder()),
+                                   const EdgeInsets.symmetric(horizontal: 10),
+                                border: const OutlineInputBorder()),
                           ),
                           const FormInfoText(text: "Kirjoita linkin teksti"),
                         ],
@@ -394,14 +395,14 @@ class NotificationForm extends HookWidget {
                             },
                             textCapitalization: TextCapitalization.sentences,
                             name: "link_text_sv",
-                            decoration: const InputDecoration(
+                            decoration:  InputDecoration(
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always,
-                                labelText: 'Linkin teksti',
-                                hintText: "Ruotsiksi",
+                                labelText: 'Linkin teksti'.t(context),
+                                hintText: "Ruotsiksi".t(context),
                                 contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 10),
-                                border: OutlineInputBorder()),
+                                   const EdgeInsets.symmetric(horizontal: 10),
+                                border: const OutlineInputBorder()),
                           ),
                           const FormInfoText(text: "Kirjoita linkin teksti"),
                         ],
@@ -420,20 +421,20 @@ class NotificationForm extends HookWidget {
                               if (val != null) {
                                 NotificationBuilderState s =
                                     context.read<NotificationBuilderState>();
-                                s.notification.linkTextSa = val;
+                                s.notification.linkTextSmn = val;
                                 s.notify();
                               }
                             },
                             textCapitalization: TextCapitalization.sentences,
                             name: "link_text_sa",
-                            decoration: const InputDecoration(
+                            decoration:  InputDecoration(
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always,
-                                labelText: 'Linkin teksti',
-                                hintText: "Saameksi",
+                                labelText: 'Linkin teksti'.t(context),
+                                hintText: "Saameksi".t(context),
                                 contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 10),
-                                border: OutlineInputBorder()),
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                border: const OutlineInputBorder()),
                           ),
                           const FormInfoText(text: "Kirjoita linkin teksti"),
                         ],
@@ -458,17 +459,17 @@ class NotificationForm extends HookWidget {
                             },
                             textCapitalization: TextCapitalization.sentences,
                             name: "link_text_en",
-                            decoration: const InputDecoration(
+                            decoration:  InputDecoration(
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always,
-                                labelText: 'Linkin teksti',
-                                hintText: "Englanniksi",
+                                labelText: 'Linkin teksti'.t(context),
+                                hintText: "Englanniksi".t(context),
                                 contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 10),
-                                border: OutlineInputBorder()),
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                border: const OutlineInputBorder()),
                           ),
                           const FormInfoText(
-                              text: "Kirjoita lisättävän suodattimen nimi"),
+                              text: "Kirjoita linkin teksti"),
                         ],
                       ),
                     ),
@@ -489,12 +490,12 @@ class NotificationForm extends HookWidget {
                   },
                   textCapitalization: TextCapitalization.sentences,
                   name: "link_url",
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Linkin osoite',
-                      hintText: "Osoite",
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                      border: OutlineInputBorder()),
+                      labelText: 'Linkin osoite'.t(context),
+                      hintText: "Osoite".t(context),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                      border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.url(context,
                         requireProtocol: true, errorText: "Url must be valid")
@@ -514,9 +515,9 @@ class NotificationForm extends HookWidget {
                     contentPadding: EdgeInsets.zero,
                     name: "display_frontpage",
                     controlAffinity: ListTileControlAffinity.leading,
-                    title: const Padding(
+                    title:  Padding(
                         padding: EdgeInsets.zero,
-                        child: Text("Näytä ilmoitus etusivulla"))),
+                        child: Text("Näytä ilmoitus etusivulla".t(context)))),
                 FormBuilderCheckbox(
                     onChanged: (val) {
                       if (val != null) {
@@ -530,9 +531,9 @@ class NotificationForm extends HookWidget {
                     contentPadding: EdgeInsets.zero,
                     name: "enabled",
                     controlAffinity: ListTileControlAffinity.leading,
-                    title: const Padding(
+                    title:  Padding(
                         padding: EdgeInsets.zero,
-                        child: Text("Näytä listassa")))
+                        child: Text("Näytä listassa".t(context))))
               ],
             )),
         const SizedBox(
@@ -564,9 +565,9 @@ class NotificationForm extends HookWidget {
                       "Lomake ei ole täytetty oikein!", context);
                 }
               },
-              child: const Text(
-                "Tallenna",
-                style: TextStyle(color: Colors.white),
+              child:  Text(
+                "Tallenna".t(context),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
             const SizedBox(
@@ -587,7 +588,7 @@ class NotificationForm extends HookWidget {
                   });
                 },
                 child:
-                    const Text("Poista", style: TextStyle(color: Colors.white)),
+                     Text("Poista".t(context), style: const TextStyle(color: Colors.white)),
               )
           ],
         ),

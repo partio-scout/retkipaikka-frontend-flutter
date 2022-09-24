@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:retkipaikka_flutter/contants.dart';
+import 'package:retkipaikka_flutter/constants.dart';
 import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/user_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_autocomplete.dart';
 import 'package:provider/provider.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:retkipaikka_flutter/models/admin_model.dart';
 import 'package:retkipaikka_flutter/models/geo_area_model.dart';
@@ -15,7 +17,7 @@ import 'package:retkipaikka_flutter/screens/admin/components/admin_tag_bar.dart'
 class NewLocationNotifications extends HookWidget {
   NewLocationNotifications({Key? key, required this.user}) : super(key: key);
   final String kGroupValue = "LOCATION_GROUP";
-  final UserApi userApi = UserApi();
+  final UserApi userApi = ApiService().userApi;
   final AdminUser? user;
   @override
   Widget build(BuildContext context) {
@@ -31,12 +33,12 @@ class NewLocationNotifications extends HookWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Ilmoitukset uusista retkipaikoista",
-          style: TextStyle(fontSize: 20),
+         Text(
+          "Ilmoitukset uusista retkipaikoista".t(context),
+          style:const TextStyle(fontSize: 20),
         ),
         ListTile(
-          title: const Text("Ei ilmoituksia"),
+          title:  Text("Ei ilmoituksia".t(context)),
           leading: Radio<String>(
             value: "none",
             groupValue: groupValue.value,
@@ -49,7 +51,7 @@ class NewLocationNotifications extends HookWidget {
           ),
         ),
         ListTile(
-          title: const Text("Kaikki ilmoitukset"),
+          title:  Text("Kaikki ilmoitukset".t(context)),
           leading: Radio<String>(
             value: "all",
             groupValue: groupValue.value,
@@ -62,7 +64,7 @@ class NewLocationNotifications extends HookWidget {
           ),
         ),
         ListTile(
-          title: const Text("Valitse maakunnat"),
+          title:  Text("Valitse maakunnat".t(context)),
           leading: Radio<String>(
             value: "select",
             groupValue: groupValue.value,
@@ -83,11 +85,10 @@ class NewLocationNotifications extends HookWidget {
                   -1) {
                 tempList.add(value);
                 selectedRegions.value = tempList;
-              }
-              print(value);
+              }                     
             },
             disabled: false,
-            title: "Maakunnat",
+            title: "Maakunnat".t(context),
           ),
           const SizedBox(
             height: 15,
@@ -127,8 +128,8 @@ class NewLocationNotifications extends HookWidget {
                     AlertHelper.displayErrorAlert(err, context);
                   });
                 },
-          child: const Text(
-            "Tallenna",
+          child:  Text(
+            "Tallenna".t(context),
             style: TextStyle(color: Colors.white),
           ),
         ),

@@ -4,7 +4,7 @@ import 'package:retkipaikka_flutter/helpers/shared_preferences_helper.dart';
 import 'package:retkipaikka_flutter/models/admin_model.dart';
 
 class AppState extends ChangeNotifier {
-  AppState({this.darkTheme = false});
+  AppState({this.darkTheme = false, this.appLocale = const Locale("fi")});
   bool isLoading = false;
   bool scrollEnabled = true;
   ScrollController scrollController = ScrollController();
@@ -14,12 +14,19 @@ class AppState extends ChangeNotifier {
   GlobalKey<ScaffoldState> mainScaffoldKey = GlobalKey();
   bool darkTheme = false;
   bool mapPanning = true;
+  Locale appLocale;
   void _setLoading(bool state) {
     isLoading = state;
     notifyListeners();
   }
 
-  void setMapPanning(bool state){
+  void setLocale(String key) async {
+    await SharedPreferencesHelper.saveLocale(key);
+    appLocale = Locale(key);
+    notifyListeners();
+  }
+
+  void setMapPanning(bool state) {
     mapPanning = state;
     notifyListeners();
   }
@@ -60,17 +67,16 @@ class AppState extends ChangeNotifier {
     return res;
   }
 
-  Future<bool> handleAfterUserUpdate(AdminUser user) async{
+  Future<bool> handleAfterUserUpdate(AdminUser user) async {
     return handleAfterLogin(user);
-  } 
-
-  void setDarkTheme(bool state)async{
-    darkTheme = state;
-    await SharedPreferencesHelper.saveToPrefs(SharedPreferencesHelper.kThemeMode,state.toString());
-    notifyListeners();
   }
 
-
+  void setDarkTheme(bool state) async {
+    darkTheme = state;
+    await SharedPreferencesHelper.saveToPrefs(
+        SharedPreferencesHelper.kThemeMode, state.toString());
+    notifyListeners();
+  }
 
   void setLogin(AdminUser user) {
     currentUser = user;

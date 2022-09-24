@@ -1,4 +1,5 @@
-import 'package:retkipaikka_flutter/contants.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:retkipaikka_flutter/constants.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 
 class GeoArea implements AbstractFilter {
@@ -13,7 +14,7 @@ class GeoArea implements AbstractFilter {
   @override
   String? nameEn;
   @override
-  String? nameSa;
+  String? nameSmn;
   @override
   String? nameSv;
 
@@ -39,4 +40,9 @@ class GeoArea implements AbstractFilter {
   @override
   // ignore: unnecessary_overrides
   int get hashCode => super.hashCode;
+
+  @override
+  String getTranslatedName(BuildContext context) {
+    return name;
+  }
 }

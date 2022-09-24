@@ -18,7 +18,7 @@ class AbstractFilterDatasource extends DataTableSource {
         DataCell(Text(filters[index].id.toString())),
         DataCell(Text(filters[index].name)),
         DataCell(Text(filters[index].nameSv ?? "-")),
-        DataCell(Text(filters[index].nameSa ?? "-")),
+        DataCell(Text(filters[index].nameSmn ?? "-")),
         DataCell(Text(filters[index].nameEn ?? "-")),
       ],
     );

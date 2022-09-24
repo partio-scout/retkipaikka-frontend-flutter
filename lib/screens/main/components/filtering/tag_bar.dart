@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:provider/provider.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
@@ -10,6 +11,8 @@ class TagBar extends StatelessWidget {
   Widget build(BuildContext context) {
     FilteringState filteringState = context.watch<FilteringState>();
 
+    // ignore: unused_local_variable
+    Locale currentLocale = context.watch<AppState>().appLocale;
     return Align(
       alignment: Alignment.topLeft,
       child: Wrap(

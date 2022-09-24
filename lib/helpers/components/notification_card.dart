@@ -42,18 +42,20 @@ class NotificationCard extends StatelessWidget {
                   }
                 : null,
             leading: const Icon(Icons.circle_notifications_rounded),
-            title: Text(notification.title),
-            subtitle: Text(notification.text),
+            title: Text(notification.getTranslatedTitle(context)),
+            subtitle: Text(notification.getTranslatedText(context)),
             trailing: notification.updatedAt != null
                 ? Text(notification.updatedAtParsed() ?? "-")
                 : null,
           ),
-          if (notification.linkText != null && notification.linkUrl != null)
+          if (notification.linkText != null &&
+              notification.linkUrl != null &&
+              notification.linkText!.isNotEmpty)
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 TextButton(
-                  child: Text(notification.linkText!),
+                  child: Text(notification.getTranslatedLinkText(context)),
                   onPressed: () {
                     _launchInWebViewOrVC(notification.linkUrl!);
                   },

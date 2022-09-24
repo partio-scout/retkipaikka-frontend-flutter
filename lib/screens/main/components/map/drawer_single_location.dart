@@ -3,6 +3,7 @@ import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
 import 'package:provider/provider.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/triplocation_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/app_spinner.dart';
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -11,7 +12,7 @@ import 'package:retkipaikka_flutter/screens/main/components/triplocation_info.da
 class DrawerSingleLocation extends HookWidget {
   DrawerSingleLocation({Key? key, required this.location}) : super(key: key);
   final TripLocation location;
-  final TripLocationApi locationApi = TripLocationApi();
+  final TripLocationApi locationApi = ApiService().triplocationApi;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class DrawerSingleLocation extends HookWidget {
       locationApi.getSingleLocation(location.id).then((res) {
         currentLocation.value = res;
       }).catchError((error) {
-        AlertHelper.displayErrorAlert("Network error!", context);
+        AlertHelper.displayErrorAlert(error, context);
       });
       return null;
     }, [location.id]);

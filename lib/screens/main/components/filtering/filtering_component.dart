@@ -1,14 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:retkipaikka_flutter/controllers/app_state.dart';
 import 'package:retkipaikka_flutter/controllers/filtering_state.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
 import 'package:retkipaikka_flutter/helpers/alert_helper.dart';
 import 'package:retkipaikka_flutter/helpers/api/filtering_api.dart';
+import 'package:retkipaikka_flutter/helpers/api_service.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_autocomplete.dart';
 import 'package:retkipaikka_flutter/helpers/components/custom_dropdown_button.dart';
 import "package:provider/provider.dart";
 import 'package:retkipaikka_flutter/helpers/components/dynamic_layout_wrapper.dart';
+import 'package:retkipaikka_flutter/helpers/hooks/use_fetch_filters.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/helpers/responsive.dart';
 import 'package:retkipaikka_flutter/models/abstract_filter_model.dart';
 import 'package:retkipaikka_flutter/screens/main/components/filtering/tag_bar.dart';
@@ -16,47 +20,14 @@ import 'package:retkipaikka_flutter/screens/main/components/filtering/tag_bar.da
 class FilteringComponent extends HookWidget {
   FilteringComponent({Key? key, this.backgroundColor = const Color(0xFFe4dfdf)})
       : super(key: key);
-  final FilteringApi filteringApi = FilteringApi();
+  final FilteringApi filteringApi = ApiService().filteringApi;
   final Color backgroundColor;
   @override
   Widget build(BuildContext context) {
     FilteringState filteringState = context.watch<FilteringState>();
     var loading = useState<bool>(true);
-    // List<AbstractFilter> allCommonFilters =
-    // List<AbstractFilter> allCategoryFilters = [];
-    // List<AbstractFilter> allRegions = [];
-    // List<AbstractFilter> allMunicipalities = [];
-
-    useEffect(() {
-      Future.microtask(() async {
-        if (filteringState.allMunicipalities.isEmpty ||
-            filteringState.allRegions.isEmpty ||
-            filteringState.allCategoryFilters.isEmpty ||
-            filteringState.allCategoryFilters.isEmpty) {
-          await filteringApi.getMunicipalities().then((value) {
-            filteringState.setMunicipalities(value);
-            return filteringApi.getRegions();
-          }).then((data) {
-            filteringState.setRegions(data);
-            return filteringApi.getCategories();
-          }).then((data) {
-            filteringState.setCategoryFilters(data);
-            return filteringApi.getFilters();
-          }).then((data) {
-            filteringState.setCommonFilters(data);
-          }).catchError((error) {
-            if (kDebugMode) {
-              print("FETCHING FILTERS ERROR");
-            }
-            AlertHelper.displayErrorAlert("Network error!", context);
-          }).whenComplete(() => loading.value = false);
-        } else {
-          loading.value = false;
-        }
-      });
-      return null;
-    }, []);
-
+    useFetchFilters(context,isLoading: loading);
+    
     return SizedBox(
       width: double.infinity,
       // height: 90,
@@ -79,7 +50,7 @@ class FilteringComponent extends HookWidget {
                       ...filteringState.allRegions
                     ],
                     disabled: loading.value,
-                    title: "Sijainti",
+                    title: "Sijainti".t(context),
                     onValueSelect: (AbstractFilter value) {
                       filteringState.handleFilterAdd(value);
                     },
@@ -96,14 +67,14 @@ class FilteringComponent extends HookWidget {
                       height: 50,
                       bgColor: Colors.white,
                       focusColor: Colors.white,
-                      title: "Tyyppi",
+                      title: "Tyyppi".t(context),
                       disabled: loading.value,
                       onDropdownChange: (AbstractFilter value) {
                         filteringState.handleFilterAdd(value);
                       },
-                      initialValue: filteringState.getInitialCategoryFilter(),
+                      initialValue: filteringState.getInitialCategoryFilter(context),
                       dropdownData:
-                          filteringState.getCategoryFiltersForDropdown()),
+                          filteringState.getCategoryFiltersForDropdown(context)),
                 ),
               ),
               const SizedBox(
@@ -116,14 +87,14 @@ class FilteringComponent extends HookWidget {
                       height: 50,
                       bgColor: Colors.white,
                       focusColor: Colors.white,
-                      title: "Suodattimet",
+                      title: "Suodattimet".t(context),
                       disabled: loading.value,
                       onDropdownChange: (AbstractFilter value) {
                         filteringState.handleFilterAdd(value);
                       },
-                      initialValue: filteringState.getInitialCommonFilter(),
+                      initialValue: filteringState.getInitialCommonFilter(context),
                       dropdownData:
-                          filteringState.getCommonFiltersForDropdown()),
+                          filteringState.getCommonFiltersForDropdown(context)),
                 ),
               ),
               Padding(
@@ -137,9 +108,9 @@ class FilteringComponent extends HookWidget {
                         .handleFiltering(filteringState);
                   },
                   color: Theme.of(context).primaryColor,
-                  child: const Text(
-                    "Suodata",
-                    style: TextStyle(color: Colors.white),
+                  child: Text(
+                    "Suodata".t(context),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
               ),

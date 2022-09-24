@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:retkipaikka_flutter/contants.dart';
+import 'package:retkipaikka_flutter/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:retkipaikka_flutter/controllers/triplocation_state.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
+import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/models/triplocation_model.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -163,7 +164,7 @@ class LocationMap extends HookWidget {
                                   onPressed: () {
                                     tState.setSelectedLocation(loc);
                                   },
-                                  child: const Text("Lisätiedot"),
+                                  child:  Text("Lisätiedot".t(context)),
                                   style: ButtonStyle(
                                       padding: MaterialStateProperty.all(
                                           EdgeInsets.zero)),

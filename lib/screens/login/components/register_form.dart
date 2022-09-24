@@ -27,18 +27,21 @@ class RegisterForm extends HookWidget {
               children: [
                 FormBuilderTextField(
                   name: "email",
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: "Sähköposti".t(context) +"*",
+                      labelText: "${"Sähköposti".t(context)}*",
                       hintText: "a@gmail.com",
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 10),
                       border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
-                      FormBuilderValidators.required(context,
-                          errorText: "Sähköposti on vaadittu kenttä!".t(context)),
-                      FormBuilderValidators.email(context,
-                          errorText: "Sähköpostin pitää olla oikean muotoinen!".t(context))
+                      FormBuilderValidators.required(
+                          errorText:
+                              "Sähköposti on vaadittu kenttä!".t(context)),
+                      FormBuilderValidators.email(
+                          errorText: "Sähköpostin pitää olla oikean muotoinen!"
+                              .t(context))
                     ],
                   ),
                 ),
@@ -47,16 +50,18 @@ class RegisterForm extends HookWidget {
                 FormBuilderTextField(
                   textCapitalization: TextCapitalization.sentences,
                   name: "username",
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: "Käyttäjänimi".t(context) +"*",
+                      labelText: "${"Käyttäjänimi".t(context)}*",
                       hintText: "Käyttäjänimi".t(context),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 10),
                       border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
-                      FormBuilderValidators.required(context,
-                          errorText: "Käyttäjänimi on vaadittu kenttä!".t(context))
+                      FormBuilderValidators.required(
+                          errorText:
+                              "Käyttäjänimi on vaadittu kenttä!".t(context))
                     ],
                   ),
                 ),
@@ -65,15 +70,16 @@ class RegisterForm extends HookWidget {
                 FormBuilderTextField(
                   name: "password",
                   obscureText: true,
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: "Salasana".t(context)+"*",
+                      labelText: "${"Salasana".t(context)}*",
                       hintText: "Salasana".t(context),
-                      contentPadding:const EdgeInsets.symmetric(horizontal: 10),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 10),
                       border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
-                      FormBuilderValidators.required(context,
+                      FormBuilderValidators.required(
                           errorText: "Salasana on vaadittu kenttä!".t(context))
                     ],
                   ),
@@ -84,15 +90,15 @@ class RegisterForm extends HookWidget {
                   textCapitalization: TextCapitalization.sentences,
                   name: "description",
                   maxLines: 5,
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: "Kuvaus".t(context)+"*",
+                      labelText: "${"Kuvaus".t(context)}*",
                       hintText: "Kuvaus".t(context),
                       //contentPadding: EdgeInsets.symmetric(horizontal: 10,ve),
-                      border:const OutlineInputBorder()),
+                      border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
-                      FormBuilderValidators.required(context,
+                      FormBuilderValidators.required(
                           errorText: "Kuvaus on vaadittu kenttä!".t(context))
                     ],
                   ),
@@ -103,7 +109,7 @@ class RegisterForm extends HookWidget {
             )),
         MaterialButton(
           color: Theme.of(context).primaryColor,
-          child:  Text(
+          child: Text(
             "Rekisteröidy".t(context),
             style: const TextStyle(color: Colors.white),
           ),

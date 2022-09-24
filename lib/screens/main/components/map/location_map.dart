@@ -59,8 +59,8 @@ class LocationMap extends HookWidget {
           if (isMobile() && tState.drawerOpen) {
             tState.closeDrawer();
           }
-
-          if (tState.popupController.selectedMarkers.isNotEmpty) {
+          // TODO FIX
+          if (false) {
             tState.popupController.hideAllPopups();
           } else {
             tState.onMarkerClick(CustomMarker(
@@ -87,9 +87,6 @@ class LocationMap extends HookWidget {
         TileLayerOptions(
           urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
           subdomains: ['a', 'b', 'c'],
-          attributionBuilder: (_) {
-            return const Text("© OpenStreetMap contributors");
-          },
         ),
         MarkerClusterLayerOptions(
             centerMarkerOnClick: false,
@@ -164,7 +161,7 @@ class LocationMap extends HookWidget {
                                   onPressed: () {
                                     tState.setSelectedLocation(loc);
                                   },
-                                  child:  Text("Lisätiedot".t(context)),
+                                  child: Text("Lisätiedot".t(context)),
                                   style: ButtonStyle(
                                       padding: MaterialStateProperty.all(
                                           EdgeInsets.zero)),

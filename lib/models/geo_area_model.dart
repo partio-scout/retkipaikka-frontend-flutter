@@ -8,7 +8,7 @@ class GeoArea implements AbstractFilter {
   @override
   String name;
   @override
-  kfilterType type;
+  FilterType type;
   @override
   int? parentId;
   @override

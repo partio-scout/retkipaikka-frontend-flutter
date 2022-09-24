@@ -24,7 +24,7 @@ class FilteringState extends ChangeNotifier {
   AbstractFilter getInitialCategoryFilter(BuildContext context) {
     return Filter(
         id: -1,
-        type: kfilterType.noCategory,
+        type: FilterType.noCategory,
         name: "Ei kategorioita".t(context));
   }
 
@@ -34,7 +34,7 @@ class FilteringState extends ChangeNotifier {
 
   AbstractFilter getInitialCommonFilter(BuildContext context) {
     return Filter(
-        id: -1, type: kfilterType.noFilter, name: "Ei suodattimia".t(context));
+        id: -1, type: FilterType.noFilter, name: "Ei suodattimia".t(context));
   }
 
   List<AbstractFilter> regionIdsToFilter(List<dynamic> ids) {
@@ -115,21 +115,21 @@ class FilteringState extends ChangeNotifier {
 
   void handleFilterAdd(AbstractFilter filter) {
     switch (filter.type) {
-      case kfilterType.filter:
+      case FilterType.filter:
         addCommonFilter(filter);
         break;
-      case kfilterType.category:
+      case FilterType.category:
         addCategoryFilter(filter);
         break;
-      case kfilterType.region:
-      case kfilterType.municipality:
+      case FilterType.region:
+      case FilterType.municipality:
         addLocationFilter(filter);
         break;
-      case kfilterType.noCategory:
+      case FilterType.noCategory:
         categoryFiltering = [];
         notifyListeners();
         break;
-      case kfilterType.noFilter:
+      case FilterType.noFilter:
         commonFiltering = [];
         notifyListeners();
         break;
@@ -140,14 +140,14 @@ class FilteringState extends ChangeNotifier {
 
   void handleFilterRemove(AbstractFilter filter) {
     switch (filter.type) {
-      case kfilterType.filter:
+      case FilterType.filter:
         removeCommonFilter(filter);
         break;
-      case kfilterType.category:
+      case FilterType.category:
         removeCategoryFilter(filter);
         break;
-      case kfilterType.region:
-      case kfilterType.municipality:
+      case FilterType.region:
+      case FilterType.municipality:
         removeLocationFilter(filter);
         break;
       default:

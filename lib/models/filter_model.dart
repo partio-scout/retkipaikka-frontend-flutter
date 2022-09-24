@@ -8,7 +8,7 @@ class Filter implements AbstractFilter {
   @override
   int id;
   @override
-  kfilterType type;
+  FilterType type;
   @override
   String name;
   @override

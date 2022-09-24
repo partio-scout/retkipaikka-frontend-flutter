@@ -8,7 +8,6 @@ import 'package:retkipaikka_flutter/helpers/locales/translate.dart';
 import 'package:retkipaikka_flutter/models/admin_model.dart';
 import 'package:retkipaikka_flutter/models/role_model.dart';
 
-
 class UserForm extends HookWidget {
   const UserForm(
       {Key? key,
@@ -55,7 +54,7 @@ class UserForm extends HookWidget {
                   contentPadding: EdgeInsets.zero,
                   name: "new_user",
                   controlAffinity: ListTileControlAffinity.leading,
-                  title:  Padding(
+                  title: Padding(
                     padding: EdgeInsets.zero,
                     child: Text(
                       "Kirjautuminen sallittu".t(context),
@@ -67,7 +66,7 @@ class UserForm extends HookWidget {
                 const SizedBox(
                   height: 25,
                 ),
-                Text("Roolit".t(context), style: TextStyle(fontSize: 20)),
+                Text("Roolit".t(context), style: const TextStyle(fontSize: 20)),
                 FormBuilderCheckboxGroup(
                     name: "roles",
                     decoration: const InputDecoration(
@@ -115,7 +114,7 @@ class UserForm extends HookWidget {
                       "Lomake ei ole täytetty oikein!", context);
                 }
               },
-              child:  Text(
+              child: Text(
                 "Tallenna".t(context),
                 style: const TextStyle(color: Colors.white),
               ),
@@ -134,8 +133,8 @@ class UserForm extends HookWidget {
                   Navigator.of(context).pop();
                 });
               },
-              child:
-                   Text("Poista".t(context), style: const TextStyle(color: Colors.white)),
+              child: Text("Poista".t(context),
+                  style: const TextStyle(color: Colors.white)),
             )
           ],
         ),

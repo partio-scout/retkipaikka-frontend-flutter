@@ -18,8 +18,6 @@ class BaseApi {
   };
 
   BaseApi(this.route);
-   
-
 
   Future<Map<String, dynamic>?> setAuthParam(
       Map<String, dynamic>? queryParams) async {
@@ -64,7 +62,7 @@ class BaseApi {
     //print(newParams);
 
     if (kDebugMode) {
-      print("GET: " + parsedUri.toString());
+      print("GET: $parsedUri");
     }
     return http.get(parsedUri, headers: headers);
   }
@@ -80,7 +78,7 @@ class BaseApi {
     String stringifiedBody = jsonEncode(body);
     //setAuthParam(null);
     if (kDebugMode) {
-      print("POST: " + parsedUri.toString());
+      print("POST: $parsedUri");
     }
     return http.post(parsedUri, headers: headers, body: stringifiedBody);
   }
@@ -96,7 +94,7 @@ class BaseApi {
     String stringifiedBody = jsonEncode(body);
     //setAuthParam(null);
     if (kDebugMode) {
-      print("PATCH: " + parsedUri.toString());
+      print("PATCH: $parsedUri");
     }
     return http.patch(parsedUri, headers: headers, body: stringifiedBody);
   }
@@ -112,7 +110,7 @@ class BaseApi {
     String stringifiedBody = jsonEncode(body);
     //setAuthParam(null);
     if (kDebugMode) {
-      print("POST: " + parsedUri.toString());
+      print("POST: $parsedUri");
     }
     return http.put(parsedUri, headers: headers, body: stringifiedBody);
   }
@@ -128,7 +126,7 @@ class BaseApi {
     String stringifiedBody = jsonEncode(body);
 
     if (kDebugMode) {
-      print("DELETE: " + parsedUri.toString());
+      print("DELETE: $parsedUri");
     }
     return http.delete(parsedUri, headers: headers, body: stringifiedBody);
   }

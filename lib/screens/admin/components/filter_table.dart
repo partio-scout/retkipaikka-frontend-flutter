@@ -84,7 +84,7 @@ class FilterTableDialog extends StatelessWidget {
         initialFilter: filter,
         onSubmit: (data) {
           Map<String, dynamic> formData = Map.from(data);
-          if (filter.type == kfilterType.filter) {
+          if (filter.type == FilterType.filter) {
             formData["filter_id"] = filter.id;
             filteringApi.updateFilter(formData, filter.id).then((value) {
               AlertHelper.displaySuccessAlert(
@@ -95,7 +95,7 @@ class FilterTableDialog extends StatelessWidget {
             }).catchError((err) {
               AlertHelper.displayErrorAlert(err, context);
             });
-          } else if (filter.type == kfilterType.category) {
+          } else if (filter.type == FilterType.category) {
             formData["category_id"] = filter.id;
             filteringApi.updateCategory(formData, filter.id).then((value) {
               AlertHelper.displaySuccessAlert(
@@ -109,7 +109,7 @@ class FilterTableDialog extends StatelessWidget {
           }
         },
         onDelete: (id) {
-          if (filter.type == kfilterType.filter) {
+          if (filter.type == FilterType.filter) {
             filteringApi.deleteFilter(id).then((value) {
               AlertHelper.displaySuccessAlert(
                   "Suodattimen poisto onnistui!", context, cb: () {
@@ -119,7 +119,7 @@ class FilterTableDialog extends StatelessWidget {
             }).catchError((err) {
               AlertHelper.displayErrorAlert(err, context);
             });
-          } else if (filter.type == kfilterType.category) {
+          } else if (filter.type == FilterType.category) {
             filteringApi.deleteCategory(id).then((value) {
               AlertHelper.displaySuccessAlert(
                   "Kategorian poisto onnistui!", context, cb: () {

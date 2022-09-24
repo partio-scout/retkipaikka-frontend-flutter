@@ -26,19 +26,19 @@ class NewLocationNotifications extends HookWidget {
         ? user!.regions
             .map((e) => GeoArea(
                 id: e["region_id"],
-                type: kfilterType.region,
+                type: FilterType.region,
                 name: e["object_name"]))
             .toList()
         : []);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-         Text(
+        Text(
           "Ilmoitukset uusista retkipaikoista".t(context),
-          style:const TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 20),
         ),
         ListTile(
-          title:  Text("Ei ilmoituksia".t(context)),
+          title: Text("Ei ilmoituksia".t(context)),
           leading: Radio<String>(
             value: "none",
             groupValue: groupValue.value,
@@ -51,7 +51,7 @@ class NewLocationNotifications extends HookWidget {
           ),
         ),
         ListTile(
-          title:  Text("Kaikki ilmoitukset".t(context)),
+          title: Text("Kaikki ilmoitukset".t(context)),
           leading: Radio<String>(
             value: "all",
             groupValue: groupValue.value,
@@ -64,7 +64,7 @@ class NewLocationNotifications extends HookWidget {
           ),
         ),
         ListTile(
-          title:  Text("Valitse maakunnat".t(context)),
+          title: Text("Valitse maakunnat".t(context)),
           leading: Radio<String>(
             value: "select",
             groupValue: groupValue.value,
@@ -85,7 +85,7 @@ class NewLocationNotifications extends HookWidget {
                   -1) {
                 tempList.add(value);
                 selectedRegions.value = tempList;
-              }                     
+              }
             },
             disabled: false,
             title: "Maakunnat".t(context),
@@ -128,9 +128,9 @@ class NewLocationNotifications extends HookWidget {
                     AlertHelper.displayErrorAlert(err, context);
                   });
                 },
-          child:  Text(
+          child: Text(
             "Tallenna".t(context),
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           ),
         ),
       ],

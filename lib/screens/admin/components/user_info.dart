@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 class UserInfo extends StatelessWidget {
   const UserInfo({Key? key, required this.user}) : super(key: key);
   final AdminUser? user;
-  List<Widget> textInfoCombo(String title, String? info,BuildContext context) {
+  List<Widget> textInfoCombo(String title, String? info, BuildContext context) {
     return [
       Text(title.t(context), style: const TextStyle(fontSize: 20)),
       const SizedBox(height: 5),
@@ -30,9 +30,11 @@ class UserInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ...textInfoCombo("Luotu", user?.createdAt,context),
-        ...textInfoCombo("Rooli",
-            user?.roles.map((role) => role["name"]).toList().join(","),context),
+        ...textInfoCombo("Luotu", user?.createdAt, context),
+        ...textInfoCombo(
+            "Rooli",
+            user?.roles.map((role) => role["name"]).toList().join(","),
+            context),
         InfoForm(
           user: user,
         ),
@@ -60,9 +62,8 @@ class InfoForm extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       //mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        
-         Text("Käyttäjänimi ja sähköposti".t(context),
-            style:const  TextStyle(fontSize: 20)),
+        Text("Käyttäjänimi ja sähköposti".t(context),
+            style: const TextStyle(fontSize: 20)),
         const SizedBox(
           height: 30,
         ),
@@ -76,18 +77,21 @@ class InfoForm extends HookWidget {
               children: [
                 FormBuilderTextField(
                   name: "email",
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: "Sähköposti".t(context)+"*",
+                      labelText: "${"Sähköposti".t(context)}*",
                       hintText: "a@gmail.com",
-                      contentPadding:const EdgeInsets.symmetric(horizontal: 10),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 10),
                       border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
-                      FormBuilderValidators.required(context,
-                          errorText: "Sähköposti on vaadittu kenttä!".t(context)),
-                      FormBuilderValidators.email(context,
-                          errorText: "Sähköpostin pitää olla oikean muotoinen!".t(context))
+                      FormBuilderValidators.required(
+                          errorText:
+                              "Sähköposti on vaadittu kenttä!".t(context)),
+                      FormBuilderValidators.email(
+                          errorText: "Sähköpostin pitää olla oikean muotoinen!"
+                              .t(context))
                     ],
                   ),
                 ),
@@ -98,16 +102,18 @@ class InfoForm extends HookWidget {
                 FormBuilderTextField(
                   name: "username",
                   obscureText: false,
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: "Käyttäjänimi".t(context)+"*",
+                      labelText: "${"Käyttäjänimi".t(context)}*",
                       hintText: "Käyttäjänimi".t(context),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 10),
                       border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
-                      FormBuilderValidators.required(context,
-                          errorText: "Käyttäjänimi on vaadittu kenttä!".t(context))
+                      FormBuilderValidators.required(
+                          errorText:
+                              "Käyttäjänimi on vaadittu kenttä!".t(context))
                     ],
                   ),
                 ),
@@ -121,7 +127,7 @@ class InfoForm extends HookWidget {
           color: Theme.of(context).primaryColor,
           child: Text(
             "Tallenna".t(context),
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           ),
           onPressed: () async {
             formKey.value.currentState?.save();
@@ -176,15 +182,16 @@ class PasswordForm extends HookWidget {
                 FormBuilderTextField(
                   name: "oldPassword",
                   obscureText: true,
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: "Nykyinen salasana".t(context)+"*",
+                      labelText: "${"Nykyinen salasana".t(context)}*",
                       hintText: "Salasana".t(context),
-                      contentPadding:const EdgeInsets.symmetric(horizontal: 10),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 10),
                       border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
-                      FormBuilderValidators.required(context,
+                      FormBuilderValidators.required(
                           errorText: "Password is required"),
                     ],
                   ),
@@ -196,15 +203,16 @@ class PasswordForm extends HookWidget {
                 FormBuilderTextField(
                   name: "newPassword",
                   obscureText: true,
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: "Uusi salasana".t(context)+"*",
+                      labelText: "${"Uusi salasana".t(context)}*",
                       hintText: "Salasana".t(context),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 10),
                       border: const OutlineInputBorder()),
                   validator: FormBuilderValidators.compose(
                     [
-                      FormBuilderValidators.required(context,
+                      FormBuilderValidators.required(
                           errorText: "Password is required")
                     ],
                   ),
@@ -217,7 +225,7 @@ class PasswordForm extends HookWidget {
         ),
         MaterialButton(
           color: Theme.of(context).primaryColor,
-          child:  Text(
+          child: Text(
             "Tallenna".t(context),
             style: const TextStyle(color: Colors.white),
           ),

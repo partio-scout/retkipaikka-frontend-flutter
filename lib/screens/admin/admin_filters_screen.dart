@@ -69,7 +69,7 @@ class AdminFiltersScreen extends HookWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 25),
                   child: FilterForm(
-                    type: kfilterType.filter,
+                      type: FilterType.filter,
                       title: "Suodattimen lisääminen".t(context),
                       onSubmit: (data) {
                         filteringApi.createFilter(data).then((value) {
@@ -100,7 +100,7 @@ class AdminFiltersScreen extends HookWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 25),
                   child: FilterForm(
-                    type: kfilterType.category,
+                      type: FilterType.category,
                       title: "Kategorian lisääminen".t(context),
                       onSubmit: (data) {
                         filteringApi.createCategory(data).then((value) {

@@ -1,16 +1,27 @@
-# retkipaikka_flutter
+# Flutter implementation of retkipaikka-app
 
-A new Flutter project.
+### Local development
 
-## Getting Started
+1. Clone the git repository ```git clone https://github.com/partio-scout/retkipaikka-frontend-flutter.git```
 
-This project is a starting point for a Flutter application.
+2. Install Flutter and Visual Studio Code and recommended extensions for VS Code
+  * Flutter:  ** https://docs.flutter.dev/get-started/install/windows**
+  * Visual Studio Code: **https://code.visualstudio.com/**
+    * Dart extension
+    * Flutter extension
+3. Open the cloned repository in VS Code
+4. Run ```flutter pub get``` to install needed dependencies
+5. Press ctrl+shift+p in VS Code to open the command palette and type "flutter: select device" and select Chrome
+6. You should be able to run the project now by opening main.dart and pressing the run button in top right corner
+7. Use develop-branch if you need to make changes
+8. On default the app will use heroku backend, you can change the baseurl in constants.dart
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### Building the project for github pages
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Run command in project root
+```shell
+flutter build web --web-renderer html --base-href /retkipaikka-frontend-flutter/
+```
+2. Flutter will build the files to build/web directory, 
+3. Move files from this folder and assets and icons folder to /docs folder
